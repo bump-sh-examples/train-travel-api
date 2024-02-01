@@ -1,0 +1,264 @@
+openapi: 3.1.0
+info:
+  title: Train Travel API
+  description: API for finding and booking train trips across Europe.
+  version: 1.0.0
+  contact: 
+    name: Train Support
+    url: https://example.com/support
+    email: support@example.com
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /stations:
+    get:
+      summary: Get a list of train stations
+      description: Returns a list of all train stations in the system.
+      operationId: get-stations
+      responses:
+        '200':
+          description: A list of train stations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+              example:
+                - id: "efdbb9d1-02c2-4bc3-afb7-6788d8782b1e"
+                  name: Berlin Hauptbahnhof
+                  address: "Invalidenstraße 10557 Berlin, Germany"
+                  country_code: DE
+                - id: "b2e783e1-c824-4d63-b37a-d8d698862f1d"
+                  name: Paris Gare du Nord
+                  address: "18 Rue de Dunkerque 75010 Paris, France"
+                  country_code: FR
+
+  /trips:
+    get:
+      summary: Get available train trips
+      description: Returns a list of available train trips between the specified origin and destination stations on the given date, and allows for filtering by bicycle and dog allowances.
+      operationId: get-trips
+      parameters:
+        - name: origin
+          in: query
+          description: The ID of the origin station
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: destination
+          in: query
+          description: The ID of the destination station
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: date
+          in: query
+          description: The date of the trip (YYYY-MM-DD)
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: bicycles
+          in: query
+          description: Indicates whether bicycles are allowed on the trip
+          required: false
+          schema:
+            type: boolean
+        - name: dogs
+          in: query
+          description: Indicates whether dogs are allowed on the trip
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: A list of available train trips
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trip'
+              example:
+                - id: "efdbb9d1-02c2-4bc3-afb7-6788d8782b1e"
+                  origin: Berlin Hauptbahnhof
+                  destination: Paris Gare du Nord
+                  departure_time: "2024-02-01T10:00:00Z"
+                  arrival_time: "2024-02-01T16:00:00Z"
+                  price: 50.00
+                  bicycles_allowed: true
+                  dogs_allowed: true
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /bookings:
+    post:
+      summary: Book a train trip
+      operationId: create-booking
+      description: Books a train trip for a passenger.
+      security:
+        - OAuth2: ['write']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+            example:
+              trip_id: "efdbb9d1-02c2-4bc3-afb7-6788d8782b1e"
+              passenger_name: John Doe
+              has_bicycle: true
+              has_dog: true
+      responses:
+        '201':
+          description: Booking successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+components:
+
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Read access
+            write: Write access
+  schemas:
+    Station:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the station
+        name:
+          type: string
+          description: The name of the station
+        address:
+          type: string
+          description: The address of the station
+        country_code:
+          type: string
+          description: The country code of the station
+          format: iso-country-code
+    Trip:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the trip
+        origin:
+          type: string
+          description: The starting station of the trip
+        destination:
+          type: string
+          description: The destination station of the trip
+        departure_time:
+          type: string
+          format: date-time
+          description: The date and time when the trip departs
+        arrival_time:
+          type: string
+          format: date-time
+          description: The date and time when the trip arrives
+        price:
+          type: number
+          description: The cost of the trip
+        bicycles_allowed:
+          type: boolean
+          description: Indicates whether bicycles are allowed on the trip
+        dogs_allowed:
+          type: boolean
+          description: Indicates whether dogs are allowed on the trip
+
+    Booking:
+      type: object
+      properties:
+        booking_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the booking
+          readOnly: true
+        trip_id:
+          type: string
+          format: uuid
+          description: Identifier of the booked trip
+        passenger_name:
+          type: string
+          description: Name of the passenger
+        has_bicycle:
+          type: boolean
+          description: Indicates whether the passenger has a bicycle
+        has_dog:
+          type: boolean
+          description: Indicates whether the passenger has a dog
+
+  responses:
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/problem+json:
+          example:
+            type: about:blank
+            title: Unauthorized
+            status: 401
+            detail: You do not have the necessary permissions.
+    Forbidden:
+      description: Forbidden
+      content:
+        application/problem+json:
+          example:
+            type: about:blank
+            title: Forbidden
+            status: 403
+            detail: Access is forbidden for the provided credentials.
+    BadRequest:
+      description: Bad Request
+      content:
+        application/problem+json:
+          example:
+            type: about:blank
+            title: Bad Request
+            status: 400
+            detail: The request is invalid or missing required parameters.
+    NotFound:
+      description: Not Found
+      content:
+        application/problem+json:
+          example:
+            type: about:blank
+            title: Not Found
+            status: 404
+            detail: The requested resource was not found.
+    Conflict:
+      description: Conflict
+      content:
+        application/problem+json:
+          example:
+            type: about:blank
+            title: Conflict
+            status: 409
+            detail: There is a conflict with an existing resource.
