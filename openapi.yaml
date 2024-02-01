@@ -34,6 +34,14 @@ paths:
                   name: Paris Gare du Nord
                   address: "18 Rue de Dunkerque 75010 Paris, France"
                   country_code: FR
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /trips:
     get:
@@ -97,6 +105,10 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /bookings:
     post:
@@ -132,6 +144,13 @@ paths:
           $ref: '#/components/responses/NotFound'
         '409':
           $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+security: 
+  - OAuth2: ['read']
 
 components:
 
@@ -222,43 +241,67 @@ components:
       content:
         application/problem+json:
           example:
-            type: about:blank
+            type: https://example.com/errors/unauthorized
             title: Unauthorized
             status: 401
             detail: You do not have the necessary permissions.
+            
     Forbidden:
       description: Forbidden
       content:
         application/problem+json:
           example:
-            type: about:blank
+            type: https://example.com/errors/forbidden
             title: Forbidden
             status: 403
             detail: Access is forbidden for the provided credentials.
+            
     BadRequest:
       description: Bad Request
       content:
         application/problem+json:
           example:
-            type: about:blank
+            type: https://example.com/errors/bad-request
             title: Bad Request
             status: 400
             detail: The request is invalid or missing required parameters.
+            
     NotFound:
       description: Not Found
       content:
         application/problem+json:
           example:
-            type: about:blank
+            type: https://example.com/errors/not-found
             title: Not Found
             status: 404
             detail: The requested resource was not found.
+            
     Conflict:
       description: Conflict
       content:
         application/problem+json:
           example:
-            type: about:blank
+            type: https://example.com/errors/conflict
             title: Conflict
             status: 409
             detail: There is a conflict with an existing resource.
+            
+    TooManyRequests:
+      description: Too Many Requests
+      content:
+        application/problem+json:
+          example:
+            type: https://example.com/errors/too-many-requests
+            title: Too Many Requests
+            status: 429
+            detail: You have exceeded the rate limit.
+            
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/problem+json:
+          example:
+            type: https://example.com/errors/internal-server-error
+            title: Internal Server Error
+            status: 500
+            detail: An unexpected error occurred.

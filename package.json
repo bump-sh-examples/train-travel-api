@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@apisyouwonthate/style-guide": "^1.5.0",
+    "@stoplight/spectral-owasp-ruleset": "^1.4.3"
+  }
+}
