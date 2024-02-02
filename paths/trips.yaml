@@ -1,0 +1,83 @@
+get:
+  summary: Get available train trips
+  description: >-
+    Returns a list of available train trips between the specified origin and
+    destination stations on the given date, and allows for filtering by bicycle
+    and dog allowances.
+  operationId: get-trips
+  parameters:
+    - name: origin
+      in: query
+      description: The ID of the origin station
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: destination
+      in: query
+      description: The ID of the destination station
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: date
+      in: query
+      description: The date of the trip (YYYY-MM-DD)
+      required: true
+      schema:
+        type: string
+        format: date
+    - name: bicycles
+      in: query
+      description: Indicates whether bicycles are allowed on the trip
+      required: false
+      schema:
+        type: boolean
+    - name: dogs
+      in: query
+      description: Indicates whether dogs are allowed on the trip
+      required: false
+      schema:
+        type: boolean
+  responses:
+    '200':
+      description: A list of available train trips
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: ../components/schemas/Trip.yaml
+              links:
+                type: object
+                properties:
+                  self:
+                    type: string
+                    format: uri
+                  next:
+                    type: string
+                    format: uri
+                  prev:
+                    type: string
+                    format: uri
+          example:
+            data:
+              - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                origin: Berlin Hauptbahnhof
+                destination: Paris Gare du Nord
+                departure_time: '2024-02-01T10:00:00Z'
+                arrival_time: '2024-02-01T16:00:00Z'
+                price: 50
+                bicycles_allowed: true
+                dogs_allowed: true
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
+    '500':
+      $ref: ../components/responses/InternalServerError.yaml

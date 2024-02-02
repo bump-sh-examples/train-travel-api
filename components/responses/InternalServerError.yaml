@@ -1,0 +1,8 @@
+description: Internal Server Error
+content:
+  application/problem+json:
+    example:
+      type: https://example.com/errors/internal-server-error
+      title: Internal Server Error
+      status: 500
+      detail: An unexpected error occurred.

@@ -1,0 +1,8 @@
+description: Too Many Requests
+content:
+  application/problem+json:
+    example:
+      type: https://example.com/errors/too-many-requests
+      title: Too Many Requests
+      status: 429
+      detail: You have exceeded the rate limit.

@@ -1,0 +1,8 @@
+description: Not Found
+content:
+  application/problem+json:
+    example:
+      type: https://example.com/errors/not-found
+      title: Not Found
+      status: 404
+      detail: The requested resource was not found.

@@ -1,0 +1,8 @@
+description: Forbidden
+content:
+  application/problem+json:
+    example:
+      type: https://example.com/errors/forbidden
+      title: Forbidden
+      status: 403
+      detail: Access is forbidden for the provided credentials.

@@ -1,0 +1,8 @@
+description: Unauthorized
+content:
+  application/problem+json:
+    example:
+      type: https://example.com/errors/unauthorized
+      title: Unauthorized
+      status: 401
+      detail: You do not have the necessary permissions.

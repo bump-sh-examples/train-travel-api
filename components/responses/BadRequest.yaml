@@ -1,0 +1,8 @@
+description: Bad Request
+content:
+  application/problem+json:
+    example:
+      type: https://example.com/errors/bad-request
+      title: Bad Request
+      status: 400
+      detail: The request is invalid or missing required parameters.
