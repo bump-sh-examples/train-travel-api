@@ -1,4 +1,9 @@
 type: object
+required:
+  - id
+  - name
+  - address
+  - country_code
 properties:
   id:
     type: string
@@ -26,3 +31,9 @@ properties:
     examples:
       - DE
       - FR
+  timezone:
+    type: string
+    description: The timezone of the station in the IANA Time Zone Database format
+    examples:
+      - Europe/Berlin
+      - Europe/Paris
