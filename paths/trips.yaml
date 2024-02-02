@@ -45,24 +45,17 @@ get:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: ../components/schemas/Trip.yaml
-              links:
-                type: object
-                properties:
-                  self:
-                    type: string
-                    format: uri
-                  next:
-                    type: string
-                    format: uri
-                  prev:
-                    type: string
-                    format: uri
+            allOf: 
+              - $ref: ../components/schemas/Wrapper.yaml
+              - data:
+                  type: array
+                  items:
+                    $ref: ../components/schemas/Trip.yaml
+              - links:
+                  allOf: 
+                    - $ref: ../components/schemas/Links.yaml
+                    - $ref: ../components/schemas/Links-Self.yaml
+                    - $ref: ../components/schemas/Links-Pagination.yaml
           example:
             data:
               - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
@@ -73,6 +66,9 @@ get:
                 price: 50
                 bicycles_allowed: true
                 dogs_allowed: true
+            links:
+              self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&date=2024-02-01
+              next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&date=2024-02-01&page=2
     '401':
       $ref: ../components/responses/Unauthorized.yaml
     '403':

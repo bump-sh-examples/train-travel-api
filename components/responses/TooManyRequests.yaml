@@ -1,4 +1,9 @@
 description: Too Many Requests
+headers:
+  RateLimit: 
+    $ref: ../headers/RateLimit.yaml
+  Retry-After: 
+    $ref: ../headers/Retry-After.yaml
 content:
   application/problem+json:
     example:

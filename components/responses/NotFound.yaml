@@ -1,4 +1,7 @@
 description: Not Found
+headers:
+  RateLimit: 
+    $ref: ../headers/RateLimit.yaml
 content:
   application/problem+json:
     example:

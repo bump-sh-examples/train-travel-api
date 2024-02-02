@@ -5,3 +5,6 @@ extends:
 
 rules:
   operation-tags: false
+  owasp:api4:2019-array-limit: false
+  owasp:api4:2019-string-limit: false
+  owasp:api4:2019-string-restricted: false

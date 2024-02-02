@@ -1,4 +1,7 @@
 description: Internal Server Error
+headers:
+  RateLimit: 
+    $ref: ../headers/RateLimit.yaml
 content:
   application/problem+json:
     example:

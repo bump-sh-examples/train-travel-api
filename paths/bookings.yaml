@@ -8,24 +8,17 @@ get:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: ../components/schemas/Booking.yaml
-              links:
-                type: object
-                properties:
-                  self:
-                    type: string
-                    format: uri
-                  next:
-                    type: string
-                    format: uri
-                  prev:
-                    type: string
-                    format: uri
+            allOf:
+              - $ref: ../components/schemas/Wrapper.yaml 
+              - data:
+                  type: array
+                  items:
+                    $ref: ../components/schemas/Booking.yaml
+              - links:
+                  allOf: 
+                    - $ref: ../components/schemas/Links.yaml
+                    - $ref: ../components/schemas/Links-Self.yaml
+                    - $ref: ../components/schemas/Links-Pagination.yaml
           example:
             data:
               - booking_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
@@ -38,6 +31,11 @@ get:
                 passenger_name: Jane Smith
                 has_bicycle: false
                 has_dog: false
+            links:
+              self: https://api.example.com/bookings
+              next: https://api.example.com/bookings?page=2
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
     '401':
       $ref: ../components/responses/Unauthorized.yaml
     '403':
@@ -58,16 +56,12 @@ post:
     content:
       application/json:
         schema:
-          type: object
-          properties:
-            data:
-              $ref: ../components/schemas/Booking.yaml
-            links:
-              type: object
-              properties:
-                self:
-                  type: string
-                  format: uri
+          allOf: 
+            - $ref: ../components/schemas/Wrapper.yaml
+            - data:
+                type: array
+                items:
+                  $ref: ../components/schemas/Trip.yaml
         example:
           data:
             trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
@@ -80,7 +74,14 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/Booking.yaml
+            allOf: 
+              - $ref: ../components/schemas/Wrapper.yaml
+              - data:
+                  $ref: ../components/schemas/Booking.yaml
+              - links:
+                  allOf:
+                    - $ref: ../components/schemas/Links.yaml
+                    - $ref: ../components/schemas/Links-Self.yaml
     '400':
       $ref: ../components/responses/BadRequest.yaml
     '401':

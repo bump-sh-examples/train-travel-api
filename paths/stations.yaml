@@ -8,24 +8,17 @@ get:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: ../components/schemas/Station.yaml
-              links:
-                type: object
-                properties:
-                  self:
-                    type: string
-                    format: uri
-                  next:
-                    type: string
-                    format: uri
-                  prev:
-                    type: string
-                    format: uri
+            allOf: 
+              - $ref: ../components/schemas/Wrapper.yaml
+              - data:
+                  type: array
+                  items:
+                    $ref: ../components/schemas/Station.yaml
+              - links:
+                  allOf:
+                    - $ref: ../components/schemas/Links.yaml
+                    - $ref: ../components/schemas/Links-Self.yaml
+                    - $ref: ../components/schemas/Links-Pagination.yaml
           example:
             data:
               - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
@@ -36,6 +29,11 @@ get:
                 name: Paris Gare du Nord
                 address: 18 Rue de Dunkerque 75010 Paris, France
                 country_code: FR
+            links:
+              self: https://api.example.com/stations
+              next: https://api.example.com/stations?page=2
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
     '401':
       $ref: ../components/responses/Unauthorized.yaml
     '403':
