@@ -31,6 +31,12 @@ properties:
     description: The date and time when the trip arrives
     examples:
       - '2024-02-01T16:00:00Z'
+  operator:
+    type: string
+    description: The name of the operator of the trip
+    examples:
+      - Deutsche Bahn
+      - SNCF
   price:
     type: number
     description: The cost of the trip

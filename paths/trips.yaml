@@ -13,6 +13,7 @@ get:
       schema:
         type: string
         format: uuid
+      example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
     - name: destination
       in: query
       description: The ID of the destination station
@@ -20,6 +21,7 @@ get:
       schema:
         type: string
         format: uuid
+      example: b2e783e1-c824-4d63-b37a-d8d698862f1d
     - name: date
       in: query
       description: The date of the trip (YYYY-MM-DD)
@@ -64,11 +66,21 @@ get:
                 departure_time: '2024-02-01T10:00:00Z'
                 arrival_time: '2024-02-01T16:00:00Z'
                 price: 50
+                operator: Deutsche Bahn
+                bicycles_allowed: true
+                dogs_allowed: true
+              - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                origin: Paris Gare du Nord
+                destination: Berlin Hauptbahnhof
+                departure_time: '2024-02-01T12:00:00Z'
+                arrival_time: '2024-02-01T18:00:00Z'
+                price: 50
+                operator: SNCF
                 bicycles_allowed: true
                 dogs_allowed: true
             links:
-              self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&date=2024-02-01
-              next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&date=2024-02-01&page=2
+              self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
+              next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
     '401':
       $ref: ../components/responses/Unauthorized.yaml
     '403':
