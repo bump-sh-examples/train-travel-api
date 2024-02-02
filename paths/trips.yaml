@@ -29,18 +29,21 @@ get:
       schema:
         type: string
         format: date-time
+      example: '2024-02-01T09:00:00Z'
     - name: bicycles
       in: query
-      description: Indicates whether bicycles are allowed on the trip
+      description: Only return trips where bicycles are known to be allowed
       required: false
       schema:
         type: boolean
+        default: false
     - name: dogs
       in: query
-      description: Indicates whether dogs are allowed on the trip
+      description: Only return trips where dogs are known to be allowed
       required: false
       schema:
         type: boolean
+        default: false
   responses:
     '200':
       description: A list of available train trips
