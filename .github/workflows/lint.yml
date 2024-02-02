@@ -1,8 +1,9 @@
 name: Lint
 
 on:  # yamllint disable-line rule:truthy
-  push: null
-  pull_request: null
+  push:
+    paths-ignore:
+      - 'README.md'
 
 jobs:
   build:
@@ -28,5 +29,4 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           VALIDATE_OPENAPI: true
-          # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
