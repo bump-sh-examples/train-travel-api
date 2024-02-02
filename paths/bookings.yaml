@@ -9,16 +9,17 @@ get:
         application/json:
           schema:
             allOf:
-              - $ref: ../components/schemas/Wrapper.yaml 
-              - data:
-                  type: array
-                  items:
-                    $ref: ../components/schemas/Booking.yaml
-              - links:
-                  allOf: 
-                    - $ref: ../components/schemas/Links.yaml
-                    - $ref: ../components/schemas/Links-Self.yaml
-                    - $ref: ../components/schemas/Links-Pagination.yaml
+              - $ref: ../components/schemas/Wrapper-Collection.yaml 
+              - properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ../components/schemas/Booking.yaml
+              - properties:
+                  links:
+                    allOf: 
+                      - $ref: ../components/schemas/Links-Self.yaml
+                      - $ref: ../components/schemas/Links-Pagination.yaml
           example:
             data:
               - booking_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
@@ -57,11 +58,10 @@ post:
       application/json:
         schema:
           allOf: 
-            - $ref: ../components/schemas/Wrapper.yaml
-            - data:
-                type: array
-                items:
-                  $ref: ../components/schemas/Trip.yaml
+            - $ref: ../components/schemas/Wrapper-Resource.yaml
+            - properties:
+                data:
+                  $ref: ../components/schemas/Booking.yaml
         example:
           data:
             trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
@@ -75,13 +75,13 @@ post:
         application/json:
           schema:
             allOf: 
-              - $ref: ../components/schemas/Wrapper.yaml
-              - data:
-                  $ref: ../components/schemas/Booking.yaml
-              - links:
-                  allOf:
-                    - $ref: ../components/schemas/Links.yaml
-                    - $ref: ../components/schemas/Links-Self.yaml
+              - $ref: ../components/schemas/Wrapper-Resource.yaml
+              - properties:
+                  data:
+                    $ref: ../components/schemas/Booking.yaml
+              - properties:
+                  links:
+                    $ref: ../components/schemas/Links-Self.yaml
     '400':
       $ref: ../components/responses/BadRequest.yaml
     '401':
