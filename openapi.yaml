@@ -1,6 +1,4 @@
 openapi: 3.1.0
-
-# Metadata about the API
 info:
   title: Train Travel API
   description: API for finding and booking train trips across Europe.
