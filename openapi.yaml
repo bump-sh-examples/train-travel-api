@@ -37,6 +37,11 @@ paths:
   /bookings:
     $ref: paths/bookings.yaml
 
+# Events created by the API
+webhooks:
+  newBooking:
+    $ref: webhooks/new-booking.yaml
+
 # Applies the OAuth2 security scheme to all operations
 security:
   - OAuth2:
