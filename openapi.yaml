@@ -12,6 +12,22 @@ servers:
   - url: https://api.example.com
     description: Production
 
+tags:
+  - name: Stations
+    description: >-
+      Find and filter train stations across Europe, including their location 
+      and local timezone.
+
+  - name: Trips
+    description: >-
+      Timetables and routes for train trips between stations, including 
+      pricing and availability.
+
+  - name: Bookings
+    description: >-
+      Create and manage bookings for train trips, including passenger 
+      details and optional extras.
+
 # Paths split into separate files
 paths:
   /stations:

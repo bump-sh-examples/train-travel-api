@@ -5,6 +5,8 @@ get:
     destination stations on the given date, and allows for filtering by bicycle
     and dog allowances.
   operationId: get-trips
+  tags:
+    - Trips
   parameters:
     - name: origin
       in: query

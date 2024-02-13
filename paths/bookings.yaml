@@ -2,6 +2,8 @@ get:
   operationId: get-bookings
   summary: List existing bookings
   description: Returns a list of all trips booking by the authenticated user.
+  tags:
+    - Bookings
   responses:
     '200':
       description: A list of bookings

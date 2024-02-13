@@ -2,6 +2,8 @@ get:
   summary: Get a list of train stations
   description: Returns a list of all train stations in the system.
   operationId: get-stations
+  tags:
+    - Stations
   responses:
     '200':
       description: A list of train stations
