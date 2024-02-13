@@ -1,4 +1,6 @@
 type: object
+xml:
+  name: station
 required:
   - id
   - name

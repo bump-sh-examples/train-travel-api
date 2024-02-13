@@ -1,4 +1,6 @@
 type: object
+xml:
+  name: booking
 properties:
   booking_id:
     type: string

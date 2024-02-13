@@ -9,3 +9,5 @@ properties:
     description: A set of hypermedia links which serve as controls for the client.
     type: object
     readOnly: true
+xml:
+  name: data

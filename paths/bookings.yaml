@@ -35,6 +35,24 @@ get:
             links:
               self: https://api.example.com/bookings
               next: https://api.example.com/bookings?page=2
+        
+        application/xml:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Wrapper-Collection.yaml 
+              - properties:
+                  data:
+                    type: array
+                    xml:
+                      name: bookings
+                      wrapped: true
+                    items:
+                      $ref: ../components/schemas/Booking.yaml  
+              - properties:
+                  links:
+                    allOf: 
+                      - $ref: ../components/schemas/Links-Self.yaml
+                      - $ref: ../components/schemas/Links-Pagination.yaml
     '400':
       $ref: ../components/responses/BadRequest.yaml
     '401':
@@ -62,17 +80,39 @@ post:
             - properties:
                 data:
                   $ref: ../components/schemas/Booking.yaml
-        example:
-          data:
-            trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-            passenger_name: John Doe
-            has_bicycle: true
-            has_dog: true
+
+      application/xml:
+        schema:
+          allOf: 
+            - $ref: ../components/schemas/Wrapper-Resource.yaml
+            - properties:
+                data:
+                  $ref: ../components/schemas/Booking.yaml
   responses:
     '201':
       description: Booking successful
       content:
         application/json:
+          schema:
+            allOf: 
+              - $ref: ../components/schemas/Wrapper-Resource.yaml
+              - properties:
+                  data:
+                    $ref: ../components/schemas/Booking.yaml
+              - properties:
+                  links:
+                    $ref: ../components/schemas/Links-Self.yaml
+          example:
+            data:
+              booking_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              passenger_name: John Doe
+              has_bicycle: true
+              has_dog: true
+            links:
+              self: https://api.example.com/bookings/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+
+        application/xml:
           schema:
             allOf: 
               - $ref: ../components/schemas/Wrapper-Resource.yaml

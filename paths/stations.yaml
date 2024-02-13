@@ -36,6 +36,24 @@ get:
               self: https://api.example.com/stations&page=2
               next: https://api.example.com/stations?page=3
               prev: https://api.example.com/stations?page=1
+        
+        application/xml:
+          schema:
+            allOf: 
+              - $ref: ../components/schemas/Wrapper-Collection.yaml
+              - properties:
+                  data:
+                    type: array
+                    xml:
+                      name: stations
+                      wrapped: true
+                    items:
+                      $ref: ../components/schemas/Station.yaml
+              - properties:
+                  links:
+                    allOf:
+                      - $ref: ../components/schemas/Links-Self.yaml
+                      - $ref: ../components/schemas/Links-Pagination.yaml
     '400':
       $ref: ../components/responses/BadRequest.yaml
     '401':

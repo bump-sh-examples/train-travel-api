@@ -1,0 +1,13 @@
+description: Generic Error
+headers:
+  RateLimit: 
+    $ref: ../headers/RateLimit.yaml
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/Problem.yaml
+
+  application/problem+xml:
+    schema:
+      $ref: ../schemas/Problem.yaml
+      

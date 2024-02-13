@@ -85,6 +85,24 @@ get:
             links:
               self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
               next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
+        
+        application/xml:
+          schema:
+            allOf: 
+              - $ref: ../components/schemas/Wrapper-Collection.yaml
+              - properties:
+                  data:
+                    type: array
+                    xml:
+                      name: trips
+                      wrapped: true
+                    items:
+                      $ref: ../components/schemas/Trip.yaml
+              - properties:
+                  links:
+                    allOf: 
+                      - $ref: ../components/schemas/Links-Self.yaml
+                      - $ref: ../components/schemas/Links-Pagination.yaml
     '401':
       $ref: ../components/responses/Unauthorized.yaml
     '403':

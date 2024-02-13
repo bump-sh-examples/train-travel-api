@@ -1,4 +1,6 @@
 type: object
+xml:
+  name: trip
 properties:
   id:
     type: string
