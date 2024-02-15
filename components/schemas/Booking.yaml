@@ -2,7 +2,7 @@ type: object
 xml:
   name: booking
 properties:
-  booking_id:
+  id:
     type: string
     format: uuid
     description: Unique identifier for the booking

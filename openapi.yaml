@@ -36,6 +36,8 @@ paths:
     $ref: paths/trips.yaml
   /bookings:
     $ref: paths/bookings.yaml
+  /bookings/{bookingId}/payment:
+    $ref: paths/bookings-payment.yaml
 
 # Events created by the API
 webhooks:

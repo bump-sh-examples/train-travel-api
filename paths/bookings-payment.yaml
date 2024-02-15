@@ -1,0 +1,86 @@
+post:
+  summary: Pay for a Booking
+  description: >-
+    A payment is an attempt to pay for the booking, which will confirm the
+    booking for the user and enable them to get their tickets.
+  operationId: create-booking-payment
+  tags:
+    - Payments
+  requestBody:
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: ../components/schemas/Wrapper-Resource.yaml 
+            - properties:
+                data:
+                  $ref: ../components/schemas/BookingPayment.yaml
+        examples:
+          - name: Card Payment
+            summary: Pay with a card
+            value:
+              data:
+                amount: 49.99
+                currency: gbp
+                source:
+                  object: card
+                  name: J. Doe
+                  number: 4242424242424242
+                  cvc: 123
+                  exp_month: 12
+                  exp_year: 2025
+                  address_line1: 123 Fake Street
+                  address_line2: 4th Floor
+                  address_city: London
+                  address_country: gb
+                  address_post_code: N12 9XX
+
+          - name: Bank Account Payment
+            summary: Pay with a bank account
+            value:
+              data:
+                amount: 49.99
+                currency: gbp
+                source:
+                  object: bank_account
+                  name: J. Doe
+                  number: 00012345
+                  account_type: individual
+                  bank_name: Starling Bank
+                  country: gb
+
+
+  responses:
+    '200':
+      description: Payment successful
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Wrapper-Resource.yaml 
+              - properties:
+                  data:
+                    $ref: ../components/schemas/BookingPayment.yaml
+              - properties:
+                  links:
+                    $ref: ../components/schemas/Links-Booking.yaml
+          examples:
+            - name: Card Payment
+              summary: Paid with a card
+              value:
+                data:
+                  id: pay_1Jk8z2D8zK4z2D8zK4z2D8zK
+                  object: payment
+                  amount: 49.99
+                  currency: gbp
+                  source:
+                    object: card
+                    name: J. Doe
+                    number: '************4242'
+                    exp_month: 12
+                    exp_year: 2025
+                    address_country: gb
+                    address_post_code: N12 9XX
+                  status: succeeded
+                links:
+                  booking: https://api.example.com/bookings/123
