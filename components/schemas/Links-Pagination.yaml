@@ -1,8 +1,0 @@
-type: object
-properties:
-  next:
-    type: string
-    format: uri
-  prev:
-    type: string
-    format: uri
