@@ -24,12 +24,12 @@ get:
                       - $ref: ../components/schemas/Links-Pagination.yaml
           example:
             data:
-              - booking_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
                 trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
                 passenger_name: John Doe
                 has_bicycle: true
                 has_dog: true
-              - booking_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+              - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
                 trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
                 passenger_name: Jane Smith
                 has_bicycle: false
@@ -68,7 +68,9 @@ get:
 post:
   operationId: create-booking
   summary: Create a booking
-  description: Attempts to book a trip for the authenticated user.
+  description: A booking is a temporary hold on a trip. It is not confirmed until the payment is processed.
+  tags:
+    - Bookings
   security:
     - OAuth2:
         - write
@@ -106,7 +108,7 @@ post:
                     $ref: ../components/schemas/Links-Self.yaml
           example:
             data:
-              booking_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
               trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
               passenger_name: John Doe
               has_bicycle: true
