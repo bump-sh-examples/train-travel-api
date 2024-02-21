@@ -28,6 +28,11 @@ tags:
       Create and manage bookings for train trips, including passenger 
       details and optional extras.
 
+  - name: Payments
+    description: >-
+      Pay for bookings using a card or bank account, and view payment 
+      status and history.
+
 # Paths split into separate files
 paths:
   /stations:
@@ -54,6 +59,7 @@ components:
   securitySchemes:
     OAuth2:
       type: oauth2
+      description: OAuth 2.0 authorization code following RFC8725 best practices.
       flows:
         authorizationCode:
           authorizationUrl: https://example.com/oauth/authorize
