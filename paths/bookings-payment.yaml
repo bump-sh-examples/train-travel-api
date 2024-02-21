@@ -78,8 +78,7 @@ post:
               summary: Card Payment
               value:
                 data:
-                  id: 1725ff48-ab45-4bb5-9d02-88745177dedb
-                  object: payment
+                  id: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
                   amount: 49.99
                   currency: gbp
                   source:
@@ -93,13 +92,12 @@ post:
                     address_post_code: N12 9XX
                   status: succeeded
                 links:
-                  booking: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                  booking: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb/payment
             Bank:
               summary: Bank Account Payment
               value:
                 data:
-                  id: 1725ff48-ab45-4bb5-9d02-88745177dedb
-                  object: payment
+                  id: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
                   amount: 100.50
                   currency: gbp
                   source:

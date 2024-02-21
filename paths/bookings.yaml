@@ -69,6 +69,8 @@ post:
   operationId: create-booking
   summary: Create a booking
   description: A booking is a temporary hold on a trip. It is not confirmed until the payment is processed.
+  tags:
+    - Bookings
   security:
     - OAuth2:
         - write

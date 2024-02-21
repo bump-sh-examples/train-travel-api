@@ -105,6 +105,8 @@ get:
                     allOf: 
                       - $ref: ../components/schemas/Links-Self.yaml
                       - $ref: ../components/schemas/Links-Pagination.yaml
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
     '401':
       $ref: ../components/responses/Unauthorized.yaml
     '403':

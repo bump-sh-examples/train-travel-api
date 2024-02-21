@@ -1,6 +1,14 @@
 type: object
 unevaluatedProperties: false
 properties:
+  id:
+    description: >-
+      Unique identifier for the payment. This will be a unique identifier
+      for the payment, and is used to reference the payment in other
+      objects.
+    type: string
+    format: uuid
+    readOnly: true
   amount:
     description: >-
       Amount intended to be collected by this payment. A positive
