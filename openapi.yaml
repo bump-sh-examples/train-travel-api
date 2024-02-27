@@ -82,15 +82,15 @@ paths:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
         '400':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Unauthorized'
         '403':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Forbidden'
         '429':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/TooManyRequests'
         '500':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/InternalServerError'
   /trips:
     get:
       summary: Get available train trips
@@ -196,15 +196,15 @@ paths:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
         '400':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Unauthorized'
         '403':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Forbidden'
         '429':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/TooManyRequests'
         '500':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/InternalServerError'
   /bookings:
     get:
       operationId: get-bookings
@@ -263,15 +263,15 @@ paths:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
         '400':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Unauthorized'
         '403':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Forbidden'
         '429':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/TooManyRequests'
         '500':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/InternalServerError'
     post:
       operationId: create-booking
       summary: Create a booking
@@ -332,17 +332,17 @@ paths:
                       links:
                         $ref: '#/components/schemas/Links-Self'
         '400':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Unauthorized'
         '404':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/NotFound'
         '409':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Conflict'
         '429':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/TooManyRequests'
         '500':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/InternalServerError'
   /bookings/{bookingId}/payment:
     parameters:
       - name: bookingId
@@ -454,15 +454,15 @@ paths:
                     links:
                       booking: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
         '400':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Unauthorized'
         '403':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/Forbidden'
         '429':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/TooManyRequests'
         '500':
-          $ref: '#/components/responses/BaseError'
+          $ref: '#/components/responses/InternalServerError'
 webhooks:
   newBooking:
     post:
@@ -842,9 +842,26 @@ components:
         type: string
         examples:
           - limit=10, remaining=0, reset=10
+
+    Retry-After:
+      description: | 
+        The Retry-After header indicates how long the user agent should wait before making a follow-up request. 
+        The value is in seconds and can be an integer or a date in the future. 
+        If the value is an integer, it indicates the number of seconds to wait. 
+        If the value is a date, it indicates the time at which the user agent should make a follow-up request. 
+      schema:
+        type: string
+      examples:
+        integer:
+          value: '120'
+          summary: Retry after 120 seconds
+        date:
+          value: 'Fri, 31 Dec 2021 23:59:59 GMT'
+          summary: Retry after the specified date
+
   responses:
-    BaseError:
-      description: Generic Error
+    BadRequest:
+      description: Bad Request
       headers:
         RateLimit:
           $ref: '#/components/headers/RateLimit'
@@ -852,6 +869,156 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/bad-request
+            title: Bad Request
+            status: 400
+            detail: The request is invalid or missing required parameters.
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/bad-request
+            title: Bad Request
+            status: 400
+            detail: The request is invalid or missing required parameters.
+
+    Conflict:
+      description: Conflict
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/conflict
+            title: Conflict
+            status: 409
+            detail: There is a conflict with an existing resource.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/conflict
+            title: Conflict
+            status: 409
+            detail: There is a conflict with an existing resource.
+
+    Forbidden:
+      description: Forbidden
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/forbidden
+            title: Forbidden
+            status: 403
+            detail: Access is forbidden for the provided credentials.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/forbidden
+            title: Forbidden
+            status: 403
+            detail: Access is forbidden for the provided credentials.
+
+    InternalServerError:
+      description: Internal Server Error
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/internal-server-error
+            title: Internal Server Error
+            status: 500
+            detail: An unexpected error occurred.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/internal-server-error
+            title: Internal Server Error
+            status: 500
+            detail: An unexpected error occurred.
+
+    NotFound:
+      description: Not Found
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/not-found
+            title: Not Found
+            status: 404
+            detail: The requested resource was not found.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/not-found
+            title: Not Found
+            status: 404
+            detail: The requested resource was not found.
+
+    TooManyRequests:
+      description: Too Many Requests
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+        Retry-After:
+          $ref: '#/components/headers/Retry-After'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/too-many-requests
+            title: Too Many Requests
+            status: 429
+            detail: You have exceeded the rate limit.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/too-many-requests
+            title: Too Many Requests
+            status: 429
+            detail: You have exceeded the rate limit.
+
+    Unauthorized:
+      description: Unauthorized
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/unauthorized
+            title: Unauthorized
+            status: 401
+            detail: You do not have the necessary permissions.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/unauthorized
+            title: Unauthorized
+            status: 401
+            detail: You do not have the necessary permissions.
