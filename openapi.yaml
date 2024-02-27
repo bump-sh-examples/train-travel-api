@@ -736,20 +736,26 @@ components:
               description: A card (debit or credit) to take payment from.
               properties:
                 object:
-                  const: card
                   type: string
+                  const: card
                 name:
                   type: string
                   description: Cardholder's full name as it appears on the card.
+                  examples:
+                    - J. Doe
                 number:
                   type: string
                   description: The card number, as a string without any separators. On read all but the last four digits will be masked for security.
+                  examples:
+                    - '4242424242424242'
                 cvc:
                   type: integer
                   description: Card security code, 3 or 4 digits usually found on the back of the card.
                   minLength: 3
                   maxLength: 4
                   writeOnly: true
+                  examples:
+                    - 123
                 exp_month:
                   type: integer
                   format: int64
