@@ -21,3 +21,8 @@ This might not be the easiest API description to read in a text editor, but it l
 **[Preview this OpenAPI on Bump.sh](https://bump.sh/bump-examples/doc/train-travel-api/)**
 
 Or [download it yourself](https://github.com/bump-sh-examples/train-travel-api/archive/refs/heads/main.zip) and have a poke around.
+
+## License
+
+The contents of this repository are licensed under [CC BY-NC-SA
+  4.0](./LICENSE_CC-BY-NC-SA-4.0).
