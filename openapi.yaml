@@ -533,7 +533,7 @@ components:
         id:
           type: string
           format: uuid
-          description: Unique identifier for the station
+          description: Unique identifier for the station.
           examples:
             - efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
             - b2e783e1-c824-4d63-b37a-d8d698862f1d
@@ -545,20 +545,20 @@ components:
             - Paris Gare du Nord
         address:
           type: string
-          description: The address of the station
+          description: The address of the station.
           examples:
             - Invalidenstraße 10557 Berlin, Germany
             - 18 Rue de Dunkerque 75010 Paris, France
         country_code:
           type: string
-          description: The country code of the station
+          description: The country code of the station.
           format: iso-country-code
           examples:
             - DE
             - FR
         timezone:
           type: string
-          description: The timezone of the station in the IANA Time Zone Database format
+          description: The timezone of the station in the [IANA Time Zone Database format](https://www.iana.org/time-zones).
           examples:
             - Europe/Berlin
             - Europe/Paris
@@ -751,7 +751,7 @@ components:
                   type: string
                   description: Cardholder's full name as it appears on the card.
                   examples:
-                    - J. Doe
+                    - Francis Bourgeois
                 number:
                   type: string
                   description: The card number, as a string without any separators. On read all but the last four digits will be masked for security.
