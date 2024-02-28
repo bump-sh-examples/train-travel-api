@@ -831,6 +831,8 @@ components:
                 - account_type
                 - bank_name
                 - country
+          discriminator:
+            propertyName: object
         status:
           description: The status of the payment, one of `pending`, `succeeded`, or `failed`.
           type: string
