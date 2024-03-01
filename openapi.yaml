@@ -7,6 +7,10 @@ info:
     name: Train Support
     url: https://example.com/support
     email: support@example.com
+x-topics:
+  - title: Getting started
+    content:
+      $ref: ./docs/getting-started.md
 servers:
   - url: https://api.example.com
     description: Production
@@ -21,7 +25,12 @@ tags:
   - name: Bookings
     description: Create and manage bookings for train trips, including passenger  details and optional extras.
   - name: Payments
-    description: Pay for bookings using a card or bank account, and view payment  status and history.
+    description: |
+      Pay for bookings using a card or bank account, and view payment
+      status and history.
+
+      > warn
+      > Bookings usually expire within 1 hour so you'll need to make your payment before the expiry date 
 paths:
   /stations:
     get:
