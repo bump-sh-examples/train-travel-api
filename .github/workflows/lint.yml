@@ -1,9 +1,7 @@
 name: Lint
 
-on: # yamllint disable-line rule:truthy
-  pull_request: {}
-  push:
-    branches: [main]
+on:
+  pull_request: 
     paths-ignore:
       - 'README.md'
 
