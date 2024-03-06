@@ -1,16 +1,19 @@
 openapi: 3.1.0
 info:
   title: Train Travel API
-  description: API for finding and booking train trips across Europe.
+  description: |
+    API for finding and booking train trips across Europe.
+
+    Single push on a pull request
   version: 1.0.0
   contact:
     name: Train Support
     url: https://example.com/support
     email: support@example.com
-  license: 
+  license:
     name: Creative Commons Attribution Share Alike 4.0 International
     identifier: CC-BY-SA-4.0
-    
+
 x-topics:
   - title: Getting started
     content:
@@ -34,7 +37,7 @@ tags:
       status and history.
 
       > warn
-      > Bookings usually expire within 1 hour so you'll need to make your payment before the expiry date 
+      > Bookings usually expire within 1 hour so you'll need to make your payment before the expiry date
 paths:
   /stations:
     get:
