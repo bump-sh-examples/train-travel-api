@@ -295,18 +295,10 @@ paths:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/Wrapper-Resource'
-                - properties:
-                    data:
-                      $ref: '#/components/schemas/Booking'
+              $ref: '#/components/schemas/Booking'
           application/xml:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/Wrapper-Resource'
-                - properties:
-                    data:
-                      $ref: '#/components/schemas/Booking'
+              $ref: '#/components/schemas/Booking'
       responses:
         '201':
           description: Booking successful
@@ -314,29 +306,22 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/Wrapper-Resource'
-                  - properties:
-                      data:
-                        $ref: '#/components/schemas/Booking'
+                  - $ref: '#/components/schemas/Booking'
                   - properties:
                       links:
                         $ref: '#/components/schemas/Links-Self'
               example:
-                data:
-                  id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                  trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                  passenger_name: John Doe
-                  has_bicycle: true
-                  has_dog: true
+                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                passenger_name: John Doe
+                has_bicycle: true
+                has_dog: true
                 links:
                   self: https://api.example.com/bookings/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
             application/xml:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/Wrapper-Resource'
-                  - properties:
-                      data:
-                        $ref: '#/components/schemas/Booking'
+                  - $ref: '#/components/schemas/Booking'
                   - properties:
                       links:
                         $ref: '#/components/schemas/Links-Self'
@@ -352,6 +337,86 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  
+  /bookings/{bookingId}:
+    parameters:
+      - name: bookingId
+        in: path
+        required: true
+        description: The ID of the booking to retrieve.
+        schema:
+          type: string
+          format: uuid
+        example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+    get:
+      summary: Get a booking
+      description: Returns the details of a specific booking.
+      operationId: get-booking
+      tags:
+        - Bookings
+      responses:
+        '200':
+          description: The booking details
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Booking'
+                  - properties:
+                      links:
+                        $ref: '#/components/schemas/Links-Self'
+              example:
+                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                passenger_name: John Doe
+                has_bicycle: true
+                has_dog: true
+                links:
+                  self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+            application/xml:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Booking'
+                  - properties:
+                      links:
+                        $ref: '#/components/schemas/Links-Self'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Delete a booking
+      description: Deletes a booking, cancelling the hold on the trip.
+      operationId: delete-booking
+      security:
+        - OAuth2:
+            - write
+      tags:
+        - Bookings
+      responses:
+        '204':
+          description: Booking deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /bookings/{bookingId}/payment:
     parameters:
       - name: bookingId
@@ -372,55 +437,46 @@ paths:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/Wrapper-Resource'
-                - properties:
-                    data:
-                      $ref: '#/components/schemas/BookingPayment'
+              $ref: '#/components/schemas/BookingPayment'
             examples:
               Card:
                 summary: Card Payment
                 value:
-                  data:
-                    amount: 49.99
-                    currency: gbp
-                    source:
-                      object: card
-                      name: J. Doe
-                      number: '4242424242424242'
-                      cvc: 123
-                      exp_month: 12
-                      exp_year: 2025
-                      address_line1: 123 Fake Street
-                      address_line2: 4th Floor
-                      address_city: London
-                      address_country: gb
-                      address_post_code: N12 9XX
+                  amount: 49.99
+                  currency: gbp
+                  source:
+                    object: card
+                    name: J. Doe
+                    number: '4242424242424242'
+                    cvc: 123
+                    exp_month: 12
+                    exp_year: 2025
+                    address_line1: 123 Fake Street
+                    address_line2: 4th Floor
+                    address_city: London
+                    address_country: gb
+                    address_post_code: N12 9XX
               Bank:
                 summary: Bank Account Payment
                 value:
-                  data:
-                    amount: 100.5
-                    currency: gbp
-                    source:
-                      object: bank_account
-                      name: J. Doe
-                      number: '00012345'
-                      sort_code: '000123'
-                      account_type: individual
-                      bank_name: Starling Bank
-                      country: gb
+                  amount: 100.5
+                  currency: gbp
+                  source:
+                    object: bank_account
+                    name: J. Doe
+                    number: '00012345'
+                    sort_code: '000123'
+                    account_type: individual
+                    bank_name: Starling Bank
+                    country: gb
       responses:
         '200':
           description: Payment successful
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/Wrapper-Resource'
-                  - properties:
-                      data:
-                        $ref: '#/components/schemas/BookingPayment'
+                allOf:  
+                  - $ref: '#/components/schemas/BookingPayment'
                   - properties:
                       links:
                         $ref: '#/components/schemas/Links-Booking'
@@ -428,38 +484,36 @@ paths:
                 Card:
                   summary: Card Payment
                   value:
-                    data:
-                      id: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
-                      amount: 49.99
-                      currency: gbp
-                      source:
-                        object: card
-                        name: J. Doe
-                        number: '************4242'
-                        cvc: 123
-                        exp_month: 12
-                        exp_year: 2025
-                        address_country: gb
-                        address_post_code: N12 9XX
-                      status: succeeded
+                    id: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
+                    amount: 49.99
+                    currency: gbp
+                    source:
+                      object: card
+                      name: J. Doe
+                      number: '************4242'
+                      cvc: 123
+                      exp_month: 12
+                      exp_year: 2025
+                      address_country: gb
+                      address_post_code: N12 9XX
+                    status: succeeded
                     links:
                       booking: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb/payment
                 Bank:
                   summary: Bank Account Payment
                   value:
-                    data:
-                      id: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
-                      amount: 100.5
-                      currency: gbp
-                      source:
-                        object: bank_account
-                        name: J. Doe
-                        account_type: individual
-                        number: '*********2345'
-                        sort_code: '000123'
-                        bank_name: Starling Bank
-                        country: gb
-                      status: succeeded
+                    id: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
+                    amount: 100.5
+                    currency: gbp
+                    source:
+                      object: bank_account
+                      name: J. Doe
+                      account_type: individual
+                      number: '*********2345'
+                      sort_code: '000123'
+                      bank_name: Starling Bank
+                      country: gb
+                    status: succeeded
                     links:
                       booking: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
         '400':
@@ -485,23 +539,19 @@ webhooks:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/Wrapper-Resource'
-                - properties:
-                    data:
-                      $ref: '#/components/schemas/Booking'
+              allOf:  
+                - $ref: '#/components/schemas/Booking'
                 - properties:
                     links:
                       allOf:
                         - $ref: '#/components/schemas/Links-Self'
                         - $ref: '#/components/schemas/Links-Pagination'
             example:
-              data:
-                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                passenger_name: John Doe
-                has_bicycle: true
-                has_dog: true
+              id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              passenger_name: John Doe
+              has_bicycle: true
+              has_dog: true
               links:
                 self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
       responses:
@@ -698,19 +748,6 @@ components:
           readOnly: true
       xml:
         name: data
-    Wrapper-Resource:
-      description: This is a generic request/response wrapper which contains both data and links which serve as hypermedia controls (HATEOAS).
-      type: object
-      properties:
-        data:
-          description: The wrapper for a resource is a single object.
-          type: object
-        links:
-          description: A set of hypermedia links which serve as controls for the client.
-          type: object
-          readOnly: true
-      xml:
-        name: data
     BookingPayment:
       type: object
       unevaluatedProperties: false
@@ -763,8 +800,8 @@ components:
                   minLength: 3
                   maxLength: 4
                   writeOnly: true
-                  examples:
-                    - 123
+
+                  example: 123
                 exp_month:
                   type: integer
                   format: int64
