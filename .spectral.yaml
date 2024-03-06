@@ -7,3 +7,5 @@ rules:
   owasp:api4:2019-array-limit: false
   owasp:api4:2019-string-limit: false
   owasp:api4:2019-string-restricted: false
+  owasp:api4:2019-integer-limit: false
+  owasp:api4:2019-integer-format: false

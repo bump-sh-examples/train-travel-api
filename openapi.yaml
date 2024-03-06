@@ -7,6 +7,10 @@ info:
     name: Train Support
     url: https://example.com/support
     email: support@example.com
+  license: 
+    name: Creative Commons Attribution Non Commercial Share Alike 4.0 International
+    identifier: CC-BY-NC-SA-4.0
+    
 x-topics:
   - title: Getting started
     content:
@@ -42,6 +46,9 @@ paths:
       responses:
         '200':
           description: A list of train stations
+          headers:
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
           content:
             application/json:
               schema:
@@ -149,6 +156,9 @@ paths:
       responses:
         '200':
           description: A list of available train trips
+          headers:
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
           content:
             application/json:
               schema:
@@ -224,6 +234,9 @@ paths:
       responses:
         '200':
           description: A list of bookings
+          headers:
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
           content:
             application/json:
               schema:
@@ -357,6 +370,9 @@ paths:
       responses:
         '200':
           description: The booking details
+          headers:
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
           content:
             application/json:
               schema:
@@ -472,6 +488,9 @@ paths:
       responses:
         '200':
           description: Payment successful
+          headers:
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
           content:
             application/json:
               schema:
@@ -557,6 +576,9 @@ webhooks:
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully.
+          headers:
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
 components:
   securitySchemes:
     OAuth2:
@@ -750,7 +772,6 @@ components:
         name: data
     BookingPayment:
       type: object
-      unevaluatedProperties: false
       properties:
         id:
           description: Unique identifier for the payment. This will be a unique identifier for the payment, and is used to reference the payment in other objects.
@@ -776,6 +797,7 @@ components:
             - sek
             - try
         source:
+          unevaluatedProperties: false
           description: The payment source to take the payment from. This can be a card or a bank account. Some of these properties will be hidden on read to protect PII leaking.
           anyOf:
             - title: Card
