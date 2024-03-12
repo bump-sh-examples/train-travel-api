@@ -8,8 +8,8 @@ info:
     url: https://example.com/support
     email: support@example.com
   license: 
-    name: Creative Commons Attribution Share Alike 4.0 International
-    identifier: CC-BY-SA-4.0
+    name: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+    identifier: CC-BY-NC-SA-4.0
     
 x-topics:
   - title: Getting started
@@ -323,6 +323,7 @@ paths:
                   - properties:
                       links:
                         $ref: '#/components/schemas/Links-Self'
+
               example:
                 id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
                 trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
@@ -494,7 +495,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:  
+                allOf:
                   - $ref: '#/components/schemas/BookingPayment'
                   - properties:
                       links:
@@ -558,7 +559,7 @@ webhooks:
         content:
           application/json:
             schema:
-              allOf:  
+              allOf: 
                 - $ref: '#/components/schemas/Booking'
                 - properties:
                     links:
@@ -890,8 +891,6 @@ components:
                 - account_type
                 - bank_name
                 - country
-          discriminator:
-            propertyName: object
         status:
           description: The status of the payment, one of `pending`, `succeeded`, or `failed`.
           type: string
@@ -907,7 +906,7 @@ components:
           type: string
           format: uri
           examples:
-            - https://api.example.com/bookings/123
+            - https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
   headers:
     RateLimit:
       description: |
