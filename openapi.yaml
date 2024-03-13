@@ -1,7 +1,11 @@
 openapi: 3.1.0
 info:
   title: Train Travel API
-  description: API for finding and booking train trips across Europe.
+  description: |
+    API for finding and booking train trips across Europe.
+
+    This API was created by [Bump.sh](https://bump.sh/) for the entire OpenAPI
+    community, for educational and demonstrative purposes.
   version: 1.0.0
   contact:
     name: Train Support
@@ -10,31 +14,42 @@ info:
   license: 
     name: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
     identifier: CC-BY-NC-SA-4.0
-    
+
+servers:
+  - url: https://api.example.com
+    description: Production
+
+security:
+  - OAuth2:
+      - read
+
 x-topics:
   - title: Getting started
     content:
       $ref: ./docs/getting-started.md
-servers:
-  - url: https://api.example.com
-    description: Production
-security:
-  - OAuth2:
-      - read
+
 tags:
   - name: Stations
-    description: Find and filter train stations across Europe, including their location  and local timezone.
+    description: | 
+      Find and filter train stations across Europe, including their location
+      and local timezone.
   - name: Trips
-    description: Timetables and routes for train trips between stations, including  pricing and availability.
+    description: | 
+      Timetables and routes for train trips between stations, including pricing
+      and availability.
   - name: Bookings
-    description: Create and manage bookings for train trips, including passenger  details and optional extras.
+    description: | 
+      Create and manage bookings for train trips, including passenger details
+      and optional extras.
   - name: Payments
     description: |
       Pay for bookings using a card or bank account, and view payment
       status and history.
 
       > warn
-      > Bookings usually expire within 1 hour so you'll need to make your payment before the expiry date 
+      > Bookings usually expire within 1 hour so you'll need to make your payment
+      > before the expiry date 
+
 paths:
   /stations:
     get:
@@ -577,9 +592,7 @@ webhooks:
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully.
-          headers:
-            RateLimit:
-              $ref: '#/components/headers/RateLimit'
+
 components:
   securitySchemes:
     OAuth2:
