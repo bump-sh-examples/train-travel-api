@@ -228,7 +228,7 @@ paths:
     get:
       operationId: get-bookings
       summary: List existing bookings
-      description: Returns a list of all trips booking by the authenticated user.
+      description: Returns a list of all trip bookings by the authenticated user.
       tags:
         - Bookings
       responses:
@@ -910,8 +910,8 @@ components:
   headers:
     RateLimit:
       description: |
-        The RateLimit header is communicate quota policies, and contains a `limit` to
-        conveys the expiring limit, `remaining` to convey the remaining quota units,
+        The RateLimit header communicates quota policies. It contains a `limit` to
+        convey the expiring limit, `remaining` to convey the remaining quota units,
         and `reset` to convey the time window reset time.
       schema:
         type: string
@@ -994,7 +994,7 @@ components:
             type: https://example.com/errors/forbidden
             title: Forbidden
             status: 403
-            detail: Access is forbidden for the provided credentials.
+            detail: Access is forbidden with the provided credentials.
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
@@ -1002,7 +1002,7 @@ components:
             type: https://example.com/errors/forbidden
             title: Forbidden
             status: 403
-            detail: Access is forbidden for the provided credentials.
+            detail: Access is forbidden with the provided credentials.
 
     InternalServerError:
       description: Internal Server Error
