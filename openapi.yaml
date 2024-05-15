@@ -965,11 +965,9 @@ components:
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/bad-request
-            title: Bad Request
-            status: 400
-            detail: The request is invalid or missing required parameters.
+          examples:
+            xml_example:
+              $ref: '#/components/examples/Response400XmlExample'
 
     Conflict:
       description: Conflict
@@ -988,11 +986,9 @@ components:
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/conflict
-            title: Conflict
-            status: 409
-            detail: There is a conflict with an existing resource.
+          examples:
+            xml_example:
+              $ref: '#/components/examples/Response409XmlExample'
 
     Forbidden:
       description: Forbidden
@@ -1011,11 +1007,9 @@ components:
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/forbidden
-            title: Forbidden
-            status: 403
-            detail: Access is forbidden with the provided credentials.
+          examples:
+            xml_example:
+              $ref: '#/components/examples/Response403XmlExample'
 
     InternalServerError:
       description: Internal Server Error
@@ -1034,11 +1028,9 @@ components:
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/internal-server-error
-            title: Internal Server Error
-            status: 500
-            detail: An unexpected error occurred.
+          examples:
+            xml_example:
+              $ref: '#/components/examples/Response500XmlExample'
 
     NotFound:
       description: Not Found
@@ -1057,11 +1049,9 @@ components:
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/not-found
-            title: Not Found
-            status: 404
-            detail: The requested resource was not found.
+          examples:
+            xml_example:
+              $ref: '#/components/examples/Response404XmlExample'
 
     TooManyRequests:
       description: Too Many Requests
@@ -1082,11 +1072,9 @@ components:
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/too-many-requests
-            title: Too Many Requests
-            status: 429
-            detail: You have exceeded the rate limit.
+          examples:
+            xml_example:
+              $ref: '#/components/examples/Response429XmlExample'
 
     Unauthorized:
       description: Unauthorized
@@ -1105,8 +1093,78 @@ components:
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/unauthorized
-            title: Unauthorized
-            status: 401
-            detail: You do not have the necessary permissions.
+          examples:
+            xml_example:
+              $ref: '#/components/examples/Response401XmlExample'
+
+  examples:
+    Response400XmlExample:
+      summary: Response 400 (status Bad Request), with content_type application/xml.
+      value: |
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <root>
+            <type>https://example.com/errors/bad-request</type>
+            <title>Bad Request</title>
+            <status>400</status>
+            <detail>The request is invalid or missing required parameters.</detail>
+        </root>
+    Response401XmlExample:
+      summary: Response 401 (status Unauthorized), with content_type application/xml.
+      value: |
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <root>
+            <type>https://example.com/errors/unauthorized</type>
+            <title>Unauthorized</title>
+            <status>401</status>
+            <detail>You do not have the necessary permissions.</detail>
+        </root>
+    Response403XmlExample:
+      summary: Response 403 (status Forbidden), with content_type application/xml.
+      value: |
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <root>
+            <type>https://example.com/errors/conflict</type>
+            <title>Forbidden</title>
+            <status>403</status>
+            <detail>Access is forbidden with the provided credentials.</detail>
+        </root>
+    Response404XmlExample:
+      summary: Response 404 (status Not Found), with content_type application/xml.
+      value: |
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <root>
+            <type>https://example.com/errors/not-found</type>
+            <title>Not Found</title>
+            <status>404</status>
+            <detail>The requested resource was not found.</detail>
+        </root>
+    Response409XmlExample:
+      summary: Response 409 (Status Conflict), with content_type application/xml.
+      value: |
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <root>
+            <type>https://example.com/errors/conflict</type>
+            <title>Conflict</title>
+            <status>409</status>
+            <detail>There is a conflict with an existing resource.</detail>
+        </root>
+    Response429XmlExample:
+      summary: Response 429 (status Too Many Requests), with content_type application/xml.
+      value: |
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <root>
+            <type>https://example.com/errors/too-many-requests</type>
+            <title>Too Many Requests</title>
+            <status>429</status>
+            <detail>You have exceeded the rate limit.</detail>
+        </root>
+    Response500XmlExample:
+      summary: Response 500 (Internal Server Error), with content_type application/xml.
+      value: |
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <root>
+            <type>https://example.com/errors/internal-server-error</type>
+            <title>Internal Server Error</title>
+            <status>500</status>
+            <detail>An unexpected error occurred.</detail>
+        </root>
