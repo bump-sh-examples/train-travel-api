@@ -14,6 +14,7 @@ info:
   license: 
     name: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
     identifier: CC-BY-NC-SA-4.0
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 servers:
   - url: https://api.example.com
