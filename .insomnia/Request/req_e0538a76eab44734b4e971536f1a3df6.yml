@@ -1,0 +1,31 @@
+_id: req_e0538a76eab44734b4e971536f1a3df6
+type: Request
+parentId: fld_75bf3dba2bc14698a489d77e050c26c5
+modified: 1716829775347
+created: 1716829775347
+url: "{{ _.base_url }}/stations"
+name: Get a list of train stations
+description: ""
+method: GET
+body: {}
+preRequestScript: ""
+parameters: []
+headers: []
+authentication:
+  clientId: "{{ _.oauth2ClientId }}"
+  grantType: authorization_code
+  scope: read
+  type: oauth2
+  clientSecret: "{{ _.oauth2ClientSecret }}"
+  redirectUrl: "{{ _.oauth2RedirectUrl }}"
+  accessTokenUrl: https://example.com/oauth/token
+  authorizationUrl: https://example.com/oauth/authorize
+metaSortKey: -1716829775347
+isPrivate: false
+pathParameters: []
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

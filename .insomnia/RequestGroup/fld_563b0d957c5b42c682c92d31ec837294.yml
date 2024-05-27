@@ -1,0 +1,12 @@
+_id: fld_563b0d957c5b42c682c92d31ec837294
+type: RequestGroup
+parentId: wrk_c69156230aa24b3fadfd4c6d576809b7
+modified: 1716829775346
+created: 1716829775346
+name: Bookings
+description: |
+  Create and manage bookings for train trips, including passenger details
+  and optional extras.
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1716829775346

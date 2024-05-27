@@ -1,0 +1,31 @@
+_id: req_12b3eec1452c4664a06889cfb16ff168
+type: Request
+parentId: fld_563b0d957c5b42c682c92d31ec837294
+modified: 1716829775349
+created: 1716829775349
+url: "{{ _.base_url }}/bookings"
+name: List existing bookings
+description: ""
+method: GET
+body: {}
+preRequestScript: ""
+parameters: []
+headers: []
+authentication:
+  clientId: "{{ _.oauth2ClientId }}"
+  grantType: authorization_code
+  scope: read
+  type: oauth2
+  clientSecret: "{{ _.oauth2ClientSecret }}"
+  redirectUrl: "{{ _.oauth2RedirectUrl }}"
+  accessTokenUrl: https://example.com/oauth/token
+  authorizationUrl: https://example.com/oauth/authorize
+metaSortKey: -1716829775349
+isPrivate: false
+pathParameters: []
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

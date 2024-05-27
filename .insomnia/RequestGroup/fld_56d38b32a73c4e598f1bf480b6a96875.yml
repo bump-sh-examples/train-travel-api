@@ -1,0 +1,12 @@
+_id: fld_56d38b32a73c4e598f1bf480b6a96875
+type: RequestGroup
+parentId: wrk_c69156230aa24b3fadfd4c6d576809b7
+modified: 1716829775344
+created: 1716829775344
+name: Trips
+description: |
+  Timetables and routes for train trips between stations, including pricing
+  and availability.
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1716829775344

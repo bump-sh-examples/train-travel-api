@@ -1,0 +1,12 @@
+_id: fld_75bf3dba2bc14698a489d77e050c26c5
+type: RequestGroup
+parentId: wrk_c69156230aa24b3fadfd4c6d576809b7
+modified: 1716829775341
+created: 1716829775341
+name: Stations
+description: |
+  Find and filter train stations across Europe, including their location
+  and local timezone.
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1716829775343

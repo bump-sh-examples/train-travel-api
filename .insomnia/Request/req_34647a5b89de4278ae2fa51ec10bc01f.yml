@@ -1,0 +1,36 @@
+_id: req_34647a5b89de4278ae2fa51ec10bc01f
+type: Request
+parentId: fld_563b0d957c5b42c682c92d31ec837294
+modified: 1716829775350
+created: 1716829775350
+url: "{{ _.base_url }}/bookings"
+name: Create a booking
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: "null"
+preRequestScript: ""
+parameters: []
+headers:
+  - name: Content-Type
+    disabled: false
+    value: application/json
+authentication:
+  clientId: "{{ _.oauth2ClientId }}"
+  grantType: authorization_code
+  scope: write
+  type: oauth2
+  clientSecret: "{{ _.oauth2ClientSecret }}"
+  redirectUrl: "{{ _.oauth2RedirectUrl }}"
+  accessTokenUrl: https://example.com/oauth/token
+  authorizationUrl: https://example.com/oauth/authorize
+metaSortKey: -1716829775350
+isPrivate: false
+pathParameters: []
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,36 @@
+_id: req_06b2c7e3d2b047679e2fc2f57909ddb9
+type: Request
+parentId: fld_1a119f40ed504432953d73dc6e514c63
+modified: 1716829775351
+created: 1716829775351
+url: "{{ _.base_url }}/bookings/{{ _.bookingId }}/payment"
+name: Pay for a Booking
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: "null"
+preRequestScript: ""
+parameters: []
+headers:
+  - name: Content-Type
+    disabled: false
+    value: application/json
+authentication:
+  clientId: "{{ _.oauth2ClientId }}"
+  grantType: authorization_code
+  scope: read
+  type: oauth2
+  clientSecret: "{{ _.oauth2ClientSecret }}"
+  redirectUrl: "{{ _.oauth2RedirectUrl }}"
+  accessTokenUrl: https://example.com/oauth/token
+  authorizationUrl: https://example.com/oauth/authorize
+metaSortKey: -1716829775351
+isPrivate: false
+pathParameters: []
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

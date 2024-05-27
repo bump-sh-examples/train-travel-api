@@ -1,0 +1,46 @@
+_id: req_f589e0912ccb43a6b7b7c347e4611899
+type: Request
+parentId: fld_56d38b32a73c4e598f1bf480b6a96875
+modified: 1716829775348
+created: 1716829775348
+url: "{{ _.base_url }}/trips"
+name: Get available train trips
+description: ""
+method: GET
+body: {}
+preRequestScript: ""
+parameters:
+  - name: origin
+    disabled: false
+    value: string
+  - name: destination
+    disabled: false
+    value: string
+  - name: date
+    disabled: false
+    value: 2024-05-27T17:09:33.868Z
+  - name: bicycles
+    disabled: true
+    value: "true"
+  - name: dogs
+    disabled: true
+    value: "true"
+headers: []
+authentication:
+  clientId: "{{ _.oauth2ClientId }}"
+  grantType: authorization_code
+  scope: read
+  type: oauth2
+  clientSecret: "{{ _.oauth2ClientSecret }}"
+  redirectUrl: "{{ _.oauth2RedirectUrl }}"
+  accessTokenUrl: https://example.com/oauth/token
+  authorizationUrl: https://example.com/oauth/authorize
+metaSortKey: -1716829775348
+isPrivate: false
+pathParameters: []
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

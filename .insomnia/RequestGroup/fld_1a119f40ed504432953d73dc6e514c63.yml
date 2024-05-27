@@ -1,0 +1,16 @@
+_id: fld_1a119f40ed504432953d73dc6e514c63
+type: RequestGroup
+parentId: wrk_c69156230aa24b3fadfd4c6d576809b7
+modified: 1716829775346
+created: 1716829775346
+name: Payments
+description: |
+  Pay for bookings using a card or bank account, and view payment
+  status and history.
+
+  > warn
+  > Bookings usually expire within 1 hour so you'll need to make your payment
+  > before the expiry date 
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1716829775346

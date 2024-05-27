@@ -1,0 +1,31 @@
+_id: req_0db8abe5207a4e11855fcf4e2f7e1af5
+type: Request
+parentId: fld_563b0d957c5b42c682c92d31ec837294
+modified: 1716829775350
+created: 1716829775350
+url: "{{ _.base_url }}/bookings/{{ _.bookingId }}"
+name: Delete a booking
+description: ""
+method: DELETE
+body: {}
+preRequestScript: ""
+parameters: []
+headers: []
+authentication:
+  clientId: "{{ _.oauth2ClientId }}"
+  grantType: authorization_code
+  scope: write
+  type: oauth2
+  clientSecret: "{{ _.oauth2ClientSecret }}"
+  redirectUrl: "{{ _.oauth2RedirectUrl }}"
+  accessTokenUrl: https://example.com/oauth/token
+  authorizationUrl: https://example.com/oauth/authorize
+metaSortKey: -1716829775350
+isPrivate: false
+pathParameters: []
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
