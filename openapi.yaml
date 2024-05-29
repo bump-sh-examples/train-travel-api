@@ -475,6 +475,7 @@ paths:
       tags:
         - Payments
       requestBody:
+        required: true
         content:
           application/json:
             schema:
