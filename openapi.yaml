@@ -25,7 +25,6 @@ servers:
   - url: https://api.example.com
     description: Production
     x-internal: false
-  
   - url: https://mocks.example.com/rest
     description: Mock Server
     x-internal: false
