@@ -122,7 +122,7 @@ paths:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
               examples:
-                Stations:
+                stations:
                   summary: A list of train stations
                   value:
                     data:
@@ -195,7 +195,9 @@ paths:
           schema:
             type: string
             format: uuid
-          example: b2e783e1-c824-4d63-b37a-d8d698862f1d
+          examples: 
+            trips: 
+              value: b2e783e1-c824-4d63-b37a-d8d698862f1d
         - name: date
           in: query
           description: The date and time of the trip in ISO 8601 format in origin station's timezone.
@@ -203,7 +205,9 @@ paths:
           schema:
             type: string
             format: date-time
-          example: '2024-02-01T09:00:00Z'
+          examples: 
+            trips: 
+              value: '2024-02-01T09:00:00Z'
         - name: bicycles
           in: query
           description: Only return trips where bicycles are known to be allowed
@@ -242,7 +246,7 @@ paths:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
               examples:
-                Trips:
+                trips:
                   summary: A list of available train trips
                   value:
                     data:
@@ -332,12 +336,12 @@ paths:
                   summary: A list of bookings
                   value:
                     data:
-                      - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                      - id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
                         trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
                         passenger_name: John Doe
                         has_bicycle: true
                         has_dog: true
-                      - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                      - id: 1725ff48-ab45-4bb5-9d02-88745177dedb
                         trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
                         passenger_name: Jane Smith
                         has_bicycle: false
@@ -408,13 +412,13 @@ paths:
                   summary: New Booking
                   value: |-
                     {
-                      "id": "{{ uuid() }}",
+                      "id": "{{ uuid() > put(bookingId) }}",
                       "trip_id": "{{ request.body/trip_id }}",
                       "passenger_name": "{{ request.body/passenger_name }}",
                       "has_bicycle": {{ request.body/has_bicycle }},
                       "has_dog": {{ request.body/has_dog }},
                       "links": {
-                        "self": "https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb"
+                        "self": "https://api.example.com/bookings/{{ bookingId }}"
                       }
                     }
 
@@ -447,7 +451,11 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+        examples: 
+          booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+            value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+          booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+            value: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
     get:
       summary: Get a booking
       description: Returns the details of a specific booking.
@@ -471,13 +479,23 @@ paths:
                       links:
                         $ref: '#/components/schemas/Links-Self'
               examples:
-                booking_efdbb9d1-02c2-4bc3-afb7-6788d8782b1e:
-                  summary: Booking
+                booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+                  summary: John Doe
                   value:
-                    id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                    id: 1725ff48-ab45-4bb5-9d02-88745177dedb
                     trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
                     passenger_name: John Doe
                     has_bicycle: true
+                    has_dog: true
+                    links:
+                      self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+                  summary: Billy Bikeless
+                  value:
+                    id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
+                    trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                    passenger_name: Billy Bikeless
+                    has_bicycle: false
                     has_dog: true
                     links:
                       self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
@@ -512,10 +530,6 @@ paths:
       responses:
         '204':
           description: Booking deleted
-          examples:
-            BookingDeleted:
-              summary: Booking Deleted
-              value: ''
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
