@@ -27,6 +27,7 @@ info:
 servers:
   - url: https://api.example.com
     description: Production
+    x-internal: false
 
 security:
   - OAuth2:
