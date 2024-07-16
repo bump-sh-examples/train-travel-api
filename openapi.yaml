@@ -28,6 +28,10 @@ servers:
   - url: https://api.example.com
     description: Production
     x-internal: false
+  
+  - url: https://mocks.example.com/rest
+    description: Mock Server
+    x-internal: false
 
 security:
   - OAuth2:
@@ -68,6 +72,41 @@ paths:
       operationId: get-stations
       tags:
         - Stations
+      parameters:
+        - name: page
+          in: query
+          description: The page number to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          example: 1
+        - name: limit
+          in: query
+          description: The number of items to return per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          example: 10
+        - name: country
+          in: query
+          description: Filter stations by country code
+          required: false
+          schema:
+            type: string
+            format: iso-country-code
+          example: DE
+        - in: header
+          name: If-Modified-Since
+          description: Request only stations modified since this date
+          schema:
+            type: string
+            format: date-time
+          example: '2024-01-01T00:00:00Z'
       responses:
         '200':
           description: A list of train stations
@@ -125,6 +164,8 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
+        '304':
+          description: Not Modified
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -185,6 +226,25 @@ paths:
           schema:
             type: boolean
             default: false
+        - name: page
+          in: query
+          description: The page number to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          example: 1
+        - name: limit
+          in: query
+          description: The number of items to return per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          example: 10
       responses:
         '200':
           description: A list of available train trips
@@ -332,6 +392,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+
     post:
       operationId: create-booking
       summary: Create a booking
@@ -814,6 +875,10 @@ components:
           description: Name of the passenger
           examples:
             - John Doe
+        seat_preference:
+          type: string
+          enum: [window, aisle, any]
+          example: "window"
         has_bicycle:
           type: boolean
           description: Indicates whether the passenger has a bicycle.
