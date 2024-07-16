@@ -98,6 +98,13 @@ paths:
             type: string
             format: iso-country-code
           example: DE
+        - in: header
+          name: If-Modified-Since
+          description: Request only stations modified since this date
+          schema:
+            type: string
+            format: date-time
+          example: '2024-01-01T00:00:00Z'
       responses:
         '200':
           description: OK
@@ -157,6 +164,8 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
+        '304':
+          description: Not Modified
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -893,6 +902,10 @@ components:
           description: Name of the passenger
           examples:
             - John Doe
+        seat_preference:
+          type: string
+          enum: [window, aisle, any]
+          example: "window"
         has_bicycle:
           type: boolean
           description: Indicates whether the passenger has a bicycle.
