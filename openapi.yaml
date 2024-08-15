@@ -27,6 +27,11 @@ info:
 servers:
   - url: https://api.example.com
     description: Production
+    x-internal: false
+  
+  - url: https://mocks.example.com/rest
+    description: Mock Server
+    x-internal: false
 
 security:
   - OAuth2:
@@ -67,6 +72,34 @@ paths:
       operationId: get-stations
       tags:
         - Stations
+      parameters:
+        - name: page
+          in: query
+          description: The page number to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          example: 1
+        - name: limit
+          in: query
+          description: The number of items to return per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          example: 10
+        - name: country
+          in: query
+          description: Filter stations by country code
+          required: false
+          schema:
+            type: string
+            format: iso-country-code
+          example: DE
       responses:
         '200':
           description: A list of train stations
@@ -88,22 +121,25 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
-              example:
-                data:
-                  - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    name: Berlin Hauptbahnhof
-                    address: Invalidenstraße 10557 Berlin, Germany
-                    country_code: DE
-                    timezone: Europe/Berlin
-                  - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    name: Paris Gare du Nord
-                    address: 18 Rue de Dunkerque 75010 Paris, France
-                    country_code: FR
-                    timezone: Europe/Paris
-                links:
-                  self: https://api.example.com/stations&page=2
-                  next: https://api.example.com/stations?page=3
-                  prev: https://api.example.com/stations?page=1
+              examples:
+                stations:
+                  summary: A list of train stations
+                  value:
+                    data:
+                      - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                        name: Berlin Hauptbahnhof
+                        address: Invalidenstraße 10557 Berlin, Germany
+                        country_code: DE
+                        timezone: Europe/Berlin
+                      - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                        name: Paris Gare du Nord
+                        address: 18 Rue de Dunkerque 75010 Paris, France
+                        country_code: FR
+                        timezone: Europe/Paris
+                    links:
+                      self: https://api.example.com/stations&page=2
+                      next: https://api.example.com/stations?page=3
+                      prev: https://api.example.com/stations?page=1
             application/xml:
               schema:
                 allOf:
@@ -154,7 +190,9 @@ paths:
           schema:
             type: string
             format: uuid
-          example: b2e783e1-c824-4d63-b37a-d8d698862f1d
+          examples: 
+            trips: 
+              value: b2e783e1-c824-4d63-b37a-d8d698862f1d
         - name: date
           in: query
           description: The date and time of the trip in ISO 8601 format in origin station's timezone.
@@ -162,7 +200,9 @@ paths:
           schema:
             type: string
             format: date-time
-          example: '2024-02-01T09:00:00Z'
+          examples: 
+            trips: 
+              value: '2024-02-01T09:00:00Z'
         - name: bicycles
           in: query
           description: Only return trips where bicycles are known to be allowed
@@ -177,6 +217,25 @@ paths:
           schema:
             type: boolean
             default: false
+        - name: page
+          in: query
+          description: The page number to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          example: 1
+        - name: limit
+          in: query
+          description: The number of items to return per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          example: 10
       responses:
         '200':
           description: A list of available train trips
@@ -198,29 +257,32 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
-              example:
-                data:
-                  - id: ea399ba1-6d95-433f-92d1-83f67b775594
-                    origin: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    destination: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    departure_time: '2024-02-01T10:00:00Z'
-                    arrival_time: '2024-02-01T16:00:00Z'
-                    price: 50
-                    operator: Deutsche Bahn
-                    bicycles_allowed: true
-                    dogs_allowed: true
-                  - id: 4d67459c-af07-40bb-bb12-178dbb88e09f
-                    origin: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    destination: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    departure_time: '2024-02-01T12:00:00Z'
-                    arrival_time: '2024-02-01T18:00:00Z'
-                    price: 50
-                    operator: SNCF
-                    bicycles_allowed: true
-                    dogs_allowed: true
-                links:
-                  self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
-                  next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
+              examples:
+                trips:
+                  summary: A list of available train trips
+                  value:
+                    data:
+                      - id: ea399ba1-6d95-433f-92d1-83f67b775594
+                        origin: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                        destination: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                        departure_time: '2024-02-01T10:00:00Z'
+                        arrival_time: '2024-02-01T16:00:00Z'
+                        price: 50
+                        operator: Deutsche Bahn
+                        bicycles_allowed: true
+                        dogs_allowed: true
+                      - id: 4d67459c-af07-40bb-bb12-178dbb88e09f
+                        origin: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                        destination: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                        departure_time: '2024-02-01T12:00:00Z'
+                        arrival_time: '2024-02-01T18:00:00Z'
+                        price: 50
+                        operator: SNCF
+                        bicycles_allowed: true
+                        dogs_allowed: true
+                    links:
+                      self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
+                      next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
             application/xml:
               schema:
                 allOf:
@@ -276,21 +338,24 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
-              example:
-                data:
-                  - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    passenger_name: John Doe
-                    has_bicycle: true
-                    has_dog: true
-                  - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    passenger_name: Jane Smith
-                    has_bicycle: false
-                    has_dog: false
-                links:
-                  self: https://api.example.com/bookings
-                  next: https://api.example.com/bookings?page=2
+              examples:
+                Bookings:
+                  summary: A list of bookings
+                  value:
+                    data:
+                      - id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
+                        trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                        passenger_name: John Doe
+                        has_bicycle: true
+                        has_dog: true
+                      - id: 1725ff48-ab45-4bb5-9d02-88745177dedb
+                        trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                        passenger_name: Jane Smith
+                        has_bicycle: false
+                        has_dog: false
+                    links:
+                      self: https://api.example.com/bookings
+                      next: https://api.example.com/bookings?page=2
             application/xml:
               schema:
                 allOf:
@@ -318,6 +383,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+
     post:
       operationId: create-booking
       summary: Create a booking
@@ -348,14 +414,21 @@ paths:
                       links:
                         $ref: '#/components/schemas/Links-Self'
 
-              example:
-                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                passenger_name: John Doe
-                has_bicycle: true
-                has_dog: true
-                links:
-                  self: https://api.example.com/bookings/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              examples:
+                new_booking:
+                  summary: New Booking
+                  value: |-
+                    {
+                      "id": "{{ uuid() > put(bookingId) }}",
+                      "trip_id": "{{ request.body/trip_id }}",
+                      "passenger_name": "{{ request.body/passenger_name }}",
+                      "has_bicycle": {{ request.body/has_bicycle }},
+                      "has_dog": {{ request.body/has_dog }},
+                      "links": {
+                        "self": "https://api.example.com/bookings/{{ bookingId }}"
+                      }
+                    }
+
             application/xml:
               schema:
                 allOf:
@@ -385,7 +458,11 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+        examples: 
+          booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+            value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+          booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+            value: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
     get:
       summary: Get a booking
       description: Returns the details of a specific booking.
@@ -406,14 +483,27 @@ paths:
                   - properties:
                       links:
                         $ref: '#/components/schemas/Links-Self'
-              example:
-                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                passenger_name: John Doe
-                has_bicycle: true
-                has_dog: true
-                links:
-                  self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+              examples:
+                booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+                  summary: John Doe
+                  value:
+                    id: 1725ff48-ab45-4bb5-9d02-88745177dedb
+                    trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                    passenger_name: John Doe
+                    has_bicycle: true
+                    has_dog: true
+                    links:
+                      self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+                  summary: Billy Bikeless
+                  value:
+                    id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
+                    trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                    passenger_name: Billy Bikeless
+                    has_bicycle: false
+                    has_dog: true
+                    links:
+                      self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
             application/xml:
               schema:
                 allOf:
@@ -591,14 +681,17 @@ webhooks:
                       allOf:
                         - $ref: '#/components/schemas/Links-Self'
                         - $ref: '#/components/schemas/Links-Pagination'
-            example:
-              id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-              trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-              passenger_name: John Doe
-              has_bicycle: true
-              has_dog: true
-              links:
-                self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+            examples:
+              new_booking:
+                summary: New Booking
+                value:
+                  id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                  trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                  passenger_name: John Doe
+                  has_bicycle: true
+                  has_dog: true
+                  links:
+                    self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully.
