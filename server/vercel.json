@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "lib/index.js",
-      "use": "@now/node"
-    }
-  ],
   "routes": [
     {
       "src": "/(.*)",
