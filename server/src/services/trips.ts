@@ -6,6 +6,7 @@ export default new TripsService({
     const trips = await getTrips();
     return res.send({
       data: trips,
+      links: { self: "/trips" },
     });
   },
 });

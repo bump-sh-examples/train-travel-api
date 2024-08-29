@@ -1,18 +1,10 @@
 import { BookingsService } from "../api/resources/bookings/service/BookingsService";
 import { getBooking, getBookings, createBooking } from "../database";
-import { BadRequestError, InternalServerError } from "../api";
+import { NotFoundError, InternalServerError } from "../api";
 import { Booking } from "../api";
 
 export default new BookingsService({
   async createBooking(req, res) {
-    const existing = await getBooking("123");
-    if (existing) {
-      throw new BadRequestError({
-        status: 400,
-        title: "Booking already exists",
-        detail: `Booking with id ${req.body.id} already exists`,
-      });
-    }
     const booking = createBooking(req.body as Booking);
     if (booking instanceof Error) {
       throw new InternalServerError({
@@ -21,7 +13,10 @@ export default new BookingsService({
         detail: booking.message,
       });
     }
-    return res.send(booking);
+    return res.send({
+      ...booking,
+      links: { self: `/bookings/${booking.id}` },
+    });
   },
 
   async deleteBooking(req, res) {},
@@ -32,5 +27,19 @@ export default new BookingsService({
       data: bookings,
     });
   },
-  async getBooking(req, res) {},
+
+  async getBooking(req, res) {
+    const booking = await getBooking(req.params.bookingId);
+    if (!booking) {
+      throw new NotFoundError({
+        status: 404,
+        title: "Booking not found",
+        detail: `Booking with id ${req.params.bookingId} not found`,
+      });
+    }
+    return res.send({
+      ...booking,
+      links: { self: `/bookings/${booking.id}` },
+    });
+  },
 });

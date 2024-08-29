@@ -6,6 +6,7 @@ export default new StationsService({
     const stations = await getStations();
     return res.send({
       data: stations,
+      links: { self: "/stations" },
     });
   },
 });

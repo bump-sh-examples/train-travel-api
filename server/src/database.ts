@@ -30,18 +30,18 @@ export function getBookings(): Booking[] {
 export function getStations(): Station[] {
   return [
     {
-      id: "123",
-      name: "Station A",
-      address: "123 Station St, Station City",
-      countryCode: "FR",
-      timezone: "Europe/Paris",
-    },
-    {
-      id: "124",
-      name: "Station B",
-      address: "124 Station St, Station City",
+      id: "efdbb9d1-02c2-4bc3-afb7-6788d8782b1e",
+      name: "Berlin Hauptbahnhof",
+      address: "Invalidenstraße 10557 Berlin, Germany",
       countryCode: "DE",
       timezone: "Europe/Berlin",
+    },
+    {
+      id: "b2e783e1-c824-4d63-b37a-d8d698862f1d",
+      name: "Paris Gare du Nord",
+      address: "18 Rue de Dunkerque 75010 Paris, France",
+      countryCode: "FR",
+      timezone: "Europe/Paris",
     },
   ];
 }
