@@ -83,14 +83,16 @@ paths:
           schema:
             type: string
           example: 52.5200,13.4050
-        - name: country
+        - name: search
           in: query
-          description: The ISO 3166-1 alpha-2 country code to filter results by.
+          description: > 
+            A search term to filter the list of stations by name or address.
           required: false
           schema:
             type: string
-            format: iso-country-code
-          example: DE
+            examples: 
+            - Milano Centrale
+            - Paris
       responses:
         '200':
           description: OK
@@ -151,7 +153,10 @@ paths:
   /trips:
     get:
       summary: Get available train trips
-      description: Returns a list of available train trips between the specified origin and destination stations on the given date, and allows for filtering by bicycle and dog allowances.
+      description: > 
+        Returns a list of available train trips between the specified origin and
+        destination stations on the given date, and allows for filtering by
+        bicycle and dog allowances.
       operationId: get-trips
       tags:
         - Trips
