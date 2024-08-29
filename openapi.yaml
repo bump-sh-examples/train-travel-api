@@ -60,31 +60,51 @@ paths:
   /stations:
     get:
       summary: Get a list of train stations
-      description: Returns a list of all train stations in the system.
+      description: Returns a paginated and searchable list of all train stations.
       operationId: get-stations
       tags:
         - Stations
+      parameters:
+        - name: page
+          in: query
+          description: The page number to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          example: 1
+        - name: coordinates
+          in: query
+          description: > 
+            The latitude and longitude of the user's location, to narrow down
+            the search results to sites within a proximity of this location.
+          required: false
+          schema:
+            type: string
+          example: 52.5200,13.4050
+        - name: country
+          in: query
+          description: The ISO 3166-1 alpha-2 country code to filter results by.
+          required: false
+          schema:
+            type: string
+            format: iso-country-code
+          example: DE
       responses:
         '200':
-          description: A list of train stations
+          description: OK
           headers:
             RateLimit:
               $ref: '#/components/headers/RateLimit'
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/Wrapper-Collection'
-                  - properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Station'
-                  - properties:
-                      links:
-                        allOf:
-                          - $ref: '#/components/schemas/Links-Self'
-                          - $ref: '#/components/schemas/Links-Pagination'
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Station'
               example:
                 data:
                   - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
