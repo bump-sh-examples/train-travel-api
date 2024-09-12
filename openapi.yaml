@@ -199,6 +199,13 @@ paths:
           schema:
             type: boolean
             default: false
+        - name: page
+          in: query
+          description: The page of results to be returned
+          required: false
+          schema:
+            type: number
+            default: 1
       responses:
         '200':
           description: A list of available train trips
