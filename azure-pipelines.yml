@@ -10,15 +10,12 @@ pool:
 steps:
   
   # Install Node.js using UseNode task
-  - displayName: 'Install Node.js'
-    task: UseNode@1
+  - task: UseNode@1
     inputs:
       version: '20.x'
 
-  - displayName: 'Install Bump CLI'
-    script: |
+  - script: |
       npm install bump-cli
 
-  - displayName: 'Deploy API Documentation'
-    script: |
+  - script: |
       bump deploy "openapi.yaml" --doc "azure-demo" --token "$(BUMP_TOKEN)"
