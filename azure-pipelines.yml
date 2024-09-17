@@ -1,15 +1,24 @@
+# Trigger pipeline on pushes to main branch
 trigger:
 - main
 
+# Specify the agent pool to use (Ubuntu)
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
+# Define pipeline steps
 steps:
-  - task: UseNode@1
+  
+  # Install Node.js using UseNode task
+  - displayName: 'Install Node.js'
+    task: UseNode@1
     inputs:
       version: '20.x'
-    displayName: 'Install Node.js'
 
-  - script: |
-      npm install bump.sh
-    displayName: 'install bump-cli'
+  - displayName: 'Install Bump CLI'
+    script: |
+      npm install bump-cli
+
+  - displayName: 'Deploy API Documentation'
+    script: |
+      bump deploy "openapi.yaml" --doc "azure-demo" --token "$(BUMP_TOKEN)"
