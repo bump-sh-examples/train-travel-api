@@ -3,7 +3,8 @@ trigger:
 - main
 
 # Specify the agent pool to use (Ubuntu)
-pool: server
+pool:
+  vmImage: 'ubuntu-latest'
 
 # Define pipeline steps
 steps:
