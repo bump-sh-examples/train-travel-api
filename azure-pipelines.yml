@@ -14,10 +14,10 @@ steps:
     inputs:
       version: '20.x'
 
-  - script: |
+  - bash: |
       npm install bump-cli
 
-  - script: |
-      npm exec -- bump deploy "openapi.yaml" --doc "azure-demo" --token "$env:BUMP_TOKEN"
+  - bash: |
+      npm exec -- bump deploy "openapi.yaml" --doc "azure-demo" --token "$BUMP_TOKEN"
     env:
       BUMP_TOKEN: $(BUMP_TOKEN)
