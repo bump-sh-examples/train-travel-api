@@ -6,6 +6,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables: 
+  - group: bumpsh
+
 # Define pipeline steps
 steps:
   
@@ -18,4 +21,4 @@ steps:
       npm install bump-cli
 
   - bash: |
-      npm exec -- bump deploy "openapi.yaml" --doc "azure-demo" --token "${BUMP_TOKEN}"
+      npm exec -- bump deploy "openapi.yaml" --doc "azure-demo" --token "$(BUMP_TOKEN)"
