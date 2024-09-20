@@ -18,6 +18,4 @@ steps:
       npm install bump-cli
 
   - bash: |
-      npm exec -- bump deploy "openapi.yaml" --doc "azure-demo" --token "$BUMP_TOKEN"
-    env:
-      BUMP_TOKEN: $(BUMP_TOKEN)
+      npm exec -- bump deploy "openapi.yaml" --doc "azure-demo" --token "$(BUMP_TOKEN)"
