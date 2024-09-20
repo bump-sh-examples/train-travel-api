@@ -9,15 +9,15 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- displayName: 'Install Node.js'
-  task: UseNode@1
+- task: UseNode@1
   inputs:
     version: '20.x'
+  displayName: 'Install Node.js'
 
-- displayName: 'Install Bump CLI'
-  bash: |
+- bash: |
     npm install bump-cli
+  displayName: 'Install Bump CLI'
 
-- displayName: 'Deploy API Documentation'
-  bash: |
+- bash: |
     npm exec -- bump deploy "openapi.yaml" --doc "azure-demo" --token "$(BUMP_TOKEN)"
+  displayName: 'Deploy API Documentation'
