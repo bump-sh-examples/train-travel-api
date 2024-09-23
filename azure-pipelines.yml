@@ -8,16 +8,48 @@ variables:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: UseNode@1
-  inputs:
-    version: '20.x'
-  displayName: 'Install Node.js'
+stages: 
 
-- bash: |
-    npm install bump-cli
-  displayName: 'Install Bump CLI'
+- stage: Setup
+  jobs:
+  - job: installDependencies
+    steps:
+    - task: UseNode@1
+      inputs:
+        version: '20.x'
+      displayName: 'Install Node.js'
 
-- bash: |
-    npm exec -- bump deploy "openapi.yaml" --doc "azure-demo" --token "$(BUMP_TOKEN)"
-  displayName: 'Deploy API Documentation'
+    - script: |
+        npm install bump-cli
+      displayName: 'Install Bump CLI'
+
+- stage: Deploy Documentation
+  dependsOn: Setup
+  jobs:
+  - job: deploy_doc
+    steps:
+      - script: |
+          npm exec -- bump deploy "openapi.yaml" --doc "azure-demo"
+        displayName: 'Deploy API Documentation'
+
+- stage: Check Changes
+  dependsOn: Setup
+  jobs:
+  - job: validate_doc
+    steps:
+      - script: npm exec -- bump deploy --dry-run "bump.openapi.v3.yml" --doc "$BUMP_ID" 
+        displayName: 'Test API'
+
+  - job: diff_doc
+    steps:
+      - task: PullRequestComment@1
+        inputs:
+          active: false
+          comment: |
+            This is **sample** _text_ 🎉
+            [This is link](https://microsoft.com)
+            Build ID is $(Build.BuildId)
+            | Table |
+            |---|
+            | Cell |
+        displayName: 'PR Comment'
