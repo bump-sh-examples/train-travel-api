@@ -11,44 +11,26 @@ variables:
 pool:
   vmImage: 'ubuntu-latest'
 
-stages: 
-- stage: Setup
-  jobs:
-  - job: installDependencies
-    steps:
-    - task: UseNode@1
-      inputs:
-        version: '20.x'
-      displayName: 'Install Node.js'
-
-    - script: |
-        npm install bump-cli
-      displayName: 'Install Bump CLI'
-
-- stage: DeployDocs
-  dependsOn: Setup
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
-  jobs:
-  - job: deploy_doc
-    steps:
-      # Only run this task if the build is successful and the build was triggered by a commit to the main branch
-      - script: |
-          npm exec -- bump deploy "openapi.yaml" --doc "$BUMP_ID"
-        displayName: 'Deploy API Documentation'
-
-- stage: CheckChanges
-  dependsOn: Setup
-  condition: and(succeeded(), ne(variables['build.sourceBranch'], 'refs/heads/main'))
-  jobs:
+jobs:
   - job: validate_doc
+    # Only run this task if build was triggered by a commit to a branch other than main
+    condition: and(succeeded(), ne(variables['build.sourceBranch'], 'refs/heads/main'))
     steps:
-      - script: npm exec -- bump deploy --dry-run "openapi.yaml" --doc "$BUMP_ID" 
-        displayName: 'Test API'
+      - script: npx bump-cli deploy --dry-run "openapi.yaml" --doc "$BUMP_ID" 
+        displayName: 'Validate API'
+
+  - job: deploy_doc
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
+    steps:
+      # Only run this task if build was triggered by a commit to the main branch
+      - script: |
+          npx bump-cli deploy "openapi.yaml" --doc "$BUMP_ID"
+        displayName: 'Deploy API Documentation'
 
   - job: diff_doc
     steps:
       - task: PullRequestComment@1
-        # Only run this task if the build is successful and the build was triggered by a pull request
+        # Only run this task if the build was triggered by a pull request
         condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
         inputs:
           active: false
