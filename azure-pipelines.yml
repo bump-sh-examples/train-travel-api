@@ -37,7 +37,4 @@ jobs:
             This is **sample** _text_ 🎉
             [This is link](https://microsoft.com)
             Build ID is $(Build.BuildId).
-            | Table |
-            |---|
-            | Cell |
         displayName: 'PR Comment'
