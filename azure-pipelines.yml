@@ -25,7 +25,7 @@ stages:
         npm install bump-cli
       displayName: 'Install Bump CLI'
 
-- stage: Deploy Documentation
+- stage: DeployDocs
   dependsOn: Setup
   condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
   jobs:
@@ -36,7 +36,7 @@ stages:
           npm exec -- bump deploy "openapi.yaml" --doc "$BUMP_ID"
         displayName: 'Deploy API Documentation'
 
-- stage: Check Changes
+- stage: CheckChanges
   dependsOn: Setup
   condition: and(succeeded(), ne(variables['build.sourceBranch'], 'refs/heads/main'))
   jobs:
