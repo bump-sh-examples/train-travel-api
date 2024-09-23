@@ -1,15 +1,17 @@
-# Trigger pipeline on pushes to main branch
 trigger:
-- main
+  branches:
+    include:
+      - '*'
 
 variables: 
 - group: bumpsh
+- name: BUMP_ID
+  value: azure-demo
 
 pool:
   vmImage: 'ubuntu-latest'
 
 stages: 
-
 - stage: Setup
   jobs:
   - job: installDependencies
@@ -25,24 +27,29 @@ stages:
 
 - stage: Deploy Documentation
   dependsOn: Setup
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
   jobs:
   - job: deploy_doc
     steps:
+      # Only run this task if the build is successful and the build was triggered by a commit to the main branch
       - script: |
-          npm exec -- bump deploy "openapi.yaml" --doc "azure-demo"
+          npm exec -- bump deploy "openapi.yaml" --doc "$BUMP_ID"
         displayName: 'Deploy API Documentation'
 
 - stage: Check Changes
   dependsOn: Setup
+  condition: and(succeeded(), ne(variables['build.sourceBranch'], 'refs/heads/main'))
   jobs:
   - job: validate_doc
     steps:
-      - script: npm exec -- bump deploy --dry-run "bump.openapi.v3.yml" --doc "$BUMP_ID" 
+      - script: npm exec -- bump deploy --dry-run "openapi.yaml" --doc "$BUMP_ID" 
         displayName: 'Test API'
 
   - job: diff_doc
     steps:
       - task: PullRequestComment@1
+        # Only run this task if the build is successful and the build was triggered by a pull request
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
         inputs:
           active: false
           comment: |
