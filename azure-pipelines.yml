@@ -16,7 +16,7 @@ jobs:
     # Only run this task if build was triggered by a commit to a branch other than main
     condition: and(succeeded(), ne(variables['build.sourceBranch'], 'refs/heads/main'))
     steps:
-      - script: npx bump-cli deploy --dry-run "openapi.yaml" --doc "$BUMP_ID" 
+      - script: npx bump-cli deploy --dry-run "openapi.yaml" --doc "$BUMP_ID" --token="$BUMP_TOKEN"
         displayName: 'Validate API'
 
   - job: deploy_doc
@@ -24,7 +24,7 @@ jobs:
     steps:
       # Only run this task if build was triggered by a commit to the main branch
       - script: |
-          npx bump-cli deploy "openapi.yaml" --doc "$BUMP_ID"
+          npx bump-cli deploy "openapi.yaml" --doc "$BUMP_ID" --token="$BUMP_TOKEN"
         displayName: 'Deploy API Documentation'
 
   - job: diff_doc
