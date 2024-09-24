@@ -1,15 +1,28 @@
 trigger:
-- main
+  branches:
+    include:
+      - '*'
+
+variables: 
+- group: bumpsh
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+  demands: 
+    - npm
 
-steps:
-  - task: UseNode@1
-    inputs:
-      version: '20.x'
-    displayName: 'Install Node.js'
+jobs:
+  - job: validate_doc
+    # Only run this task if build was triggered by a commit to a branch other than main
+    condition: and(succeeded(), ne(variables['build.sourceBranch'], 'refs/heads/main'))
+    steps:
+      - script: npx bump-cli deploy --dry-run "openapi.yaml" --doc "azure-demo" --token="$BUMP_TOKEN"
+        displayName: 'Validate API'
 
-  - script: |
-      npm install bump.sh
-    displayName: 'install bump-cli'
+  - job: deploy_doc
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
+    steps:
+      # Only run this task if build was triggered by a commit to the main branch
+      - script: |
+          npx bump-cli deploy "openapi.yaml" --doc "azure-demo" --token="$BUMP_TOKEN"
+        displayName: 'Deploy API Documentation'
