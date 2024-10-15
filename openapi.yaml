@@ -97,6 +97,8 @@ paths:
         '200':
           description: OK
           headers:
+            Cache-Control:
+              $ref: '#/components/headers/Cache-Control'
             RateLimit:
               $ref: '#/components/headers/RateLimit'
           content:
@@ -210,6 +212,8 @@ paths:
         '200':
           description: A list of available train trips
           headers:
+            Cache-Control:
+              $ref: '#/components/headers/Cache-Control'
             RateLimit:
               $ref: '#/components/headers/RateLimit'
           content:
@@ -298,6 +302,8 @@ paths:
         '200':
           description: A list of bookings
           headers:
+            Cache-Control:
+              $ref: '#/components/headers/Cache-Control'
             RateLimit:
               $ref: '#/components/headers/RateLimit'
           content:
@@ -435,6 +441,8 @@ paths:
         '200':
           description: The booking details
           headers:
+            Cache-Control:
+              $ref: '#/components/headers/Cache-Control'
             RateLimit:
               $ref: '#/components/headers/RateLimit'
           content:
@@ -554,6 +562,8 @@ paths:
         '200':
           description: Payment successful
           headers:
+            Cache-Control:
+              $ref: '#/components/headers/Cache-Control'
             RateLimit:
               $ref: '#/components/headers/RateLimit'
           content:
@@ -970,6 +980,20 @@ components:
           examples:
             - https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
   headers:
+    Cache-Control:
+      description: |
+        The Cache-Control header communicates directives for caching mechanisms in both requests and responses. 
+        It is used to specify the caching directives in responses to prevent caches from storing sensitive information.
+      schema:
+        type: string
+        description: A comma-separated list of directives as defined in [RFC 9111](https://www.rfc-editor.org/rfc/rfc9111.html).
+        examples:
+          - max-age=3600
+          - max-age=604800, public
+          - no-store
+          - no-cache
+          - private
+      
     RateLimit:
       description: |
         The RateLimit header communicates quota policies. It contains a `limit` to
