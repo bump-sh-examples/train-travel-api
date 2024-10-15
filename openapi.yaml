@@ -284,6 +284,16 @@ paths:
       description: Returns a list of all trip bookings by the authenticated user.
       tags:
         - Bookings
+      parameters:
+        - name: page
+          in: query
+          description: The page number to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          example: 1
       responses:
         '200':
           description: A list of bookings
