@@ -29,15 +29,10 @@ security:
   - OAuth2:
       - read
 
-x-topics:
-  - title: Getting started
-    content:
-      $ref: ./docs/getting-started.md
-
 tags:
   - name: Stations
     description: | 
-      Find and filter train stations across Europe, including their location
+      # Find and filter train stations across Europe, including their location
       and local timezone.
   - name: Trips
     description: | 
@@ -57,6 +52,37 @@ tags:
       > before the expiry date 
 
 paths:
+
+  /rental-vehicles:
+    get: 
+      summary: Get a list of rental vehicles
+      description: |
+        Returns a paginated and searchable list of all rental vehicles available at the specified location.
+      operationId: get-rental-vehicles
+      tags:
+        - Rental Vehicles
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/Cache-Control'
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
+          content:
+            application/json:
+              schema:
+                discriminator:
+                  propertyName: powerSource
+                  mapping:
+                    electricity: "#/components/schemas/ElectricVehicle"
+                    gasoline: "#/components/schemas/FueledVehicle"
+                    human-energy: "#/components/schemas/PedaledVehicle"
+                anyOf:
+                  - $ref: "#/components/schemas/ElectricVehicle"
+                  - $ref: "#/components/schemas/FueledVehicle"
+                  - $ref: "#/components/schemas/PedaledVehicle"
+
   /stations:
     get:
       summary: Get a list of train stations
@@ -666,6 +692,70 @@ components:
             read: Read access
             write: Write access
   schemas:
+    ElectricVehicle:
+      type: object
+      title: Electric Vehicle
+      properties:
+        powerSource:
+          description: How is the vehicle powered.
+          type: string
+          const: electricity
+        idealTerrain:
+          type: string
+          description: A road, river, air... Where does this vehicle thrive?
+          example: roads
+        topSpeed:
+          description: The top speed in kilometers per hour rounded to the nearest integer.
+          type: integer
+          example: 83
+        range:
+          description: The 95th percentile range of a trip in kilometers.
+          type: integer
+          example: 100
+
+    FueledVehicle:
+      type: object
+      title: Fueled Vehicle.
+      properties:
+        powerSource:
+          description: How is the vehicle powered.
+          type: string
+          enum: 
+          - gasoline
+          - diesel 
+          - hydrogen
+        idealTerrain:
+          type: string
+          example: roads
+        topSpeed:
+          description: The top speed in kilometers per hour rounded to the nearest integer.
+          type: integer
+          example: 83
+        range:
+          description: The 95th percentile range of a trip in kilometers.
+          type: integer
+          example: 100
+
+    PedaledVehicle:
+      type: object
+      title: Pedal-Powered Vehicle
+      properties:
+        powerSource:
+          description: How is the vehicle powered.
+          type: string
+          const: pedaling
+        idealTerrain:
+          type: string
+          example: roads
+        topSpeed:
+          description: The top speed in kilometers per hour rounded to the nearest integer.
+          type: integer
+          example: 83
+        range:
+          description: The 95th percentile range of a trip in kilometers.
+          type: integer
+          example: 100
+
     Station:
       type: object
       xml:
