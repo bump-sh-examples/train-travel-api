@@ -3,19 +3,24 @@ description: Help us improve this API with constructive feedback.
 title: "[Feedback]: "
 labels: ["feedback"]
 assignees:
-  - philsturgeon
+  - philsturgeon # change this to whoever should be in charge of handling feedback
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to help us improve!
   - type: textarea
-    id: what-happened
+    id: doing-well
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: What are we doing well?
+      description: Help us know where energy has been well invested so we can keep that up.
+    validations:
+      required: true
+  - type: textarea
+    id: could-improve
+    attributes:
+      label: What would you like to see improved?
+      description: Help us learn what you'd like to see done better so we can make life easier for more users.
     validations:
       required: true
   - type: input
@@ -26,4 +31,3 @@ body:
       placeholder: "eg: email@example.com"
     validations:
       required: false
-
