@@ -24,6 +24,11 @@ info:
 servers:
   - url: https://api.example.com
     description: Production
+    x-internal: false
+  
+  - url: https://mocks.example.com/rest
+    description: Mock Server
+    x-internal: false
 
 security:
   - OAuth2:
@@ -65,15 +70,8 @@ paths:
       tags:
         - Stations
       parameters:
-        - name: page
-          in: query
-          description: The page number to return
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            default: 1
-          example: 1
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
         - name: coordinates
           in: query
           description: > 
@@ -93,6 +91,14 @@ paths:
             examples: 
             - Milano Centrale
             - Paris
+        - name: country
+          in: query
+          description: Filter stations by country code
+          required: false
+          schema:
+            type: string
+            format: iso-country-code
+          example: DE
       responses:
         '200':
           description: OK
@@ -164,6 +170,8 @@ paths:
       tags:
         - Trips
       parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
         - name: origin
           in: query
           description: The ID of the origin station
@@ -202,13 +210,6 @@ paths:
           schema:
             type: boolean
             default: false
-        - name: page
-          in: query
-          description: The page of results to be returned
-          required: false
-          schema:
-            type: number
-            default: 1
       responses:
         '200':
           description: A list of available train trips
@@ -290,15 +291,8 @@ paths:
       tags:
         - Bookings
       parameters:
-        - name: page
-          in: query
-          description: The page number to return
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            default: 1
-          example: 1
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
           description: A list of bookings
@@ -364,6 +358,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+
     post:
       operationId: create-booking
       summary: Create a booking
@@ -654,6 +649,30 @@ webhooks:
           description: Return a 200 status to indicate that the data was received successfully.
 
 components:
+  parameters:
+    page: 
+      name: page
+      in: query
+      description: The page number to return
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      example: 1
+
+    limit:
+      name: limit
+      in: query
+      description: The number of items to return per page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+      example: 10
+
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -1022,7 +1041,6 @@ components:
         date:
           value: 'Fri, 31 Dec 2021 23:59:59 GMT'
           summary: Retry after the specified date
-
   responses:
     BadRequest:
       description: Bad Request
