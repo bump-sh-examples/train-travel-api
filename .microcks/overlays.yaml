@@ -1,0 +1,204 @@
+overlay: 1.0.0
+info:
+  title: Train Travel API - Microcks
+  description: |
+    This API is a mock server for the Train Travel API, which provides a way to
+    find and book train trips across Europe. It includes endpoints for finding
+    stations, getting timetables, and managing bookings.
+  version: 1.0.0
+
+actions:
+
+  - target: $["x-topics"]
+    description: Remove x-topics, not needed for mock server.
+    remove: true
+
+  - target: $.paths["/stations"].get.responses["200"].content["application/json"]["example"]
+    description: Remove the example from get /stations.
+    remove: true
+
+  - target: $.paths["/stations"].get.responses["200"].content["application/json"]
+    description: Add Microcks examples for get /stations.
+    update:
+      examples:
+        stations:
+          summary: A list of train stations
+          value:
+            data:
+              - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                name: Berlin Hauptbahnhof
+                address: Invalidenstraße 10557 Berlin, Germany
+                country_code: DE
+                timezone: Europe/Berlin
+              - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                name: Paris Gare du Nord
+                address: 18 Rue de Dunkerque 75010 Paris, France
+                country_code: FR
+                timezone: Europe/Paris
+            links:
+              self: https://api.example.com/stations&page=2
+              next: https://api.example.com/stations?page=3
+              prev: https://api.example.com/stations?page=1
+
+  - target: $.paths["/trips"].get.parameters[?(@.name=="origin")].example
+    description: Remove the example from get /trips - origin parameter.
+    remove: true
+
+  - target: $.paths["/trips"].get.parameters[?(@.name=="origin")]
+    description: Add Microcks examples for get /trips - origin parameter
+    update:
+      examples:
+        trips:
+          value: b2e783e1-c824-4d63-b37a-d8d698862f1d
+
+  - target: $.paths["/trips"].get.parameters[?(@.name=="destination")].example
+    remove: true
+
+  - target: $.paths["/trips"].get.parameters[?(@.name=="destination")]
+    update:
+      examples:
+        trips:
+          value: '2024-02-01T09:00:00Z'
+
+  - target: $.paths["/trips"].get.responses["200"].content["application/json"]["example"]
+    remove: true
+
+  - target: $.paths["/trips"].get.responses["200"].content["application/json"]
+    update:
+      examples:
+        trips:
+          summary: A list of available train trips
+          value:
+            data:
+              - id: ea399ba1-6d95-433f-92d1-83f67b775594
+                origin: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                destination: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                departure_time: '2024-02-01T10:00:00Z'
+                arrival_time: '2024-02-01T16:00:00Z'
+                price: 50
+                operator: Deutsche Bahn
+                bicycles_allowed: true
+                dogs_allowed: true
+              - id: 4d67459c-af07-40bb-bb12-178dbb88e09f
+                origin: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                destination: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                departure_time: '2024-02-01T12:00:00Z'
+                arrival_time: '2024-02-01T18:00:00Z'
+                price: 50
+                operator: SNCF
+                bicycles_allowed: true
+                dogs_allowed: true
+            links:
+              self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
+              next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
+
+  - target: $.paths["/bookings"].get.responses["200"].content["application/json"]["example"]
+    remove: true
+
+  - target: $.paths["/bookings"].get.responses["200"].content["application/json"]
+    update:
+      examples:
+        bookings:
+          summary: A list of bookings
+          value:
+            data:
+              - id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
+                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                passenger_name: John Doe
+                has_bicycle: true
+                has_dog: true
+              - id: 1725ff48-ab45-4bb5-9d02-88745177dedb
+                trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                passenger_name: Jane Smith
+                has_bicycle: false
+                has_dog: false
+            links:
+              self: https://api.example.com/bookings
+              next: https://api.example.com/bookings?page=2
+
+  - target: $.paths["/bookings"]["post"].responses["201"].content["application/json"]["example"]
+    remove: true
+
+  - target: $.paths["/bookings"]["post"].responses["201"].content["application/json"]
+    update:
+      examples:
+        new_booking:
+          summary: New Booking
+          value: |-
+            {
+              "id": "{{ uuid() > put(bookingId) }}",
+              "trip_id": "{{ request.body/trip_id }}",
+              "passenger_name": "{{ request.body/passenger_name }}",
+              "has_bicycle": {{ request.body/has_bicycle }},
+              "has_dog": {{ request.body/has_dog }},
+              "links": {
+                "self": "https://api.example.com/bookings/{{ bookingId }}"
+              }
+            }
+
+  - target: $.paths["/bookings/{bookingId}"].parameters[?(@.name=="bookingId")].example
+    remove: true
+    
+  - target: $.paths["/bookings/{bookingId}"].parameters[?(@.name=="bookingId")]
+    update:
+      examples:
+        booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+          value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+        booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+          value: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
+
+  - target: $.paths["/bookings/{bookingId}"].get.responses["200"].content["application/json"]["example"]
+    remove: true
+
+  - target: $.paths["/bookings/{bookingId}"].get.responses["200"].content["application/json"]
+    update:
+      examples:
+        booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+          summary: John Doe
+          value:
+            id: 1725ff48-ab45-4bb5-9d02-88745177dedb
+            trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            passenger_name: John Doe
+            has_bicycle: true
+            has_dog: true
+            links:
+              self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+        booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+          summary: Billy Bikeless
+          value:
+            id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
+            trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            passenger_name: Billy Bikeless
+            has_bicycle: false
+            has_dog: true
+            links:
+              self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+
+
+  - target: $.paths["/bookings/{bookingId}/payment"].parameters[?(@.name=="bookingId")].example
+    remove: true
+    
+  - target: $.paths["/bookings/{bookingId}/payment"].parameters[?(@.name=="bookingId")]
+    update:
+      examples:
+        Card:
+          value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+        Bank:
+          value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+
+  - target: $.webhooks["newBooking"]["post"]["requestBody"].content["application/json"]["example"]
+    remove: true
+
+  - target: $.webhooks["newBooking"]["post"]["requestBody"].content["application/json"]
+    update:
+      examples:
+        new_booking:
+          summary: New Booking
+          value:
+            id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            passenger_name: John Doe
+            has_bicycle: true
+            has_dog: true
+            links:
+              self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb

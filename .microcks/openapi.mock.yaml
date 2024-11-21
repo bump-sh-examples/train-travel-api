@@ -5,7 +5,7 @@ info:
     API for finding and booking train trips across Europe.
 
     ## Run in Postman
-    
+
     Experiment with this API in Postman, using our Postman Collection.
 
     [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/9265903-7a75a0d0-b108-4436-ba54-c6139698dc08?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D9265903-7a75a0d0-b108-4436-ba54-c6139698dc08%26entityType%3Dcollection%26workspaceId%3Df507f69d-9564-419c-89a2-cb8e4c8c7b8f)
@@ -14,53 +14,37 @@ info:
     name: Train Support
     url: https://example.com/support
     email: support@example.com
-  license: 
+  license:
     name: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
     identifier: CC-BY-NC-SA-4.0
   x-feedbackLink:
     label: Submit Feedback
     url: https://github.com/bump-sh-examples/train-travel-api/issues/new
-
 servers:
   - url: https://api.example.com
     description: Production
     x-internal: false
-  
   - url: https://mocks.example.com/rest
     description: Mock Server
     x-internal: false
-
 security:
   - OAuth2:
       - read
-
-x-topics:
-  - title: Getting started
-    content:
-      $ref: ./docs/getting-started.md
-
 tags:
   - name: Stations
-    description: | 
+    description: |
       Find and filter train stations across Europe, including their location
       and local timezone.
   - name: Trips
-    description: | 
+    description: |
       Timetables and routes for train trips between stations, including pricing
       and availability.
   - name: Bookings
-    description: | 
+    description: |
       Create and manage bookings for train trips, including passenger details
       and optional extras.
   - name: Payments
-    description: |
-      Pay for bookings using a card or bank account, and view payment
-      status and history.
-
-      > warn
-      > Bookings usually expire within 1 hour so you'll need to make your payment
-      > before the expiry date 
-
+    description: "Pay for bookings using a card or bank account, and view payment\nstatus and history.\n\n> warn\n> Bookings usually expire within 1 hour so you'll need to make your payment\n> before the expiry date \n"
 paths:
   /stations:
     get:
@@ -74,23 +58,24 @@ paths:
         - $ref: '#/components/parameters/limit'
         - name: coordinates
           in: query
-          description: > 
-            The latitude and longitude of the user's location, to narrow down
-            the search results to sites within a proximity of this location.
+          description: >
+            The latitude and longitude of the user's location, to narrow down the search results to sites within a proximity of this location.
+
           required: false
           schema:
             type: string
           example: 52.5200,13.4050
         - name: search
           in: query
-          description: > 
+          description: >
             A search term to filter the list of stations by name or address.
+
           required: false
           schema:
             type: string
-            examples: 
-            - Milano Centrale
-            - Paris
+            examples:
+              - Milano Centrale
+              - Paris
         - name: country
           in: query
           description: Filter stations by country code
@@ -110,34 +95,31 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/Wrapper-Collection'
-                  - properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Station'
-                  - properties:
-                      links:
-                        allOf:
-                          - $ref: '#/components/schemas/Links-Self'
-                          - $ref: '#/components/schemas/Links-Pagination'
-              example:
-                data:
-                  - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    name: Berlin Hauptbahnhof
-                    address: Invalidenstraße 10557 Berlin, Germany
-                    country_code: DE
-                    timezone: Europe/Berlin
-                  - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    name: Paris Gare du Nord
-                    address: 18 Rue de Dunkerque 75010 Paris, France
-                    country_code: FR
-                    timezone: Europe/Paris
-                links:
-                  self: https://api.example.com/stations&page=2
-                  next: https://api.example.com/stations?page=3
-                  prev: https://api.example.com/stations?page=1
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Station'
+              examples:
+                stations:
+                  summary: A list of train stations
+                  value:
+                    data:
+                      - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                        name: Berlin Hauptbahnhof
+                        address: Invalidenstraße 10557 Berlin, Germany
+                        country_code: DE
+                        timezone: Europe/Berlin
+                      - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                        name: Paris Gare du Nord
+                        address: 18 Rue de Dunkerque 75010 Paris, France
+                        country_code: FR
+                        timezone: Europe/Paris
+                    links:
+                      self: https://api.example.com/stations&page=2
+                      next: https://api.example.com/stations?page=3
+                      prev: https://api.example.com/stations?page=1
             application/xml:
               schema:
                 allOf:
@@ -168,10 +150,9 @@ paths:
   /trips:
     get:
       summary: Get available train trips
-      description: > 
-        Returns a list of available train trips between the specified origin and
-        destination stations on the given date, and allows for filtering by
-        bicycle and dog allowances.
+      description: >
+        Returns a list of available train trips between the specified origin and destination stations on the given date, and allows for filtering by bicycle and dog allowances.
+
       operationId: get-trips
       tags:
         - Trips
@@ -185,7 +166,9 @@ paths:
           schema:
             type: string
             format: uuid
-          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+          examples:
+            trips:
+              value: b2e783e1-c824-4d63-b37a-d8d698862f1d
         - name: destination
           in: query
           description: The ID of the destination station
@@ -193,7 +176,9 @@ paths:
           schema:
             type: string
             format: uuid
-          example: b2e783e1-c824-4d63-b37a-d8d698862f1d
+          examples:
+            trips:
+              value: '2024-02-01T09:00:00Z'
         - name: date
           in: query
           description: The date and time of the trip in ISO 8601 format in origin station's timezone.
@@ -239,29 +224,32 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
-              example:
-                data:
-                  - id: ea399ba1-6d95-433f-92d1-83f67b775594
-                    origin: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    destination: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    departure_time: '2024-02-01T10:00:00Z'
-                    arrival_time: '2024-02-01T16:00:00Z'
-                    price: 50
-                    operator: Deutsche Bahn
-                    bicycles_allowed: true
-                    dogs_allowed: true
-                  - id: 4d67459c-af07-40bb-bb12-178dbb88e09f
-                    origin: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    destination: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    departure_time: '2024-02-01T12:00:00Z'
-                    arrival_time: '2024-02-01T18:00:00Z'
-                    price: 50
-                    operator: SNCF
-                    bicycles_allowed: true
-                    dogs_allowed: true
-                links:
-                  self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
-                  next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
+              examples:
+                trips:
+                  summary: A list of available train trips
+                  value:
+                    data:
+                      - id: ea399ba1-6d95-433f-92d1-83f67b775594
+                        origin: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                        destination: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                        departure_time: '2024-02-01T10:00:00Z'
+                        arrival_time: '2024-02-01T16:00:00Z'
+                        price: 50
+                        operator: Deutsche Bahn
+                        bicycles_allowed: true
+                        dogs_allowed: true
+                      - id: 4d67459c-af07-40bb-bb12-178dbb88e09f
+                        origin: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                        destination: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                        departure_time: '2024-02-01T12:00:00Z'
+                        arrival_time: '2024-02-01T18:00:00Z'
+                        price: 50
+                        operator: SNCF
+                        bicycles_allowed: true
+                        dogs_allowed: true
+                    links:
+                      self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
+                      next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
             application/xml:
               schema:
                 allOf:
@@ -322,21 +310,24 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
-              example:
-                data:
-                  - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    passenger_name: John Doe
-                    has_bicycle: true
-                    has_dog: true
-                  - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    passenger_name: Jane Smith
-                    has_bicycle: false
-                    has_dog: false
-                links:
-                  self: https://api.example.com/bookings
-                  next: https://api.example.com/bookings?page=2
+              examples:
+                bookings:
+                  summary: A list of bookings
+                  value:
+                    data:
+                      - id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
+                        trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                        passenger_name: John Doe
+                        has_bicycle: true
+                        has_dog: true
+                      - id: 1725ff48-ab45-4bb5-9d02-88745177dedb
+                        trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                        passenger_name: Jane Smith
+                        has_bicycle: false
+                        has_dog: false
+                    links:
+                      self: https://api.example.com/bookings
+                      next: https://api.example.com/bookings?page=2
             application/xml:
               schema:
                 allOf:
@@ -364,7 +355,6 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
-
     post:
       operationId: create-booking
       summary: Create a booking
@@ -394,15 +384,20 @@ paths:
                   - properties:
                       links:
                         $ref: '#/components/schemas/Links-Self'
-
-              example:
-                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                passenger_name: John Doe
-                has_bicycle: true
-                has_dog: true
-                links:
-                  self: https://api.example.com/bookings/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              examples:
+                new_booking:
+                  summary: New Booking
+                  value: |-
+                    {
+                      "id": "{{ uuid() > put(bookingId) }}",
+                      "trip_id": "{{ request.body/trip_id }}",
+                      "passenger_name": "{{ request.body/passenger_name }}",
+                      "has_bicycle": {{ request.body/has_bicycle }},
+                      "has_dog": {{ request.body/has_dog }},
+                      "links": {
+                        "self": "https://api.example.com/bookings/{{ bookingId }}"
+                      }
+                    }
             application/xml:
               schema:
                 allOf:
@@ -422,7 +417,6 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  
   /bookings/{bookingId}:
     parameters:
       - name: bookingId
@@ -432,7 +426,11 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+        examples:
+          booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+            value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+          booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+            value: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
     get:
       summary: Get a booking
       description: Returns the details of a specific booking.
@@ -455,14 +453,27 @@ paths:
                   - properties:
                       links:
                         $ref: '#/components/schemas/Links-Self'
-              example:
-                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                passenger_name: John Doe
-                has_bicycle: true
-                has_dog: true
-                links:
-                  self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+              examples:
+                booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+                  summary: John Doe
+                  value:
+                    id: 1725ff48-ab45-4bb5-9d02-88745177dedb
+                    trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                    passenger_name: John Doe
+                    has_bicycle: true
+                    has_dog: true
+                    links:
+                      self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+                  summary: Billy Bikeless
+                  value:
+                    id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
+                    trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                    passenger_name: Billy Bikeless
+                    has_bicycle: false
+                    has_dog: true
+                    links:
+                      self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
             application/xml:
               schema:
                 allOf:
@@ -506,7 +517,6 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
-
   /bookings/{bookingId}/payment:
     parameters:
       - name: bookingId
@@ -516,7 +526,11 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+        examples:
+          Card:
+            value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+          Bank:
+            value: 1725ff48-ab45-4bb5-9d02-88745177dedb
     post:
       summary: Pay for a Booking
       description: A payment is an attempt to pay for the booking, which will confirm the booking for the user and enable them to get their tickets.
@@ -635,28 +649,30 @@ webhooks:
         content:
           application/json:
             schema:
-              allOf: 
+              allOf:
                 - $ref: '#/components/schemas/Booking'
                 - properties:
                     links:
                       allOf:
                         - $ref: '#/components/schemas/Links-Self'
                         - $ref: '#/components/schemas/Links-Pagination'
-            example:
-              id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-              trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-              passenger_name: John Doe
-              has_bicycle: true
-              has_dog: true
-              links:
-                self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+            examples:
+              new_booking:
+                summary: New Booking
+                value:
+                  id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                  trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                  passenger_name: John Doe
+                  has_bicycle: true
+                  has_dog: true
+                  links:
+                    self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully.
-
 components:
   parameters:
-    page: 
+    page:
       name: page
       in: query
       description: The page number to return
@@ -666,7 +682,6 @@ components:
         minimum: 1
         default: 1
       example: 1
-
     limit:
       name: limit
       in: query
@@ -678,7 +693,6 @@ components:
         maximum: 100
         default: 10
       example: 10
-
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -757,28 +771,28 @@ components:
         type:
           type: string
           description: A URI reference that identifies the problem type
-          examples: 
-          - https://example.com/probs/out-of-credit
+          examples:
+            - https://example.com/probs/out-of-credit
         title:
           type: string
           description: A short, human-readable summary of the problem type
-          examples: 
-          - You do not have enough credit.
+          examples:
+            - You do not have enough credit.
         detail:
           type: string
           description: A human-readable explanation specific to this occurrence of the problem
-          examples: 
-          - Your current balance is 30, but that costs 50.
+          examples:
+            - Your current balance is 30, but that costs 50.
         instance:
           type: string
           description: A URI reference that identifies the specific occurrence of the problem
-          examples: 
-          - /account/12345/msgs/abc
+          examples:
+            - /account/12345/msgs/abc
         status:
           type: integer
           description: The HTTP status code
-          examples: 
-          - 400
+          examples:
+            - 400
     Trip:
       type: object
       xml:
@@ -928,7 +942,6 @@ components:
                   minLength: 3
                   maxLength: 4
                   writeOnly: true
-
                   example: 123
                 exp_month:
                   type: integer
@@ -1014,9 +1027,7 @@ components:
             - https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
   headers:
     Cache-Control:
-      description: |
-        The Cache-Control header communicates directives for caching mechanisms in both requests and responses. 
-        It is used to specify the caching directives in responses to prevent caches from storing sensitive information.
+      description: "The Cache-Control header communicates directives for caching mechanisms in both requests and responses. \nIt is used to specify the caching directives in responses to prevent caches from storing sensitive information.\n"
       schema:
         type: string
         description: A comma-separated list of directives as defined in [RFC 9111](https://www.rfc-editor.org/rfc/rfc9111.html).
@@ -1026,7 +1037,6 @@ components:
           - no-store
           - no-cache
           - private
-      
     RateLimit:
       description: |
         The RateLimit header communicates quota policies. It contains a `limit` to
@@ -1036,13 +1046,8 @@ components:
         type: string
         examples:
           - limit=10, remaining=0, reset=10
-
     Retry-After:
-      description: | 
-        The Retry-After header indicates how long the user agent should wait before making a follow-up request. 
-        The value is in seconds and can be an integer or a date in the future. 
-        If the value is an integer, it indicates the number of seconds to wait. 
-        If the value is a date, it indicates the time at which the user agent should make a follow-up request. 
+      description: "The Retry-After header indicates how long the user agent should wait before making a follow-up request. \nThe value is in seconds and can be an integer or a date in the future. \nIf the value is an integer, it indicates the number of seconds to wait. \nIf the value is a date, it indicates the time at which the user agent should make a follow-up request. \n"
       schema:
         type: string
       examples:
@@ -1075,7 +1080,6 @@ components:
             title: Bad Request
             status: 400
             detail: The request is invalid or missing required parameters.
-
     Conflict:
       description: Conflict
       headers:
@@ -1098,7 +1102,6 @@ components:
             title: Conflict
             status: 409
             detail: There is a conflict with an existing resource.
-
     Forbidden:
       description: Forbidden
       headers:
@@ -1121,7 +1124,6 @@ components:
             title: Forbidden
             status: 403
             detail: Access is forbidden with the provided credentials.
-
     InternalServerError:
       description: Internal Server Error
       headers:
@@ -1144,7 +1146,6 @@ components:
             title: Internal Server Error
             status: 500
             detail: An unexpected error occurred.
-
     NotFound:
       description: Not Found
       headers:
@@ -1167,7 +1168,6 @@ components:
             title: Not Found
             status: 404
             detail: The requested resource was not found.
-
     TooManyRequests:
       description: Too Many Requests
       headers:
@@ -1192,7 +1192,6 @@ components:
             title: Too Many Requests
             status: 429
             detail: You have exceeded the rate limit.
-
     Unauthorized:
       description: Unauthorized
       headers:
