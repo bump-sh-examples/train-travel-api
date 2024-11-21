@@ -1,30 +1,35 @@
 openapi: 3.1.0
 info:
   title: Train Travel API
-  description: |
+  description: >
     API for finding and booking train trips across Europe.
+
 
     ## Run in Postman
 
+
     Experiment with this API in Postman, using our Postman Collection.
 
-    [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/9265903-7a75a0d0-b108-4436-ba54-c6139698dc08?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D9265903-7a75a0d0-b108-4436-ba54-c6139698dc08%26entityType%3Dcollection%26workspaceId%3Df507f69d-9564-419c-89a2-cb8e4c8c7b8f)
+
+    [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman"
+    style="width: 128px; height:
+    32px;">](https://app.getpostman.com/run-collection/9265903-7a75a0d0-b108-4436-ba54-c6139698dc08?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D9265903-7a75a0d0-b108-4436-ba54-c6139698dc08%26entityType%3Dcollection%26workspaceId%3Df507f69d-9564-419c-89a2-cb8e4c8c7b8f)
   version: 1.0.0
   contact:
     name: Train Support
-    url: https://example.com/support
+    url: 'https://example.com/support'
     email: support@example.com
   license:
     name: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
     identifier: CC-BY-NC-SA-4.0
   x-feedbackLink:
     label: Submit Feedback
-    url: https://github.com/bump-sh-examples/train-travel-api/issues/new
+    url: 'https://github.com/bump-sh-examples/train-travel-api/issues/new'
 servers:
-  - url: https://api.example.com
+  - url: 'https://api.example.com'
     description: Production
     x-internal: false
-  - url: https://mocks.example.com/rest
+  - url: 'https://mocks.example.com/rest'
     description: Mock Server
     x-internal: false
 security:
@@ -44,7 +49,18 @@ tags:
       Create and manage bookings for train trips, including passenger details
       and optional extras.
   - name: Payments
-    description: "Pay for bookings using a card or bank account, and view payment\nstatus and history.\n\n> warn\n> Bookings usually expire within 1 hour so you'll need to make your payment\n> before the expiry date \n"
+    description: >
+      Pay for bookings using a card or bank account, and view payment
+
+      status and history.
+
+
+      > warn
+
+      > Bookings usually expire within 1 hour so you'll need to make your
+      payment
+
+      > before the expiry date 
 paths:
   /stations:
     get:
@@ -59,17 +75,16 @@ paths:
         - name: coordinates
           in: query
           description: >
-            The latitude and longitude of the user's location, to narrow down the search results to sites within a proximity of this location.
-
+            The latitude and longitude of the user's location, to narrow down
+            the search results to sites within a proximity of this location.
           required: false
           schema:
             type: string
-          example: 52.5200,13.4050
+          example: '52.5200,13.4050'
         - name: search
           in: query
-          description: >
+          description: |
             A search term to filter the list of stations by name or address.
-
           required: false
           schema:
             type: string
@@ -95,12 +110,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Station'
+                allOf:
+                  - $ref: '#/components/schemas/Wrapper-Collection'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Station'
+                  - properties:
+                      links:
+                        allOf:
+                          - $ref: '#/components/schemas/Links-Self'
+                          - $ref: '#/components/schemas/Links-Pagination'
               examples:
                 stations:
                   summary: A list of train stations
@@ -108,18 +129,18 @@ paths:
                     data:
                       - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
                         name: Berlin Hauptbahnhof
-                        address: Invalidenstraße 10557 Berlin, Germany
+                        address: 'Invalidenstraße 10557 Berlin, Germany'
                         country_code: DE
                         timezone: Europe/Berlin
                       - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
                         name: Paris Gare du Nord
-                        address: 18 Rue de Dunkerque 75010 Paris, France
+                        address: '18 Rue de Dunkerque 75010 Paris, France'
                         country_code: FR
                         timezone: Europe/Paris
                     links:
-                      self: https://api.example.com/stations&page=2
-                      next: https://api.example.com/stations?page=3
-                      prev: https://api.example.com/stations?page=1
+                      self: 'https://api.example.com/stations&page=2'
+                      next: 'https://api.example.com/stations?page=3'
+                      prev: 'https://api.example.com/stations?page=1'
             application/xml:
               schema:
                 allOf:
@@ -151,8 +172,9 @@ paths:
     get:
       summary: Get available train trips
       description: >
-        Returns a list of available train trips between the specified origin and destination stations on the given date, and allows for filtering by bicycle and dog allowances.
-
+        Returns a list of available train trips between the specified origin and
+        destination stations on the given date, and allows for filtering by
+        bicycle and dog allowances.
       operationId: get-trips
       tags:
         - Trips
@@ -181,7 +203,9 @@ paths:
               value: '2024-02-01T09:00:00Z'
         - name: date
           in: query
-          description: The date and time of the trip in ISO 8601 format in origin station's timezone.
+          description: >-
+            The date and time of the trip in ISO 8601 format in origin station's
+            timezone.
           required: true
           schema:
             type: string
@@ -248,8 +272,10 @@ paths:
                         bicycles_allowed: true
                         dogs_allowed: true
                     links:
-                      self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
-                      next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
+                      self: >-
+                        https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
+                      next: >-
+                        https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
             application/xml:
               schema:
                 allOf:
@@ -326,8 +352,8 @@ paths:
                         has_bicycle: false
                         has_dog: false
                     links:
-                      self: https://api.example.com/bookings
-                      next: https://api.example.com/bookings?page=2
+                      self: 'https://api.example.com/bookings'
+                      next: 'https://api.example.com/bookings?page=2'
             application/xml:
               schema:
                 allOf:
@@ -358,7 +384,9 @@ paths:
     post:
       operationId: create-booking
       summary: Create a booking
-      description: A booking is a temporary hold on a trip. It is not confirmed until the payment is processed.
+      description: >-
+        A booking is a temporary hold on a trip. It is not confirmed until the
+        payment is processed.
       tags:
         - Bookings
       security:
@@ -417,7 +445,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /bookings/{bookingId}:
+  '/bookings/{bookingId}':
     parameters:
       - name: bookingId
         in: path
@@ -463,7 +491,8 @@ paths:
                     has_bicycle: true
                     has_dog: true
                     links:
-                      self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                      self: >-
+                        https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
                 booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
                   summary: Billy Bikeless
                   value:
@@ -473,7 +502,8 @@ paths:
                     has_bicycle: false
                     has_dog: true
                     links:
-                      self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                      self: >-
+                        https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
             application/xml:
               schema:
                 allOf:
@@ -495,7 +525,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       summary: Delete a booking
-      description: Deletes a booking, cancelling the hold on the trip.
+      description: 'Deletes a booking, cancelling the hold on the trip.'
       operationId: delete-booking
       security:
         - OAuth2:
@@ -517,7 +547,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /bookings/{bookingId}/payment:
+  '/bookings/{bookingId}/payment':
     parameters:
       - name: bookingId
         in: path
@@ -533,7 +563,9 @@ paths:
             value: 1725ff48-ab45-4bb5-9d02-88745177dedb
     post:
       summary: Pay for a Booking
-      description: A payment is an attempt to pay for the booking, which will confirm the booking for the user and enable them to get their tickets.
+      description: >-
+        A payment is an attempt to pay for the booking, which will confirm the
+        booking for the user and enable them to get their tickets.
       operationId: create-booking-payment
       tags:
         - Payments
@@ -608,7 +640,8 @@ paths:
                       address_post_code: N12 9XX
                     status: succeeded
                     links:
-                      booking: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb/payment
+                      booking: >-
+                        https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb/payment
                 Bank:
                   summary: Bank Account Payment
                   value:
@@ -625,7 +658,8 @@ paths:
                       country: gb
                     status: succeeded
                     links:
-                      booking: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                      booking: >-
+                        https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -641,8 +675,9 @@ webhooks:
     post:
       operationId: new-booking
       summary: New Booking
-      description: |
-        Subscribe to new bookings being created, to update integrations for your users.  Related data is available via the links provided in the request.
+      description: >
+        Subscribe to new bookings being created, to update integrations for your
+        users.  Related data is available via the links provided in the request.
       tags:
         - Bookings
       requestBody:
@@ -666,10 +701,13 @@ webhooks:
                   has_bicycle: true
                   has_dog: true
                   links:
-                    self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                    self: >-
+                      https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
       responses:
         '200':
-          description: Return a 200 status to indicate that the data was received successfully.
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully.
 components:
   parameters:
     page:
@@ -699,8 +737,8 @@ components:
       description: OAuth 2.0 authorization code following RFC8725 best practices.
       flows:
         authorizationCode:
-          authorizationUrl: https://example.com/oauth/authorize
-          tokenUrl: https://example.com/oauth/token
+          authorizationUrl: 'https://example.com/oauth/authorize'
+          tokenUrl: 'https://example.com/oauth/token'
           scopes:
             read: Read access
             write: Write access
@@ -732,8 +770,8 @@ components:
           type: string
           description: The address of the station.
           examples:
-            - Invalidenstraße 10557 Berlin, Germany
-            - 18 Rue de Dunkerque 75010 Paris, France
+            - 'Invalidenstraße 10557 Berlin, Germany'
+            - '18 Rue de Dunkerque 75010 Paris, France'
         country_code:
           type: string
           description: The country code of the station.
@@ -743,7 +781,9 @@ components:
             - FR
         timezone:
           type: string
-          description: The timezone of the station in the [IANA Time Zone Database format](https://www.iana.org/time-zones).
+          description: >-
+            The timezone of the station in the [IANA Time Zone Database
+            format](https://www.iana.org/time-zones).
           examples:
             - Europe/Berlin
             - Europe/Paris
@@ -766,26 +806,30 @@ components:
       type: object
       xml:
         name: problem
-        namespace: urn:ietf:rfc:7807
+        namespace: 'urn:ietf:rfc:7807'
       properties:
         type:
           type: string
           description: A URI reference that identifies the problem type
           examples:
-            - https://example.com/probs/out-of-credit
+            - 'https://example.com/probs/out-of-credit'
         title:
           type: string
-          description: A short, human-readable summary of the problem type
+          description: 'A short, human-readable summary of the problem type'
           examples:
             - You do not have enough credit.
         detail:
           type: string
-          description: A human-readable explanation specific to this occurrence of the problem
+          description: >-
+            A human-readable explanation specific to this occurrence of the
+            problem
           examples:
-            - Your current balance is 30, but that costs 50.
+            - 'Your current balance is 30, but that costs 50.'
         instance:
           type: string
-          description: A URI reference that identifies the specific occurrence of the problem
+          description: >-
+            A URI reference that identifies the specific occurrence of the
+            problem
           examples:
             - /account/12345/msgs/abc
         status:
@@ -875,7 +919,9 @@ components:
           type: boolean
           description: Indicates whether the passenger has a dog.
     Wrapper-Collection:
-      description: This is a generic request/response wrapper which contains both data and links which serve as hypermedia controls (HATEOAS).
+      description: >-
+        This is a generic request/response wrapper which contains both data and
+        links which serve as hypermedia controls (HATEOAS).
       type: object
       properties:
         data:
@@ -893,18 +939,26 @@ components:
       type: object
       properties:
         id:
-          description: Unique identifier for the payment. This will be a unique identifier for the payment, and is used to reference the payment in other objects.
+          description: >-
+            Unique identifier for the payment. This will be a unique identifier
+            for the payment, and is used to reference the payment in other
+            objects.
           type: string
           format: uuid
           readOnly: true
         amount:
-          description: Amount intended to be collected by this payment. A positive decimal figure describing the amount to be collected.
+          description: >-
+            Amount intended to be collected by this payment. A positive decimal
+            figure describing the amount to be collected.
           type: number
           exclusiveMinimum: 0
           examples:
             - 49.99
         currency:
-          description: Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+          description: >-
+            Three-letter [ISO currency
+            code](https://www.iso.org/iso-4217-currency-codes.html), in
+            lowercase.
           type: string
           enum:
             - bam
@@ -917,7 +971,10 @@ components:
             - try
         source:
           unevaluatedProperties: false
-          description: The payment source to take the payment from. This can be a card or a bank account. Some of these properties will be hidden on read to protect PII leaking.
+          description: >-
+            The payment source to take the payment from. This can be a card or a
+            bank account. Some of these properties will be hidden on read to
+            protect PII leaking.
           oneOf:
             - title: Card
               description: A card (debit or credit) to take payment from.
@@ -933,12 +990,16 @@ components:
                     - Francis Bourgeois
                 number:
                   type: string
-                  description: The card number, as a string without any separators. On read all but the last four digits will be masked for security.
+                  description: >-
+                    The card number, as a string without any separators. On read
+                    all but the last four digits will be masked for security.
                   examples:
                     - '4242424242424242'
                 cvc:
                   type: integer
-                  description: Card security code, 3 or 4 digits usually found on the back of the card.
+                  description: >-
+                    Card security code, 3 or 4 digits usually found on the back
+                    of the card.
                   minLength: 3
                   maxLength: 4
                   writeOnly: true
@@ -975,7 +1036,9 @@ components:
                 - exp_year
                 - address_country
             - title: Bank Account
-              description: A bank account to take payment from. Must be able to make payments in the currency specified in the payment.
+              description: >-
+                A bank account to take payment from. Must be able to make
+                payments in the currency specified in the payment.
               type: object
               properties:
                 object:
@@ -985,16 +1048,22 @@ components:
                   type: string
                 number:
                   type: string
-                  description: The account number for the bank account, in string form. Must be a current account.
+                  description: >-
+                    The account number for the bank account, in string form.
+                    Must be a current account.
                 sort_code:
                   type: string
-                  description: The sort code for the bank account, in string form. Must be a six-digit number.
+                  description: >-
+                    The sort code for the bank account, in string form. Must be
+                    a six-digit number.
                 account_type:
                   enum:
                     - individual
                     - company
                   type: string
-                  description: The type of entity that holds the account. This can be either `individual` or `company`.
+                  description: >-
+                    The type of entity that holds the account. This can be
+                    either `individual` or `company`.
                 bank_name:
                   type: string
                   description: The name of the bank associated with the routing number.
@@ -1010,7 +1079,9 @@ components:
                 - bank_name
                 - country
         status:
-          description: The status of the payment, one of `pending`, `succeeded`, or `failed`.
+          description: >-
+            The status of the payment, one of `pending`, `succeeded`, or
+            `failed`.
           type: string
           enum:
             - pending
@@ -1024,30 +1095,51 @@ components:
           type: string
           format: uri
           examples:
-            - https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+            - >-
+              https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
   headers:
     Cache-Control:
-      description: "The Cache-Control header communicates directives for caching mechanisms in both requests and responses. \nIt is used to specify the caching directives in responses to prevent caches from storing sensitive information.\n"
+      description: >
+        The Cache-Control header communicates directives for caching mechanisms
+        in both requests and responses. 
+
+        It is used to specify the caching directives in responses to prevent
+        caches from storing sensitive information.
       schema:
         type: string
-        description: A comma-separated list of directives as defined in [RFC 9111](https://www.rfc-editor.org/rfc/rfc9111.html).
+        description: >-
+          A comma-separated list of directives as defined in [RFC
+          9111](https://www.rfc-editor.org/rfc/rfc9111.html).
         examples:
           - max-age=3600
-          - max-age=604800, public
+          - 'max-age=604800, public'
           - no-store
           - no-cache
           - private
     RateLimit:
-      description: |
-        The RateLimit header communicates quota policies. It contains a `limit` to
-        convey the expiring limit, `remaining` to convey the remaining quota units,
+      description: >
+        The RateLimit header communicates quota policies. It contains a `limit`
+        to
+
+        convey the expiring limit, `remaining` to convey the remaining quota
+        units,
+
         and `reset` to convey the time window reset time.
       schema:
         type: string
         examples:
-          - limit=10, remaining=0, reset=10
+          - 'limit=10, remaining=0, reset=10'
     Retry-After:
-      description: "The Retry-After header indicates how long the user agent should wait before making a follow-up request. \nThe value is in seconds and can be an integer or a date in the future. \nIf the value is an integer, it indicates the number of seconds to wait. \nIf the value is a date, it indicates the time at which the user agent should make a follow-up request. \n"
+      description: >
+        The Retry-After header indicates how long the user agent should wait
+        before making a follow-up request. 
+
+        The value is in seconds and can be an integer or a date in the future. 
+
+        If the value is an integer, it indicates the number of seconds to wait. 
+
+        If the value is a date, it indicates the time at which the user agent
+        should make a follow-up request. 
       schema:
         type: string
       examples:
@@ -1068,7 +1160,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/bad-request
+            type: 'https://example.com/errors/bad-request'
             title: Bad Request
             status: 400
             detail: The request is invalid or missing required parameters.
@@ -1076,7 +1168,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/bad-request
+            type: 'https://example.com/errors/bad-request'
             title: Bad Request
             status: 400
             detail: The request is invalid or missing required parameters.
@@ -1090,7 +1182,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/conflict
+            type: 'https://example.com/errors/conflict'
             title: Conflict
             status: 409
             detail: There is a conflict with an existing resource.
@@ -1098,7 +1190,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/conflict
+            type: 'https://example.com/errors/conflict'
             title: Conflict
             status: 409
             detail: There is a conflict with an existing resource.
@@ -1112,7 +1204,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/forbidden
+            type: 'https://example.com/errors/forbidden'
             title: Forbidden
             status: 403
             detail: Access is forbidden with the provided credentials.
@@ -1120,7 +1212,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/forbidden
+            type: 'https://example.com/errors/forbidden'
             title: Forbidden
             status: 403
             detail: Access is forbidden with the provided credentials.
@@ -1134,7 +1226,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/internal-server-error
+            type: 'https://example.com/errors/internal-server-error'
             title: Internal Server Error
             status: 500
             detail: An unexpected error occurred.
@@ -1142,7 +1234,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/internal-server-error
+            type: 'https://example.com/errors/internal-server-error'
             title: Internal Server Error
             status: 500
             detail: An unexpected error occurred.
@@ -1156,7 +1248,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/not-found
+            type: 'https://example.com/errors/not-found'
             title: Not Found
             status: 404
             detail: The requested resource was not found.
@@ -1164,7 +1256,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/not-found
+            type: 'https://example.com/errors/not-found'
             title: Not Found
             status: 404
             detail: The requested resource was not found.
@@ -1180,7 +1272,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/too-many-requests
+            type: 'https://example.com/errors/too-many-requests'
             title: Too Many Requests
             status: 429
             detail: You have exceeded the rate limit.
@@ -1188,7 +1280,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/too-many-requests
+            type: 'https://example.com/errors/too-many-requests'
             title: Too Many Requests
             status: 429
             detail: You have exceeded the rate limit.
@@ -1202,7 +1294,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/unauthorized
+            type: 'https://example.com/errors/unauthorized'
             title: Unauthorized
             status: 401
             detail: You do not have the necessary permissions.
@@ -1210,7 +1302,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
           example:
-            type: https://example.com/errors/unauthorized
+            type: 'https://example.com/errors/unauthorized'
             title: Unauthorized
             status: 401
             detail: You do not have the necessary permissions.
