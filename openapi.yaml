@@ -110,12 +110,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Station'
+                allOf:
+                  - $ref: '#/components/schemas/Wrapper-Collection'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Station'
+                  - properties:
+                      links:
+                        allOf:
+                          - $ref: '#/components/schemas/Links-Self'
+                          - $ref: '#/components/schemas/Links-Pagination'
               example:
                 data:
                   - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
