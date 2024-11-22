@@ -49,7 +49,7 @@ actions:
     update:
       examples:
         trips:
-          value: b2e783e1-c824-4d63-b37a-d8d698862f1d
+          value: 'b2e783e1-c824-4d63-b37a-d8d698862f1d'
 
   - target: $.paths["/trips"].get.parameters[?(@.name=="destination")].example
     remove: true
@@ -143,9 +143,9 @@ actions:
     update:
       examples:
         booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
-          value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+          value: '1725ff48-ab45-4bb5-9d02-88745177dedb'
         booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
-          value: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
+          value: 'bfc5af2c-f477-43c4-8bdf-a00bdb939d65'
 
   - target: $.paths["/bookings/{bookingId}"].get.responses["200"].content["application/json"]["example"]
     remove: true
@@ -182,9 +182,9 @@ actions:
     update:
       examples:
         Card:
-          value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+          value: '1725ff48-ab45-4bb5-9d02-88745177dedb'
         Bank:
-          value: 1725ff48-ab45-4bb5-9d02-88745177dedb
+          value: '1725ff48-ab45-4bb5-9d02-88745177dedb'
 
   - target: $.webhooks["newBooking"]["post"]["requestBody"].content["application/json"]["example"]
     remove: true

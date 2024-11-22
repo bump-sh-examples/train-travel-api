@@ -2,13 +2,8 @@ extends:
 - "spectral:oas"
 # - "@stoplight/spectral-owasp-ruleset"
 - "@apisyouwonthate/style-guide"
-- "@microcks/spectral-ruleset"
-
 
 rules:
   # The API doesn't have these (yet?)
   api-home: off
   api-health: off
-
-  # Microcks mocking with dynamic examples causes this rule to fail
-  oas3-valid-media-example: off
