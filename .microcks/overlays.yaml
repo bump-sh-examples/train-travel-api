@@ -49,12 +49,21 @@ actions:
     update:
       examples:
         trips:
-          value: 'b2e783e1-c824-4d63-b37a-d8d698862f1d'
+          value: 'efdbb9d1-02c2-4bc3-afb7-6788d8782b1e'
 
   - target: $.paths["/trips"].get.parameters[?(@.name=="destination")].example
     remove: true
 
   - target: $.paths["/trips"].get.parameters[?(@.name=="destination")]
+    update:
+      examples:
+        trips:
+          value: 'b2e783e1-c824-4d63-b37a-d8d698862f1d'
+
+  - target: $.paths["/trips"].get.parameters[?(@.name=="date")].example
+    remove: true
+
+  - target: $.paths["/trips"].get.parameters[?(@.name=="date")]
     update:
       examples:
         trips:
@@ -103,12 +112,12 @@ actions:
           value:
             data:
               - id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
-                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                trip_id: 4d67459c-af07-40bb-bb12-178dbb88e09f
                 passenger_name: John Doe
                 has_bicycle: true
                 has_dog: true
               - id: 1725ff48-ab45-4bb5-9d02-88745177dedb
-                trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                trip_id: 4d67459c-af07-40bb-bb12-178dbb88e09f
                 passenger_name: Jane Smith
                 has_bicycle: false
                 has_dog: false
@@ -157,7 +166,7 @@ actions:
           summary: John Doe
           value:
             id: 1725ff48-ab45-4bb5-9d02-88745177dedb
-            trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            trip_id: ea399ba1-6d95-433f-92d1-83f67b775594
             passenger_name: John Doe
             has_bicycle: true
             has_dog: true
@@ -167,13 +176,12 @@ actions:
           summary: Billy Bikeless
           value:
             id: bfc5af2c-f477-43c4-8bdf-a00bdb939d65
-            trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            trip_id: ea399ba1-6d95-433f-92d1-83f67b775594
             passenger_name: Billy Bikeless
             has_bicycle: false
             has_dog: true
             links:
               self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
-
 
   - target: $.paths["/bookings/{bookingId}/payment"].parameters[?(@.name=="bookingId")].example
     remove: true
@@ -181,10 +189,49 @@ actions:
   - target: $.paths["/bookings/{bookingId}/payment"].parameters[?(@.name=="bookingId")]
     update:
       examples:
-        Card:
+        booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+          summary: Payment by Card
           value: '1725ff48-ab45-4bb5-9d02-88745177dedb'
-        Bank:
-          value: '1725ff48-ab45-4bb5-9d02-88745177dedb'
+        booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+          summary: Payment by Bank Transfer
+          value: 'bfc5af2c-f477-43c4-8bdf-a00bdb939d65'
+
+  - target: $.paths["/bookings/{bookingId}/payment"].post.requestBody.content["application/json"]["examples"]
+    remove: true
+
+  - target: $.paths["/bookings/{bookingId}/payment"].post.requestBody.content["application/json"]
+    update: 
+      examples:
+        booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+          summary: Card Payment
+          value:
+            amount: 49.99
+            currency: gbp
+            source:
+              object: card
+              name: J. Doe
+              number: '4242424242424242'
+              cvc: 123
+              exp_month: 12
+              exp_year: 2025
+              address_line1: 123 Fake Street
+              address_line2: 4th Floor
+              address_city: London
+              address_country: gb
+              address_post_code: N12 9XX
+        booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+          summary: Bank Account Payment
+          value:
+            amount: 100.5
+            currency: gbp
+            source:
+              object: bank_account
+              name: J. Doe
+              number: '00012345'
+              sort_code: '000123'
+              account_type: individual
+              bank_name: Starling Bank
+              country: gb
 
   - target: $.webhooks["newBooking"]["post"]["requestBody"].content["application/json"]["example"]
     remove: true
@@ -195,8 +242,8 @@ actions:
         new_booking:
           summary: New Booking
           value:
-            id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-            trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            id: 1725ff48-ab45-4bb5-9d02-88745177dedb
+            trip_id: ea399ba1-6d95-433f-92d1-83f67b775594
             passenger_name: John Doe
             has_bicycle: true
             has_dog: true
