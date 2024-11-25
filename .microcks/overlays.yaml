@@ -189,10 +189,49 @@ actions:
   - target: $.paths["/bookings/{bookingId}/payment"].parameters[?(@.name=="bookingId")]
     update:
       examples:
-        Card:
+        booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+          summary: Payment by Card
           value: '1725ff48-ab45-4bb5-9d02-88745177dedb'
-        Bank:
-          value: '1725ff48-ab45-4bb5-9d02-88745177dedb'
+        booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+          summary: Payment by Bank Transfer
+          value: 'bfc5af2c-f477-43c4-8bdf-a00bdb939d65'
+
+  - target: $.paths["/bookings/{bookingId}/payment"].post.requestBody.content["application/json"]["examples"]
+    remove: true
+
+  - target: $.paths["/bookings/{bookingId}/payment"].post.requestBody.content["application/json"]
+    update: 
+      examples:
+        booking_1725ff48-ab45-4bb5-9d02-88745177dedb:
+          summary: Card Payment
+          value:
+            amount: 49.99
+            currency: gbp
+            source:
+              object: card
+              name: J. Doe
+              number: '4242424242424242'
+              cvc: 123
+              exp_month: 12
+              exp_year: 2025
+              address_line1: 123 Fake Street
+              address_line2: 4th Floor
+              address_city: London
+              address_country: gb
+              address_post_code: N12 9XX
+        booking_bfc5af2c-f477-43c4-8bdf-a00bdb939d65:
+          summary: Bank Account Payment
+          value:
+            amount: 100.5
+            currency: gbp
+            source:
+              object: bank_account
+              name: J. Doe
+              number: '00012345'
+              sort_code: '000123'
+              account_type: individual
+              bank_name: Starling Bank
+              country: gb
 
   - target: $.webhooks["newBooking"]["post"]["requestBody"].content["application/json"]["example"]
     remove: true
