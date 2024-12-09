@@ -25,12 +25,14 @@ actions:
           summary: A list of train stations
           value:
             data:
-              - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              - &berlin_station
+                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
                 name: Berlin Hauptbahnhof
                 address: Invalidenstraße 10557 Berlin, Germany
                 country_code: DE
                 timezone: Europe/Berlin
-              - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+              - &paris_station
+                id: b2e783e1-c824-4d63-b37a-d8d698862f1d
                 name: Paris Gare du Nord
                 address: 18 Rue de Dunkerque 75010 Paris, France
                 country_code: FR
@@ -39,6 +41,29 @@ actions:
               self: https://api.example.com/stations&page=2
               next: https://api.example.com/stations?page=3
               prev: https://api.example.com/stations?page=1
+        berlin_station:
+          value:
+            data:
+              - *berlin_station
+        paris_station:
+          value:
+            data:
+              - *paris_station
+
+  - target: $.paths["/stations"].get.parameters[?(@.name=="search")].example
+    description: Remove the example from get /stations - search parameter.
+    remove: true
+
+  - target: $.paths["/stations"].get.parameters[?(@.name=="search")]
+    description: Add Microcks examples for get /stations - search parameter
+    update:
+      examples:
+        berlin_station:
+          value: "Berlin"
+        milano_station:
+          value: "Milano"
+        paris_station:
+          value: "Paris"
 
   - target: $.paths["/trips"].get.parameters[?(@.name=="origin")].example
     description: Remove the example from get /trips - origin parameter.
