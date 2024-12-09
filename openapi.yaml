@@ -22,12 +22,12 @@ info:
     url: https://github.com/bump-sh-examples/train-travel-api/issues/new
 
 servers:
-  - url: https://api.example.com
-    description: Production
-    x-internal: false
-
   - url: https://try.microcks.io/rest/Train+Travel+API/1.0.0
     description: Mock Server
+    x-internal: false
+
+  - url: https://api.example.com
+    description: Production
     x-internal: false
 
 security:
