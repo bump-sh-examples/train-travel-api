@@ -244,7 +244,10 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Trip'
+                          allOf:
+                            - $ref: '#/components/schemas/Trip'
+                            - $ref: '#/components/schemas/Links-Origin'
+                            - $ref: '#/components/schemas/Links-Destination'
                   - properties:
                       links:
                         allOf:
@@ -261,6 +264,10 @@ paths:
                     operator: Deutsche Bahn
                     bicycles_allowed: true
                     dogs_allowed: true
+                    links:
+                      self: https://api.example.com/trips/ea399ba1-6d95-433f-92d1-83f67b775594
+                      origin: https://api.example.com/stations/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                      destination: https://api.example.com/stations/b2e783e1-c824-4d63-b37a-d8d698862f1d
                   - id: 4d67459c-af07-40bb-bb12-178dbb88e09f
                     origin: b2e783e1-c824-4d63-b37a-d8d698862f1d
                     destination: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
@@ -270,6 +277,10 @@ paths:
                     operator: SNCF
                     bicycles_allowed: true
                     dogs_allowed: true
+                    links:
+                      self: https://api.example.com/trips/4d67459c-af07-40bb-bb12-178dbb88e09f
+                      origin: https://api.example.com/stations/b2e783e1-c824-4d63-b37a-d8d698862f1d
+                      destination: https://api.example.com/stations/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
                 links:
                   self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
                   next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
@@ -747,6 +758,20 @@ components:
             - Europe/Paris
     Links-Self:
       type: object
+      properties:
+        self:
+          type: string
+          format: uri
+    Links-Destination:
+      type: object
+      description: The link to the destination station resource.
+      properties:
+        self:
+          type: string
+          format: uri
+    Links-Origin:
+      type: object
+      description: The link to the origin station resource.
       properties:
         self:
           type: string
