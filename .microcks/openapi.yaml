@@ -605,7 +605,7 @@ paths:
                     object: card
                     name: J. Doe
                     number: '4242424242424242'
-                    cvc: 123
+                    cvc: '123'
                     exp_month: 12
                     exp_year: 2025
                     address_line1: 123 Fake Street
@@ -653,7 +653,7 @@ paths:
                       object: card
                       name: J. Doe
                       number: '************4242'
-                      cvc: 123
+                      cvc: '123'
                       exp_month: 12
                       exp_year: 2025
                       address_country: gb
@@ -1016,7 +1016,7 @@ components:
                   examples:
                     - '4242424242424242'
                 cvc:
-                  type: integer
+                  type: string
                   description: >-
                     Card security code, 3 or 4 digits usually found on the back
                     of the card.
