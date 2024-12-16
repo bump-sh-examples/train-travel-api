@@ -1023,7 +1023,7 @@ components:
                   minLength: 3
                   maxLength: 4
                   writeOnly: true
-                  example: 123
+                  example: '123'
                 exp_month:
                   type: integer
                   format: int64
