@@ -632,6 +632,7 @@ webhooks:
       tags:
         - Bookings
       requestBody:
+        required: true
         content:
           application/json:
             schema:
