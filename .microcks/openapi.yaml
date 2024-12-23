@@ -13,7 +13,7 @@ info:
 
     [![Run In Postman](https://run.pstmn.io/button.svg
     =128pxx32px)](https://app.getpostman.com/run-collection/9265903-7a75a0d0-b108-4436-ba54-c6139698dc08?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D9265903-7a75a0d0-b108-4436-ba54-c6139698dc08%26entityType%3Dcollection%26workspaceId%3Df507f69d-9564-419c-89a2-cb8e4c8c7b8f)
-  version: 1.0.0
+  version: 1.2.0
   contact:
     name: Train Support
     url: 'https://example.com/support'
@@ -270,7 +270,10 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Trip'
+                          allOf:
+                            - $ref: '#/components/schemas/Trip'
+                            - $ref: '#/components/schemas/Links-Origin'
+                            - $ref: '#/components/schemas/Links-Destination'
                   - properties:
                       links:
                         allOf:
@@ -820,6 +823,20 @@ components:
             - Europe/Paris
     Links-Self:
       type: object
+      properties:
+        self:
+          type: string
+          format: uri
+    Links-Destination:
+      type: object
+      description: The link to the destination station resource.
+      properties:
+        self:
+          type: string
+          format: uri
+    Links-Origin:
+      type: object
+      description: The link to the origin station resource.
       properties:
         self:
           type: string
