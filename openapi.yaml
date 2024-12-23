@@ -9,7 +9,7 @@ info:
     Experiment with this API in Postman, using our Postman Collection.
 
     [![Run In Postman](https://run.pstmn.io/button.svg =128pxx32px)](https://app.getpostman.com/run-collection/9265903-7a75a0d0-b108-4436-ba54-c6139698dc08?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D9265903-7a75a0d0-b108-4436-ba54-c6139698dc08%26entityType%3Dcollection%26workspaceId%3Df507f69d-9564-419c-89a2-cb8e4c8c7b8f)
-  version: 1.0.0
+  version: 1.1.0
   contact:
     name: Train Support
     url: https://example.com/support
@@ -550,7 +550,7 @@ paths:
                     object: card
                     name: J. Doe
                     number: '4242424242424242'
-                    cvc: 123
+                    cvc: '123'
                     exp_month: 12
                     exp_year: 2025
                     address_line1: 123 Fake Street
@@ -598,7 +598,7 @@ paths:
                       object: card
                       name: J. Doe
                       number: '************4242'
-                      cvc: 123
+                      cvc: '123'
                       exp_month: 12
                       exp_year: 2025
                       address_country: gb
@@ -935,13 +935,13 @@ components:
                   examples:
                     - '4242424242424242'
                 cvc:
-                  type: integer
+                  type: string
                   description: Card security code, 3 or 4 digits usually found on the back of the card.
                   minLength: 3
                   maxLength: 4
                   writeOnly: true
 
-                  example: 123
+                  example: '123'
                 exp_month:
                   type: integer
                   format: int64
