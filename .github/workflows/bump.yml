@@ -20,8 +20,8 @@ jobs:
 
       - name: Add TypeScript SDK Samples to OpenAPI
         run: |
-          npx bump-cli overlay openapi.yaml \\
-            https://spec.speakeasy.com/protectearth/protectearth/train-travel-api-typescript-code-samples \\
+          npx bump-cli overlay openapi.yaml \
+            https://spec.speakeasy.com/protectearth/protectearth/train-travel-api-typescript-code-samples \
             > openapi.codegen.yaml
 
       - name: Deploy API documentation
