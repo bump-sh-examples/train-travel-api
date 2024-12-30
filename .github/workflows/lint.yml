@@ -1,8 +1,7 @@
 name: Lint
 
 "on":
-  pull_request:
-    branches: [main]
+  pull_request: {}
   push:
     branches: [main]
     paths-ignore:
@@ -19,6 +18,8 @@ jobs:
       packages: read
       # To report GitHub Actions status checks
       statuses: write
+      # To report junit results to PR
+      checks: write
 
     steps:
       - name: Checkout code
@@ -36,3 +37,4 @@ jobs:
         with:
           files: |
             lint-results-*.xml
+          comment_mode: off
