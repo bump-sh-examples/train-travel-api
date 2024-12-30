@@ -20,6 +20,7 @@ jobs:
       statuses: write
       # To report junit results to PR
       checks: write
+      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -37,4 +38,3 @@ jobs:
         with:
           files: |
             lint-results-*.xml
-          comment_mode: off
