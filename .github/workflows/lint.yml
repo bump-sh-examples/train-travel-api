@@ -32,9 +32,17 @@ jobs:
       - name: Lint API
         run: npx vacuum report --junit openapi.yaml lint-results
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+      # - name: Publish Test Results
+      #   uses: EnricoMi/publish-unit-test-result-action@v2
+      #   if: success() || failure()
+      #   with:
+      #     files: |
+      #       lint-results-*.xml
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()    # run this step even if previous step failed
         with:
-          files: |
-            lint-results-*.xml
+          name: JEST Tests            # Name of the check run which will be created
+          path: lint-results-*.xml    # Path to test results
+          reporter: jest-junit        # Format of test results
