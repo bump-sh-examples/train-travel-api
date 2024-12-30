@@ -18,18 +18,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Add TypeScript SDK Samples to OpenAPI
-        run: |
-          npx bump-cli overlay openapi.yaml \
-            https://spec.speakeasy.com/protectearth/protectearth/train-travel-api-typescript-code-samples \
-            > openapi.codegen.yaml
-
       - name: Deploy API documentation
-        uses: bump-sh/github-action@v1
+        uses: philsturgeon/github-action@13654d3034d9c0b85c80e1c801f1689792f21776
         with:
           doc: train-travel-api
           token: ${{secrets.BUMP_TOKEN}}
-          file: openapi.codegen.yaml
+          file: openapi.yaml
+          command: deploy
+          overlay: https://spec.speakeasy.com/protectearth/protectearth/train-travel-api-typescript-code-samples
 
   api-diff:
     if: ${{ github.event_name == 'pull_request' }}
