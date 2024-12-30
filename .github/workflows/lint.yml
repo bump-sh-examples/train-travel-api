@@ -6,10 +6,11 @@ on: # yamllint disable-line rule:truthy
     branches: [main]
     paths-ignore:
       - 'README.md'
+      - 'src/**'
 
 jobs:
   build:
-    name: Lint
+    name: API Linting
     runs-on: ubuntu-latest
 
     permissions:
@@ -21,15 +22,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          # super-linter needs the full git history to get the
-          # list of files that changed across commits
-          fetch-depth: 0
 
-      - name: Super-linter
-        uses: super-linter/super-linter/slim@v7.2.0
-        env:
-          DEFAULT_BRANCH: main
-          FILTER_REGEX_INCLUDE: ^openapi.yaml
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_OPENAPI: true
+      - name: Install vacuum npm package
+        run: npm install -g vacuum
+
+      - name: Lint API
+        run: vacuum report --junit openapi.yaml lint-results
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            lint-results-*.xml

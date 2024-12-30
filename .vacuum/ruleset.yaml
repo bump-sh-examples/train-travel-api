@@ -1,0 +1,11 @@
+extends: 
+  - spectral:oas
+  # - "@apisyouwonthate/style-guide"
+  # - "@stoplight/spectral-owasp-ruleset"
+
+rules:
+  # The API doesn't have these (yet?)
+  # api-home: off
+  # api-health: off
+
+  oas3-missing-example: off
