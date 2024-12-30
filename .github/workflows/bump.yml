@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy API documentation
-        uses: philsturgeon/github-action@259391a
+        uses: philsturgeon/github-action@259391afeb81938eff7eed5f41ded29aa685bbaa
         with:
           doc: train-travel-api
           token: ${{secrets.BUMP_TOKEN}}
