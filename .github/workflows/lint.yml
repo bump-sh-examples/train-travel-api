@@ -14,10 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
-      packages: read
-      # To report GitHub Actions status checks
-      statuses: write
       # To report junit results to PR
       checks: write
       pull-requests: write
@@ -38,3 +34,4 @@ jobs:
         with:
           report_paths: lint-results-*.xml
           check_name: API Lint Results
+          comment: true
