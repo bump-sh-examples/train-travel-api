@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
       statuses: write
       checks: write
       pull-requests: write 
@@ -27,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Lint API
-        run: npm exec vacuum report --junit openapi.yaml lint-results
+        run: npm exec vacuum report -- --junit openapi.yaml lint-results
 
       - name: Write out Unit Test report annotation for forked repo
         if: success() || failure()
