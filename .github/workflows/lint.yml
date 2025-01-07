@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
+      contents: read
+      statuses: write
       checks: write
       pull-requests: write 
 
@@ -33,3 +35,4 @@ jobs:
         with:
           report_paths: lint-results-*.xml
           check_name: API Lint Results
+          comment: true
