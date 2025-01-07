@@ -4,6 +4,6 @@
   },
   "devDependencies": {
     "bump-cli": "^2.8.4",
-    "@quobix/vacuum": "^0.15.1"
+    "@quobix/vacuum": "^0.15.2"
   }
 }
