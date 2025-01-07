@@ -16,7 +16,6 @@ jobs:
     permissions:
       statuses: write
       checks: write
-      pull-requests: write 
 
     steps:
       - name: Checkout code
@@ -28,10 +27,10 @@ jobs:
       - name: Lint API
         run: npm exec vacuum report -- --junit openapi.yaml lint-results
 
-      - name: Write out Unit Test report annotation for forked repo
+      - name: Publish Lint Results
         if: success() || failure()
         uses: mikepenz/action-junit-report@v5
         with:
-          report_paths: lint-results-*.xml
           check_name: API Lint Results
-          comment: true
+          report_paths: lint-results-*.xml
+          resolve_ignore_classname: true
