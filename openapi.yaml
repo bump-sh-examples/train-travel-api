@@ -73,7 +73,7 @@ tags:
       > before the expiry date 
 
 paths:
-  /stations:
+  /stations/{nope}:
     get:
       summary: Get a list of train stations
       description: Returns a paginated and searchable list of all train stations.
