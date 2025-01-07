@@ -33,4 +33,3 @@ jobs:
         with:
           check_name: API Lint Results
           report_paths: lint-results-*.xml
-          resolve_ignore_classname: true
