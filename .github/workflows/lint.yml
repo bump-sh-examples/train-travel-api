@@ -14,9 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      # To report junit results to PR
       checks: write
-      pull-requests: write
+      pull-requests: write 
 
     steps:
       - name: Checkout code
@@ -28,10 +27,9 @@ jobs:
       - name: Lint API
         run: npm exec vacuum report --junit openapi.yaml lint-results
 
-      - name: Publish Test Report
+      - name: Write out Unit Test report annotation for forked repo
+        if: success() || failure()
         uses: mikepenz/action-junit-report@v5
-        if: success() || failure() # always run even if the previous step fails
         with:
           report_paths: lint-results-*.xml
           check_name: API Lint Results
-          comment: true
