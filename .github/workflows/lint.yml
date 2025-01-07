@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Lint API
-        run: npx vacuum report --junit openapi.yaml lint-results
+        run: npm exec vacuum report --junit openapi.yaml lint-results
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
