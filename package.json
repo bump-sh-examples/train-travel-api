@@ -1,13 +1,9 @@
 {
-  "dependencies": {
-    "bump-cli": "^2.8.4"
-  },
   "scripts": {
     "microcks": "bump overlay openapi.yaml .microcks/overlays.yaml > .microcks/openapi.yaml"
   },
   "devDependencies": {
-    "@apisyouwonthate/style-guide": "^1.5.0",
-    "@stoplight/spectral-owasp-ruleset": "^1.4.3",
-    "@microcks/spectral-ruleset": "^0.0.5"
+    "@quobix/vacuum": "^0.16.3",
+    "bump-cli": "^2.8.4"
   }
 }

@@ -1,35 +1,35 @@
 name: Lint
 
-on: # yamllint disable-line rule:truthy
+"on":
   pull_request: {}
   push:
     branches: [main]
     paths-ignore:
       - 'README.md'
+      - 'src/**'
 
 jobs:
   build:
-    name: Lint
+    name: API Linting
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
-      packages: read
-      # To report GitHub Actions status checks
       statuses: write
+      checks: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          # super-linter needs the full git history to get the
-          # list of files that changed across commits
-          fetch-depth: 0
 
-      - name: Super-linter
-        uses: super-linter/super-linter/slim@v7.2.0
-        env:
-          DEFAULT_BRANCH: main
-          FILTER_REGEX_INCLUDE: ^openapi.yaml
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_OPENAPI: true
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint API
+        run: npm exec vacuum report -- --junit openapi.yaml lint-results
+
+      - name: Publish Lint Results
+        if: success() || failure()
+        uses: mikepenz/action-junit-report@v5
+        with:
+          check_name: API Lint Results
+          report_paths: lint-results-*.xml

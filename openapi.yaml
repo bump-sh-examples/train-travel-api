@@ -9,7 +9,7 @@ info:
     Experiment with this API in Postman, using our Postman Collection.
 
     [![Run In Postman](https://run.pstmn.io/button.svg =128pxx32px)](https://app.getpostman.com/run-collection/9265903-7a75a0d0-b108-4436-ba54-c6139698dc08?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D9265903-7a75a0d0-b108-4436-ba54-c6139698dc08%26entityType%3Dcollection%26workspaceId%3Df507f69d-9564-419c-89a2-cb8e4c8c7b8f)
-  version: 1.2.0
+  version: 1.2.1
   contact:
     name: Train Support
     url: https://example.com/support
@@ -397,6 +397,7 @@ paths:
         - OAuth2:
             - write
       requestBody:
+        description: Booking details
         required: true
         content:
           application/json:
@@ -546,6 +547,7 @@ paths:
       tags:
         - Payments
       requestBody:
+        description: Payment details
         required: true
         content:
           application/json:
@@ -715,6 +717,7 @@ components:
             write: Write access
   schemas:
     Station:
+      description: A train station.
       type: object
       xml:
         name: station
@@ -757,26 +760,28 @@ components:
             - Europe/Berlin
             - Europe/Paris
     Links-Self:
+      description: The link to the current resource.
       type: object
       properties:
         self:
           type: string
           format: uri
     Links-Destination:
-      type: object
       description: The link to the destination station resource.
+      type: object
       properties:
         self:
           type: string
           format: uri
     Links-Origin:
-      type: object
       description: The link to the origin station resource.
+      type: object
       properties:
         self:
           type: string
           format: uri
     Links-Pagination:
+      description: Links to the next and previous pages of a paginated response.
       type: object
       properties:
         next:
@@ -786,6 +791,7 @@ components:
           type: string
           format: uri
     Problem:
+      description: A problem detail object as defined in RFC 7807.
       type: object
       xml:
         name: problem
@@ -817,6 +823,7 @@ components:
           examples: 
           - 400
     Trip:
+      description: A train trip.
       type: object
       xml:
         name: trip
@@ -869,6 +876,7 @@ components:
           type: boolean
           description: Indicates whether dogs are allowed on the trip
     Booking:
+      description: A booking for a train trip.
       type: object
       xml:
         name: booking
@@ -913,6 +921,7 @@ components:
       xml:
         name: data
     BookingPayment:
+      description: A payment for a booking.
       type: object
       properties:
         id:
@@ -1042,6 +1051,7 @@ components:
             - failed
           readOnly: true
     Links-Booking:
+      description: The link to the booking resource.
       type: object
       properties:
         booking:

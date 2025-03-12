@@ -1,9 +1,0 @@
-extends: 
-- "spectral:oas"
-# - "@stoplight/spectral-owasp-ruleset"
-- "@apisyouwonthate/style-guide"
-
-rules:
-  # The API doesn't have these (yet?)
-  api-home: off
-  api-health: off
