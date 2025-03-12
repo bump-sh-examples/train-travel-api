@@ -3,7 +3,7 @@
     "microcks": "bump overlay openapi.yaml .microcks/overlays.yaml > .microcks/openapi.yaml"
   },
   "devDependencies": {
-    "@quobix/vacuum": "^0.15.3",
+    "@quobix/vacuum": "^0.16.3",
     "bump-cli": "^2.8.4"
   }
 }
