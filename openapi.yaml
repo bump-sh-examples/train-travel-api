@@ -22,8 +22,8 @@ info:
     url: https://github.com/bump-sh-examples/train-travel-api/issues/new
 
 servers:
-  - url: https://try.microcks.io/rest/Train+Travel+API/1.0.0
-    description: Mock Server
+  - url: https://e0oo3.wiremockapi.cloud/
+    description: WireMock Server
     x-internal: false
 
   - url: https://api.example.com
@@ -138,11 +138,15 @@ paths:
                   - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
                     name: Berlin Hauptbahnhof
                     address: Invalidenstraße 10557 Berlin, Germany
+                    latitude: 52.5251
+                    longitude: 13.3693
                     country_code: DE
                     timezone: Europe/Berlin
                   - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
                     name: Paris Gare du Nord
                     address: 18 Rue de Dunkerque 75010 Paris, France
+                    latitude: 48.8804
+                    longitude: 2.3550
                     country_code: FR
                     timezone: Europe/Paris
                 links:
@@ -725,7 +729,10 @@ components:
         - id
         - name
         - address
+        - latitude
+        - longitude
         - country_code
+        - timezone
       properties:
         id:
           type: string
@@ -753,6 +760,20 @@ components:
           examples:
             - DE
             - FR
+        latitude:
+          type: number
+          format: float
+          description: The latitude of the station.
+          examples:
+            - 52.5251
+            - 48.8804
+        longitude:
+          type: number
+          format: float
+          description: The longitude of the station.
+          examples:
+            - 13.3693
+            - 2.3550
         timezone:
           type: string
           description: The timezone of the station in the [IANA Time Zone Database format](https://www.iana.org/time-zones).
