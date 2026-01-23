@@ -557,7 +557,6 @@ paths:
               Card:
                 summary: Card Payment
                 value:
-                  amount: 49.99
                   currency: gbp
                   source:
                     object: card
@@ -574,7 +573,6 @@ paths:
               Bank:
                 summary: Bank Account Payment
                 value:
-                  amount: 100.5
                   currency: gbp
                   source:
                     object: bank_account
@@ -935,6 +933,7 @@ components:
           exclusiveMinimum: 0
           examples:
             - 49.99
+          readOnly: true
         currency:
           description: Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
           type: string
