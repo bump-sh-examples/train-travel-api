@@ -92,7 +92,6 @@ tags:
   - name: Beta
     kind: badge
   - name: Removed next release
-    kind: badge
 
 paths:
   /stations:
@@ -859,10 +858,19 @@ components:
   securitySchemes:
     OAuth2:
       type: oauth2
-      description: OAuth 2.0 authorization code following RFC8725 best practices.
+      description: |
+        OAuth 2.0 following RFC8725 best practices, with Authorization Code
+        and Device Authorization grants.
+      oauth2MetadataUrl: https://example.com/.well-known/oauth-authorization-server
       flows:
         authorizationCode:
           authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Read access
+            write: Write access
+        deviceAuthorization:
+          deviceAuthorizationUrl: https://example.com/oauth/device
           tokenUrl: https://example.com/oauth/token
           scopes:
             read: Read access
