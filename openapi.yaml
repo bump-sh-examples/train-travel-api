@@ -40,7 +40,7 @@ x-speakeasy-retries:
   statusCodes:
     - 5XX
   retryConnectionErrors: true
-  
+
 security:
   - OAuth2:
       - read
@@ -60,19 +60,19 @@ tags:
       All the operations related to the reservation process
     kind: nav
   - name: Stations
-    description: | 
+    description: |
       Find and filter train stations across Europe, including their location
       and local timezone.
     kind: nav
     parent: Search
   - name: Trips
-    description: | 
+    description: |
       Timetables and routes for train trips between stations, including pricing,
       availability, and live status updates.
     kind: nav
     parent: Search
   - name: Bookings
-    description: | 
+    description: |
       Create and manage bookings for train trips, including passenger details
       and optional extras.
     kind: nav
@@ -84,7 +84,7 @@ tags:
 
       > warn
       > Bookings usually expire within 1 hour so you'll need to make your payment
-      > before the expiry date 
+      > before the expiry date
     kind: nav
     parent: Reservations
 
@@ -101,7 +101,7 @@ paths:
         - $ref: '#/components/parameters/limit'
         - name: coordinates
           in: query
-          description: > 
+          description: >
             The latitude and longitude of the user's location, to narrow down
             the search results to sites within a proximity of this location.
           required: false
@@ -110,12 +110,12 @@ paths:
           example: 52.5200,13.4050
         - name: search
           in: query
-          description: > 
+          description: >
             A search term to filter the list of stations by name or address.
           required: false
           schema:
             type: string
-            examples: 
+            examples:
             - Milano Centrale
             - Paris
         - name: country
@@ -195,7 +195,7 @@ paths:
   /trips:
     get:
       summary: Get available train trips
-      description: > 
+      description: >
         Returns a list of available train trips between the specified origin and
         destination stations on the given date, and allows for filtering by
         bicycle and dog allowances.
@@ -542,7 +542,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  
+
   /bookings/{bookingId}:
     parameters:
       - name: bookingId
@@ -757,7 +757,7 @@ webhooks:
         content:
           application/json:
             schema:
-              allOf: 
+              allOf:
                 - $ref: '#/components/schemas/Booking'
                 - properties:
                     links:
@@ -778,7 +778,7 @@ webhooks:
 
 components:
   parameters:
-    page: 
+    page:
       name: page
       in: query
       description: The page number to return
@@ -897,27 +897,27 @@ components:
         type:
           type: string
           description: A URI reference that identifies the problem type
-          examples: 
+          examples:
           - https://example.com/probs/out-of-credit
         title:
           type: string
           description: A short, human-readable summary of the problem type
-          examples: 
+          examples:
           - You do not have enough credit.
         detail:
           type: string
           description: A human-readable explanation specific to this occurrence of the problem
-          examples: 
+          examples:
           - Your current balance is 30, but that costs 50.
         instance:
           type: string
           description: A URI reference that identifies the specific occurrence of the problem
-          examples: 
+          examples:
           - /account/12345/msgs/abc
         status:
           type: integer
           description: The HTTP status code
-          examples: 
+          examples:
           - 400
     Trip:
       description: A train trip.
@@ -1207,7 +1207,7 @@ components:
   headers:
     Cache-Control:
       description: |
-        The Cache-Control header communicates directives for caching mechanisms in both requests and responses. 
+        The Cache-Control header communicates directives for caching mechanisms in both requests and responses.
         It is used to specify the caching directives in responses to prevent caches from storing sensitive information.
       schema:
         type: string
@@ -1218,7 +1218,7 @@ components:
           - no-store
           - no-cache
           - private
-      
+
     RateLimit:
       description: |
         The RateLimit header communicates quota policies. It contains a `limit` to
@@ -1230,11 +1230,11 @@ components:
           - limit=10, remaining=0, reset=10
 
     Retry-After:
-      description: | 
-        The Retry-After header indicates how long the user agent should wait before making a follow-up request. 
-        The value is in seconds and can be an integer or a date in the future. 
-        If the value is an integer, it indicates the number of seconds to wait. 
-        If the value is a date, it indicates the time at which the user agent should make a follow-up request. 
+      description: |
+        The Retry-After header indicates how long the user agent should wait before making a follow-up request.
+        The value is in seconds and can be an integer or a date in the future.
+        If the value is an integer, it indicates the number of seconds to wait.
+        If the value is a date, it indicates the time at which the user agent should make a follow-up request.
       schema:
         type: string
       examples:
