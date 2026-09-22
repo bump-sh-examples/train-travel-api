@@ -878,6 +878,9 @@ components:
     Booking:
       description: A booking for a train trip.
       type: object
+      required: 
+        - trip_id
+        - passenger_name
       xml:
         name: booking
       properties:
