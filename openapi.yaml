@@ -149,22 +149,10 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
-              example:
-                data:
-                  - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    name: Berlin Hauptbahnhof
-                    address: Invalidenstraße 10557 Berlin, Germany
-                    country_code: DE
-                    timezone: Europe/Berlin
-                  - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    name: Paris Gare du Nord
-                    address: 18 Rue de Dunkerque 75010 Paris, France
-                    country_code: FR
-                    timezone: Europe/Paris
-                links:
-                  self: https://api.example.com/stations&page=2
-                  next: https://api.example.com/stations?page=3
-                  prev: https://api.example.com/stations?page=1
+              examples:
+                GetStationsResponse200:
+                  $ref: '#/components/examples/GetStationsResponse200ApplicationJson'
+
             application/xml:
               schema:
                 allOf:
@@ -269,37 +257,9 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
-              example:
-                data:
-                  - id: ea399ba1-6d95-433f-92d1-83f67b775594
-                    origin: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    destination: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    departure_time: '2024-02-01T10:00:00Z'
-                    arrival_time: '2024-02-01T16:00:00Z'
-                    price: 50
-                    operator: Deutsche Bahn
-                    bicycles_allowed: true
-                    dogs_allowed: true
-                    links:
-                      self: https://api.example.com/trips/ea399ba1-6d95-433f-92d1-83f67b775594
-                      origin: https://api.example.com/stations/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                      destination: https://api.example.com/stations/b2e783e1-c824-4d63-b37a-d8d698862f1d
-                  - id: 4d67459c-af07-40bb-bb12-178dbb88e09f
-                    origin: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    destination: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    departure_time: '2024-02-01T12:00:00Z'
-                    arrival_time: '2024-02-01T18:00:00Z'
-                    price: 50
-                    operator: SNCF
-                    bicycles_allowed: true
-                    dogs_allowed: true
-                    links:
-                      self: https://api.example.com/trips/4d67459c-af07-40bb-bb12-178dbb88e09f
-                      origin: https://api.example.com/stations/b2e783e1-c824-4d63-b37a-d8d698862f1d
-                      destination: https://api.example.com/stations/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                links:
-                  self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
-                  next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
+              examples:
+                GetTripsResponse200:
+                  $ref: '#/components/examples/GetTripsResponse200ApplicationJson'
             application/xml:
               schema:
                 allOf:
@@ -441,21 +401,10 @@ paths:
                         allOf:
                           - $ref: '#/components/schemas/Links-Self'
                           - $ref: '#/components/schemas/Links-Pagination'
-              example:
-                data:
-                  - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                    passenger_name: John Doe
-                    has_bicycle: true
-                    has_dog: true
-                  - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
-                    passenger_name: Jane Smith
-                    has_bicycle: false
-                    has_dog: false
-                links:
-                  self: https://api.example.com/bookings
-                  next: https://api.example.com/bookings?page=2
+              examples:
+                GetBookingsResponse200:
+                  $ref: '#/components/examples/GetBookingsResponse200ApplicationJson'
+
             application/xml:
               schema:
                 allOf:
@@ -500,6 +449,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Booking'
+            examples:
+              RequestBodyBooking:
+                $ref: '#/components/examples/RequestBodyBookingApplicationJson'
           application/xml:
             schema:
               $ref: '#/components/schemas/Booking'
@@ -514,15 +466,10 @@ paths:
                   - properties:
                       links:
                         $ref: '#/components/schemas/Links-Self'
+              examples:
+                CreateBookingResponse201:
+                  $ref: '#/components/examples/CreateBookingResponse201ApplicationJson'
 
-              example:
-                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                passenger_name: John Doe
-                has_bicycle: true
-                has_dog: true
-                links:
-                  self: https://api.example.com/bookings/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
             application/xml:
               schema:
                 allOf:
@@ -575,14 +522,9 @@ paths:
                   - properties:
                       links:
                         $ref: '#/components/schemas/Links-Self'
-              example:
-                id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-                passenger_name: John Doe
-                has_bicycle: true
-                has_dog: true
-                links:
-                  self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+              examples:
+                GetBookingResponse200:
+                  $ref: '#/components/examples/GetBookingResponse200ApplicationJson'
             application/xml:
               schema:
                 allOf:
@@ -653,7 +595,7 @@ paths:
             examples:
               Card:
                 summary: Card Payment
-                value:
+                dataValue:
                   amount: 49.99
                   currency: gbp
                   source:
@@ -670,7 +612,7 @@ paths:
                     address_post_code: N12 9XX
               Bank:
                 summary: Bank Account Payment
-                value:
+                dataValue:
                   amount: 100.5
                   currency: gbp
                   source:
@@ -700,7 +642,7 @@ paths:
               examples:
                 Card:
                   summary: Card Payment
-                  value:
+                  dataValue:
                     id: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
                     amount: 49.99
                     currency: gbp
@@ -718,7 +660,7 @@ paths:
                       booking: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb/payment
                 Bank:
                   summary: Bank Account Payment
-                  value:
+                  dataValue:
                     id: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
                     amount: 100.5
                     currency: gbp
@@ -1254,11 +1196,14 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/bad-request
-            title: Bad Request
-            status: 400
-            detail: The request is invalid or missing required parameters.
+          examples:
+            BadRequest:
+              summary: A bad request response object
+              dataValue:
+                type: https://example.com/errors/bad-request
+                title: Bad Request
+                status: 400
+                detail: The request is invalid or missing required parameters.
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
@@ -1277,11 +1222,14 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/conflict
-            title: Conflict
-            status: 409
-            detail: There is a conflict with an existing resource.
+          examples:
+            Conflict:
+              summary: A conflict response object
+              dataValue:
+                type: https://example.com/errors/conflict
+                title: Conflict
+                status: 409
+                detail: There is a conflict with an existing resource.
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
@@ -1300,11 +1248,14 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/forbidden
-            title: Forbidden
-            status: 403
-            detail: Access is forbidden with the provided credentials.
+          examples:
+            Forbidden:
+              summary: A forbidden response object
+              dataValue:
+                type: https://example.com/errors/forbidden
+                title: Forbidden
+                status: 403
+                detail: Access is forbidden with the provided credentials.
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
@@ -1323,11 +1274,14 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/internal-server-error
-            title: Internal Server Error
-            status: 500
-            detail: An unexpected error occurred.
+          examples:
+            InternalServerError:
+              summary: An internal server error response object
+              dataValue:
+                type: https://example.com/errors/internal-server-error
+                title: Internal Server Error
+                status: 500
+                detail: An unexpected error occurred.
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
@@ -1346,11 +1300,14 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/not-found
-            title: Not Found
-            status: 404
-            detail: The requested resource was not found.
+          examples:
+            NotFound:
+              summary: A not found response object
+              dataValue:
+                type: https://example.com/errors/not-found
+                title: Not Found
+                status: 404
+                detail: The requested resource was not found.
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
@@ -1371,11 +1328,14 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/too-many-requests
-            title: Too Many Requests
-            status: 429
-            detail: You have exceeded the rate limit.
+          examples:
+            TooManyRequests:
+              summary: A too many requests response object
+              dataValue:
+                type: https://example.com/errors/too-many-requests
+                title: Too Many Requests
+                status: 429
+                detail: You have exceeded the rate limit.
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
@@ -1394,11 +1354,14 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/unauthorized
-            title: Unauthorized
-            status: 401
-            detail: You do not have the necessary permissions.
+          examples:
+            Unauthorized:
+              summary: An unauthorized response object
+              dataValue:
+                type: https://example.com/errors/unauthorized
+                title: Unauthorized
+                status: 401
+                detail: You do not have the necessary permissions.
         application/problem+xml:
           schema:
             $ref: '#/components/schemas/Problem'
@@ -1407,3 +1370,100 @@ components:
             title: Unauthorized
             status: 401
             detail: You do not have the necessary permissions.
+
+  examples:
+    GetStationsResponse200ApplicationJson:
+      summary: A list of stations
+      dataValue:
+        data:
+          - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            name: Berlin Hauptbahnhof
+            address: Invalidenstraße 10557 Berlin, Germany
+            country_code: DE
+            timezone: Europe/Berlin
+          - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+            name: Paris Gare du Nord
+            address: 18 Rue de Dunkerque 75010 Paris, France
+            country_code: FR
+            timezone: Europe/Paris
+        links:
+          self: https://api.example.com/stations&page=2
+          next: https://api.example.com/stations?page=3
+          prev: https://api.example.com/stations?page=1
+    GetTripsResponse200ApplicationJson:
+      summary: A list of trips
+      dataValue:
+        data:
+          - id: ea399ba1-6d95-433f-92d1-83f67b775594
+            origin: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            destination: b2e783e1-c824-4d63-b37a-d8d698862f1d
+            departure_time: '2024-02-01T10:00:00Z'
+            arrival_time: '2024-02-01T16:00:00Z'
+            price: 50
+            operator: Deutsche Bahn
+            bicycles_allowed: true
+            dogs_allowed: true
+            links:
+              self: https://api.example.com/trips/ea399ba1-6d95-433f-92d1-83f67b775594
+              origin: https://api.example.com/stations/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+              destination: https://api.example.com/stations/b2e783e1-c824-4d63-b37a-d8d698862f1d
+          - id: 4d67459c-af07-40bb-bb12-178dbb88e09f
+            origin: b2e783e1-c824-4d63-b37a-d8d698862f1d
+            destination: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            departure_time: '2024-02-01T12:00:00Z'
+            arrival_time: '2024-02-01T18:00:00Z'
+            price: 50
+            operator: SNCF
+            bicycles_allowed: true
+            dogs_allowed: true
+            links:
+              self: https://api.example.com/trips/4d67459c-af07-40bb-bb12-178dbb88e09f
+              origin: https://api.example.com/stations/b2e783e1-c824-4d63-b37a-d8d698862f1d
+              destination: https://api.example.com/stations/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+        links:
+          self: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01
+          next: https://api.example.com/trips?origin=efdbb9d1-02c2-4bc3-afb7-6788d8782b1e&destination=b2e783e1-c824-4d63-b37a-d8d698862f1d&date=2024-02-01&page=2
+    GetBookingsResponse200ApplicationJson:
+      summary: A list of bookings
+      dataValue:
+        data:
+          - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            passenger_name: John Doe
+            has_bicycle: true
+            has_dog: true
+          - id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+            trip_id: b2e783e1-c824-4d63-b37a-d8d698862f1d
+            passenger_name: Jane Smith
+            has_bicycle: false
+            has_dog: false
+        links:
+          self: https://api.example.com/bookings
+          next: https://api.example.com/bookings?page=2
+    CreateBookingResponse201ApplicationJson:
+      summary: A booking created
+      dataValue:
+        id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+        trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+        passenger_name: John Doe
+        has_bicycle: true
+        has_dog: true
+        links:
+          self: https://api.example.com/bookings/efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+    GetBookingResponse200ApplicationJson:
+      summary: A booking object
+      dataValue:
+        id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+        trip_id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+        passenger_name: John Doe
+        has_bicycle: true
+        has_dog: true
+        links:
+          self: https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+    RequestBodyBookingApplicationJson:
+      summary: A booking object
+      dataValue:
+        trip_id: 4f4e4e1-c824-4d63-b37a-d8d698862f1d
+        passenger_name: John Doe
+        has_bicycle: true
+        has_dog: true
