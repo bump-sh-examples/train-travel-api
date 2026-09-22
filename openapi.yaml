@@ -51,18 +51,32 @@ x-topics:
       $ref: ./docs/getting-started.md
 
 tags:
+  - name: Search
+    description: |
+      Find all the information about the Stations and Trips.
+    kind: nav
+  - name: Reservations
+    description: |
+      All the operations related to the reservation process
+    kind: nav
   - name: Stations
     description: | 
       Find and filter train stations across Europe, including their location
       and local timezone.
+    kind: nav
+    parent: Search
   - name: Trips
     description: | 
       Timetables and routes for train trips between stations, including pricing
       and availability.
+    kind: nav
+    parent: Search
   - name: Bookings
     description: | 
       Create and manage bookings for train trips, including passenger details
       and optional extras.
+    kind: nav
+    parent: Reservations
   - name: Payments
     description: |
       Pay for bookings using a card or bank account, and view payment
@@ -71,6 +85,8 @@ tags:
       > warn
       > Bookings usually expire within 1 hour so you'll need to make your payment
       > before the expiry date 
+    kind: nav
+    parent: Reservations
 
 paths:
   /stations:
