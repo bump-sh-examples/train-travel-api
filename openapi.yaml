@@ -89,15 +89,24 @@ tags:
       > before the expiry date
     kind: nav
     parent: Reservations
+  - name: Beta
+    kind: badge
+  - name: Removed next release
+    kind: badge
 
 paths:
   /stations:
     get:
       summary: Get a list of train stations
-      description: Returns a paginated and searchable list of all train stations.
+      description: |
+        Returns a paginated and searchable list of all train stations.
+
+        For complex or sensitive filters, prefer the beta `QUERY /stations` operation,
+        which sends criteria in the request body instead of the URL.
       operationId: get-stations
       tags:
         - Stations
+        - Removed next release
       parameters:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
@@ -136,6 +145,13 @@ paths:
               $ref: '#/components/headers/Cache-Control'
             RateLimit:
               $ref: '#/components/headers/RateLimit'
+            Accept-Query:
+              description: |
+                Signals that QUERY is supported on this resource, and which
+                media types may be used as the QUERY request body.
+              schema:
+                type: string
+              example: application/json
           content:
             application/json:
               schema:
@@ -182,6 +198,101 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    query:
+      summary: Query train stations
+      description: |
+        Returns a paginated and searchable list of train stations.
+
+        Uses the HTTP [QUERY](https://www.ietf.org/archive/id/draft-ietf-httpbis-safe-method-w-body-08.html)
+        method: filter criteria are sent in the request body (safe and idempotent,
+        like GET, but without putting search terms in the URL).
+      operationId: query-stations
+      tags:
+        - Stations
+        - Beta
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StationQuery'
+            examples:
+              StationQueryExample:
+                summary: Query stations by coordinates, search term, and country code
+                dataValue:
+                  coordinates: '52.5200,13.4050'
+                  search: Milano Centrale
+                  country: IT
+      responses:
+        '200':
+          description: OK
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/Cache-Control'
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Wrapper-Collection'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Station'
+                  - properties:
+                      links:
+                        allOf:
+                          - $ref: '#/components/schemas/Links-Self'
+                          - $ref: '#/components/schemas/Links-Pagination'
+              examples:
+                StationQueryResponse200:
+                  $ref: '#/components/examples/QueryStationsResponse200ApplicationJson'
+            application/xml:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Wrapper-Collection'
+                  - properties:
+                      data:
+                        type: array
+                        xml:
+                          name: stations
+                          wrapped: true
+                        items:
+                          $ref: '#/components/schemas/Station'
+                  - properties:
+                      links:
+                        allOf:
+                          - $ref: '#/components/schemas/Links-Self'
+                          - $ref: '#/components/schemas/Links-Pagination'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      x-codeSamples:
+        - lang: http
+          label: query-stations
+          source: |-
+            QUERY /stations?page=1&limit=10 HTTP/1.1
+            Host: api.example.com
+            Content-Type: application/json
+            Accept: application/json
+
+            {
+              "coordinates": "52.5200,13.4050",
+              "search": "Milano Centrale",
+              "country": "DE"
+            }
   /trips:
     get:
       summary: Get available train trips
@@ -1148,6 +1259,22 @@ components:
           format: uri
           examples:
             - https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+    StationQuery:
+      type: object
+      properties:
+        coordinates:
+          type: string
+          description: The latitude and longitude of the user's location, to narrow down the search results to sites within a proximity of this location.
+          example: 52.5200,13.4050
+        search:
+          type: string
+          description: A search term to filter the list of stations by name or address.
+          example: Milano Centrale
+        country:
+          type: string
+          format: iso-country-code
+          description: Filter stations by country code
+          example: IT
   headers:
     Cache-Control:
       description: |
@@ -1392,6 +1519,18 @@ components:
           self: https://api.example.com/stations&page=2
           next: https://api.example.com/stations?page=3
           prev: https://api.example.com/stations?page=1
+    QueryStationsResponse200ApplicationJson:
+      description: A list of stations, closed to Milano Centrale
+      dataValue:
+        data:
+          - id: 861dce35-2bc4-4b01-a91b-f267f1cfb59a
+            name: Milano Centrale
+            address: Piazza Ducca d'Aosta, 20214 Milano, Italy
+            country_code: IT
+            timezone: Europe/Milano
+        links:
+          self: https://api.example.com/stations?page=1
+
     GetTripsResponse200ApplicationJson:
       description: A list of trips
       dataValue:
