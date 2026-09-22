@@ -67,8 +67,8 @@ tags:
     parent: Search
   - name: Trips
     description: | 
-      Timetables and routes for train trips between stations, including pricing
-      and availability.
+      Timetables and routes for train trips between stations, including pricing,
+      availability, and live status updates.
     kind: nav
     parent: Search
   - name: Bookings
@@ -327,6 +327,87 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /trips/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The ID of the trip to subscribe to.
+        schema:
+          type: string
+          format: uuid
+        example: ea399ba1-6d95-433f-92d1-83f67b775594
+    additionalOperations:
+      SUBSCRIBE:
+        operationId: subscribe-trip
+        summary: Subscribe to live trip updates
+        description: |
+          Open a stream of live updates for a trip, such as delays, platform
+          changes, and departure or arrival events.
+
+          Choose JSON Lines (`application/jsonl`) or Server-Sent Events
+          (`text/event-stream`) with the `Accept` header. The connection stays
+          open until the trip arrives, is cancelled, or the client disconnects.
+        tags:
+          - Trips
+        responses:
+          '200':
+            description: A stream of live trip status updates
+            headers:
+              Cache-Control:
+                $ref: '#/components/headers/Cache-Control'
+              RateLimit:
+                $ref: '#/components/headers/RateLimit'
+            content:
+              application/jsonl:
+                itemSchema:
+                  $ref: '#/components/schemas/TripUpdate'
+                examples:
+                  trip_updates:
+                    summary: Stream of trip status updates
+                    description: Each line is a complete TripUpdate object.
+                    value: |
+                      {"type":"delay","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T09:12:00Z","minutes":12,"reason":"Signal failure near Hannover"}
+                      {"type":"platform","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T09:18:00Z","platform":"7"}
+                      {"type":"departed","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T10:12:00Z"}
+              text/event-stream:
+                itemSchema:
+                  type: object
+                  required:
+                    - event
+                    - data
+                  properties:
+                    event:
+                      type: string
+                    data:
+                      type: string
+                      contentMediaType: application/json
+                      contentSchema:
+                        $ref: '#/components/schemas/TripUpdate'
+                examples:
+                  live_updates:
+                    summary: Stream of trip status events
+                    value: |
+                      event: delay
+                      data: {"type":"delay","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T09:12:00Z","minutes":12,"reason":"Signal failure near Hannover"}
+
+                      event: platform
+                      data: {"type":"platform","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T09:18:00Z","platform":"7"}
+
+                      event: departed
+                      data: {"type":"departed","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T10:12:00Z"}
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '403':
+            $ref: '#/components/responses/Forbidden'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '429':
+            $ref: '#/components/responses/TooManyRequests'
+          '500':
+            $ref: '#/components/responses/InternalServerError'
   /bookings:
     get:
       operationId: get-bookings
@@ -891,6 +972,50 @@ components:
         dogs_allowed:
           type: boolean
           description: Indicates whether dogs are allowed on the trip
+    TripUpdate:
+      description: A live status update for a trip.
+      type: object
+      required:
+        - type
+        - trip_id
+        - occurred_at
+      properties:
+        type:
+          type: string
+          description: The kind of update.
+          enum:
+            - delay
+            - platform
+            - departed
+            - arrived
+            - cancelled
+        trip_id:
+          type: string
+          format: uuid
+          description: Identifier of the trip this update belongs to.
+          examples:
+            - ea399ba1-6d95-433f-92d1-83f67b775594
+        occurred_at:
+          type: string
+          format: date-time
+          description: When the update occurred.
+          examples:
+            - '2024-02-01T09:12:00Z'
+        minutes:
+          type: integer
+          description: Delay in minutes. Present when `type` is `delay`.
+          examples:
+            - 12
+        reason:
+          type: string
+          description: Human-readable reason for the update.
+          examples:
+            - Signal failure near Hannover
+        platform:
+          type: string
+          description: Assigned platform. Present when `type` is `platform`.
+          examples:
+            - '7'
     Booking:
       description: A booking for a train trip.
       type: object
