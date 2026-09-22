@@ -23,11 +23,13 @@ info:
 
 servers:
   - url: https://try.microcks.io/rest/Train+Travel+API/1.0.0
-    description: Mock Server
+    name: Mock Server
+    description: A mock server for testing and development purposes
     x-internal: false
 
   - url: https://api.example.com
-    description: Production
+    name: Production
+    description: The production server for the Train Travel API
     x-internal: false
 
 x-speakeasy-retries:
