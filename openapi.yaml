@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Train Travel API
   description: |
-    API for finding and booking train trips across Europe.
+    API for finding and booking train trips across Europe, documented with OpenAPI 3.2.0 specification.
 
     ## Run in Postman
 
