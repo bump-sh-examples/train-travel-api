@@ -439,7 +439,7 @@ paths:
                   trip_updates:
                     summary: Stream of trip status updates
                     description: Each line is a complete TripUpdate object.
-                    value: |
+                    serializedValue: |
                       {"type":"delay","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T09:12:00Z","minutes":12,"reason":"Signal failure near Hannover"}
                       {"type":"platform","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T09:18:00Z","platform":"7"}
                       {"type":"departed","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T10:12:00Z"}
@@ -460,7 +460,7 @@ paths:
                 examples:
                   live_updates:
                     summary: Stream of trip status events
-                    value: |
+                    serializedValue: |
                       event: delay
                       data: {"type":"delay","trip_id":"ea399ba1-6d95-433f-92d1-83f67b775594","occurred_at":"2024-02-01T09:12:00Z","minutes":12,"reason":"Signal failure near Hannover"}
 
