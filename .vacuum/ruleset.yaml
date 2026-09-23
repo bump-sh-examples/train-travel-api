@@ -3,3 +3,4 @@ extends:
   - spectral:oas
 rules:
   oas3-missing-example: off
+  camel-case-properties: off
