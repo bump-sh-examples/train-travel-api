@@ -105,6 +105,7 @@ paths:
         For complex or sensitive filters, prefer the beta `QUERY /stations` operation,
         which sends criteria in the request body instead of the URL.
       operationId: get-stations
+      deprecated: true
       tags:
         - Stations
         - Removed next release
