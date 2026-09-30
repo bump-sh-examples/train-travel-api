@@ -57,7 +57,8 @@ tags:
     description: |
       Find all the information about the Stations and Trips.
     kind: nav
-  - name: "Booking & Payment"
+  - name: booking-payment
+    summary: "Booking & Payment"
     description: |
       All the operations related to the reservation process, from initiating a booking to paying for it.
     kind: nav
@@ -78,7 +79,7 @@ tags:
       Create and manage bookings for train trips, including passenger details
       and optional extras.
     kind: nav
-    parent: "Booking & Payment"
+    parent: booking-payment
   - name: Payments
     description: |
       Pay for bookings using a card or bank account, and view payment
@@ -88,7 +89,7 @@ tags:
       > Bookings usually expire within 1 hour so you'll need to make your payment
       > before the expiry date
     kind: nav
-    parent: "Booking & Payment"
+    parent: booking-payment
   - name: Beta
     kind: badge
   - name: Removed next release
@@ -104,6 +105,7 @@ paths:
         For complex or sensitive filters, prefer the beta `QUERY /stations` operation,
         which sends criteria in the request body instead of the URL.
       operationId: get-stations
+      deprecated: true
       tags:
         - Stations
         - Removed next release
