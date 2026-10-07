@@ -1,0 +1,31 @@
+# WARNING: DON'T MODIFIY THE JOBS BELOW IF YOU DON'T KNOW WHAT YOU ARE
+# DOING. WE USE THE 'pull_request_target' EVENT CONSCIENTIOUSLY AND
+# NEVER USE PR FROM FORK'S CODE IN THE BELOW JOBS.
+
+name: Diff API Documentation
+on:
+  pull_request_target:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  api-diff:
+    name: Check API diff on Bump.sh
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Comment pull request with API diff
+        uses: bump-sh/github-action@v1
+        with:
+          doc: train-travel-api
+          token: ${{secrets.BUMP_TOKEN}}
+          overlay: https://spec.speakeasy.com/protectearth/protectearth/train-travel-api-typescript-code-samples
+          file: openapi.yaml
+          command: diff
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

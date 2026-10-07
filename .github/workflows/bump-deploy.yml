@@ -1,0 +1,20 @@
+name: Deploy API Documentation
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy-doc:
+    name: Deploy API documentation on Bump.sh
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Deploy API documentation
+        uses: bump-sh/github-action@v1
+        with:
+          doc: train-travel-api
+          token: ${{secrets.BUMP_TOKEN}}
+          overlay: https://spec.speakeasy.com/protectearth/protectearth/train-travel-api-typescript-code-samples
+          file: openapi.yaml
