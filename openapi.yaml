@@ -19,7 +19,7 @@ info:
     identifier: CC-BY-NC-SA-4.0
   x-feedbackLink:
     label: Submit Feedback
-    url: https://github.com/bump-sh-examples/train-travel-api/issues/new
+    url: https://github.com/bump-sh-examples/train-travel-api/issues/new?template=feedback.yaml
 
 servers:
   - url: https://try.microcks.io/rest/Train+Travel+API/1.0.0
